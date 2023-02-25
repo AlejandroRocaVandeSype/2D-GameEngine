@@ -3,7 +3,7 @@
 
 dae::GameObject::GameObject()
 	: m_IsActive{ true }
-	, m_HasRender { false }
+	, m_HasToRender { false }
 	, m_pRenderCP{ nullptr }
 {
 	// All gameObjects have a transform component attach when created
@@ -36,8 +36,29 @@ void dae::GameObject::Render() const
 	
 }
 
+void dae::GameObject::RemoveComponent(Component::ComponentType type)
+{
+	
+	for (auto componentItr = m_vComponents.begin(); componentItr != m_vComponents.end(); ++componentItr)
+	{
+		if ((*componentItr) != nullptr && (*componentItr)->Type() == type)
+		{
+			delete* componentItr;
+			m_vComponents.erase(componentItr);
+
+			if (type == Component::RenderCP)
+			{
+				// In case the render was delete it, we dont want to render anymore
+				m_HasToRender = false;
+			}
+
+			break;
+		}
+	}
+}
+
 
 const bool dae::GameObject::HasARender() const
 {
-	return m_HasRender;
+	return m_HasToRender;
 }

@@ -6,6 +6,7 @@
 
 #include "TextComponent.h"
 #include "TransformComponent.h"
+#include <iostream>
 
 namespace dae
 {
@@ -15,10 +16,6 @@ namespace dae
 		
 	public:
 		
-
-		//void SetTexture(const std::string& filename);
-		//void SetPosition(float x, float y);
-
 		GameObject();
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -30,18 +27,22 @@ namespace dae
 		void Render() const;
 
 		template <typename T> T* AddComponent();
-		template <typename T> void RemoveComponent(T* component);
+		void RemoveComponent(Component::ComponentType type);
 		template <typename T> T* GetComponent() const;
 
 		const bool HasARender() const;
+		template <typename T> bool HasComponentAlready() const;
 
 	private:
+
+
 		std::vector<Component*> m_vComponents;
 		RenderComponent* m_pRenderCP;
 		TransformComponent* m_pTransformCP;
 
 		bool m_IsActive;
-		bool m_HasRender;		// Does this gameObject have a render component?
+		bool m_HasToRender;		// Does this gameObject have a render component?
+
 	};
 
 	template <typename T>
@@ -61,41 +62,27 @@ namespace dae
 		return nullptr;
 	}
 
-	template <typename T>
-	inline void GameObject::RemoveComponent(T* component)
-	{
-		// Remember to put hasRender to false and the int to negative when renderComponent is deleted
-		for (auto& componentItr : m_vComponents)
-		{
-			if (componentItr == component)
-			{
-				m_vComponents.erase(componentItr);
-			}
-		}
-	}
-
+	// Add component if it is not already in the container
 	template <typename T>
 	inline T* GameObject::AddComponent()
 	{
-		// Check if component already added or not
+		
 		static_assert(std::is_base_of<Component, T>::value, "Incorrect type passed to AddComponent function");
 		
+		if (HasComponentAlready<T>())
+		{
+			// Component already added
+			return nullptr;
+		}
+
 		T* component = new T();
-		if (m_HasRender == false)
+		if (m_HasToRender == false)
 		{		
 			if (std::is_base_of<RenderComponent, T>::value)
 			{
 				// We attach a renderComponent to the gameObject
-				m_HasRender = true;
+				m_HasToRender = true;
 				m_pRenderCP = dynamic_cast<RenderComponent*>(component);
-			}
-			else
-			{
-				if (std::is_base_of<TextComponent, T>::value)
-				{
-					m_HasRender = true;
-					m_pRenderCP = dynamic_cast<RenderComponent*>(component);
-				}
 			}
 			
 		}
@@ -103,6 +90,22 @@ namespace dae
 		m_vComponents.emplace_back(std::move(component));
 
 		return component;
+	}
+
+	template <typename T>
+	inline bool GameObject::HasComponentAlready() const
+	{
+		// It still doesnt check that if TextComponent is added, to not add a RenderComponent
+		// Dont add the component if already added
+		for (const auto& component : m_vComponents)
+		{
+			if (dynamic_cast<T*>(component))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	
