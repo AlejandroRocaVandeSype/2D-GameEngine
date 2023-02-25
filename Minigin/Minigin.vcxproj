@@ -175,7 +175,8 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Background.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="TextureObject.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
@@ -193,7 +194,8 @@
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
+    <ClCompile Include="TextureObject.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />

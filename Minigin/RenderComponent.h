@@ -5,21 +5,24 @@
 #include <string>
 #include "Component.h"
 
-namespace dae { class Texture2D; }
 
-
-class RenderComponent final : public Component
+namespace dae { 
+	class Texture2D; 
+}
+class RenderComponent : public Component
 {
 public :
 	RenderComponent();
 
 	virtual void Update([[maybe_unused]] const float deltaTime) override;
-	void Render(const glm::vec3& position) const;
+	virtual void Render(const glm::vec3& position) const;
 
 	void SetTexture(const std::string& filename);
+	
 
-private :
+protected :
 
 	std::shared_ptr<dae::Texture2D> m_texture{};
+	bool m_needsUpdate;
 };
 

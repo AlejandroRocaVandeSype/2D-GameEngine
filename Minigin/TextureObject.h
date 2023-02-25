@@ -2,11 +2,11 @@
 
 #include "GameObject.h"
 class RenderComponent;
-class Background
+class TextureObject
 {
 public:
-	Background(const std::string& filename, glm::vec3 position = glm::vec3{ 0.f, 0.f, 0.f });
-	~Background();
+	TextureObject(const std::string& filename, glm::vec3 position = glm::vec3{ 0.f, 0.f, 0.f });
+	~TextureObject();
 
 	std::shared_ptr<dae::GameObject> GameObject() const;
 	void SetTexture(const std::string& filename);

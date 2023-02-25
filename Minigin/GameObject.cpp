@@ -29,7 +29,7 @@ void dae::GameObject::Update([[maybe_unused]] const float deltaTime)
 
 void dae::GameObject::Render() const
 {
-	if (HasRender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
+	if (HasARender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
 	{
 		m_pRenderCP->Render(m_pTransformCP->GetPosition());
 	}
@@ -37,7 +37,7 @@ void dae::GameObject::Render() const
 }
 
 
-const bool dae::GameObject::HasRender() const
+const bool dae::GameObject::HasARender() const
 {
 	return m_HasRender;
 }

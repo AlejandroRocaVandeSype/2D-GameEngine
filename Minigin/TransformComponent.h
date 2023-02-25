@@ -2,7 +2,7 @@
 #include "Component.h"
 #include <glm/glm.hpp>
 
-class TransformComponent : public Component
+class TransformComponent final : public Component
 {
 
 public:

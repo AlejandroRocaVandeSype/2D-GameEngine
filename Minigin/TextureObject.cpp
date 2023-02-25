@@ -1,7 +1,7 @@
-#include "Background.h"
+#include "TextureObject.h"
 #include "RenderComponent.h"
-#include <iostream>
-Background::Background(const std::string& filename, glm::vec3 position)
+
+TextureObject::TextureObject(const std::string& filename, glm::vec3 position)
 {
 	m_GameObject = std::make_shared<dae::GameObject>();
 	m_pRenderCP = m_GameObject->AddComponent<RenderComponent>();
@@ -19,18 +19,18 @@ Background::Background(const std::string& filename, glm::vec3 position)
 }
 
 // Get the gameObject from this class with all the components attach it to it
-std::shared_ptr<dae::GameObject> Background::GameObject() const
+std::shared_ptr<dae::GameObject> TextureObject::GameObject() const
 {
 	return m_GameObject;
 }
 
-void Background::SetTexture(const std::string& filename)
+void TextureObject::SetTexture(const std::string& filename)
 {
 	if (m_pRenderCP != nullptr)
 		m_pRenderCP->SetTexture(filename);
 }
 
-Background::~Background()
+TextureObject::~TextureObject()
 {
 	
 }

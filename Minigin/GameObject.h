@@ -4,7 +4,7 @@
 #include <memory>
 #include <type_traits>
 
-#include "RenderComponent.h"
+#include "TextComponent.h"
 #include "TransformComponent.h"
 
 namespace dae
@@ -33,10 +33,9 @@ namespace dae
 		template <typename T> void RemoveComponent(T* component);
 		template <typename T> T* GetComponent() const;
 
-		const bool HasRender() const;
+		const bool HasARender() const;
 
 	private:
-
 		std::vector<Component*> m_vComponents;
 		RenderComponent* m_pRenderCP;
 		TransformComponent* m_pTransformCP;
@@ -89,6 +88,14 @@ namespace dae
 				// We attach a renderComponent to the gameObject
 				m_HasRender = true;
 				m_pRenderCP = dynamic_cast<RenderComponent*>(component);
+			}
+			else
+			{
+				if (std::is_base_of<TextComponent, T>::value)
+				{
+					m_HasRender = true;
+					m_pRenderCP = dynamic_cast<RenderComponent*>(component);
+				}
 			}
 			
 		}

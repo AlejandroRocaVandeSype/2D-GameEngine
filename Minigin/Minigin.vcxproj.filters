@@ -63,8 +63,11 @@
     <ClInclude Include="RenderComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Background.h">
+    <ClInclude Include="TextureObject.h">
       <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Engine Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,8 +116,11 @@
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Background.cpp">
+    <ClCompile Include="TextureObject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,13 +1,17 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "GameObject.h"
+
 #include "Transform.h"
+#include "GameObject.h"
 
 namespace dae
 {
 	class Font;
 	class Texture2D;
+	class GameObject;
+	class TextComponent;
+
 	class TextObject final
 	{
 	public:
@@ -15,19 +19,27 @@ namespace dae
 		void Render() const;
 
 		void SetText(const std::string& text);
-		void SetPosition(float x, float y);
+		//void SetPosition(float x, float y);
 
-		TextObject(const std::string& text, std::shared_ptr<Font> font);
+		TextObject(const std::string& text, std::shared_ptr<Font> font, glm::vec3 position = glm::vec3{ 0.f, 0.f, 0.f });
 		virtual ~TextObject() = default;
 		TextObject(const TextObject& other) = delete;
 		TextObject(TextObject&& other) = delete;
 		TextObject& operator=(const TextObject& other) = delete;
 		TextObject& operator=(TextObject&& other) = delete;
+
+		std::shared_ptr<dae::GameObject> GameObject() const;
 	private:
+
+		std::shared_ptr<dae::GameObject> m_GameObject;
+		TextComponent* m_pRenderCP;
+		/*
 		bool m_needsUpdate;
 		std::string m_text;
+
 		Transform m_transform{};
 		std::shared_ptr<Font> m_font;
 		std::shared_ptr<Texture2D> m_textTexture;
+		*/
 	};
 }
