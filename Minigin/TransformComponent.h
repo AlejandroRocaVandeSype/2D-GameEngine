@@ -1,0 +1,23 @@
+#pragma once
+#include "Component.h"
+#include <glm/glm.hpp>
+
+class TransformComponent : public Component
+{
+
+public:
+
+	TransformComponent(glm::vec3 position = glm::vec3{0.f, 0.f, 0.f});
+	TransformComponent(float x, float y, float z);
+	virtual void Update([[maybe_unused]] const float deltaTime) override;
+
+	const glm::vec3& GetPosition() const { return m_position; }
+	void SetPosition(float x, float y, float z);
+	void SetPosition(glm::vec3 position);
+
+private:
+	glm::vec3 m_position;
+
+
+};
+

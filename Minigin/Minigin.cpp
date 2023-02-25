@@ -89,8 +89,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 
 	// Testing fps
-	int frameCount{ 0 };
-	float fpsTimer{ 0.f };
+	//int frameCount{ 0 };
+	//float fpsTimer{ 0.f };
 
 	// todo: this update loop could use some work.
 	
@@ -110,7 +110,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		// Render all the scenes
 		renderer.Render();
 
-		
+		/*
 		// Update the frame counter
 		frameCount++;
 		fpsTimer += deltaTime;
@@ -119,9 +119,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		{
 			// We get how many frames we get in one second
 			float fps{ float(frameCount / fpsTimer) };
-			std::cout << fps << std::endl;
+			//std::cout << fps << std::endl;
 			fpsTimer = 0.f;
 			frameCount = 0;
 		}
+		*/
 	}
 }

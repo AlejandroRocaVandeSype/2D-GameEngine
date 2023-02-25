@@ -1,24 +1,43 @@
-#include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
 
-dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update([[maybe_unused]] const float deltaTime){}
+dae::GameObject::GameObject()
+	: m_IsActive{ true }
+	, m_HasRender { false }
+	, m_pRenderCP{ nullptr }
+{
+	// All gameObjects have a transform component attach when created
+	m_pTransformCP = AddComponent<TransformComponent>();
+}
+
+dae::GameObject::~GameObject()
+{
+	for (auto& componentItr : m_vComponents)
+	{
+		delete componentItr;
+	}
+	m_vComponents.clear();
+}
+
+void dae::GameObject::Update([[maybe_unused]] const float deltaTime)
+{
+	for (auto& componentItr : m_vComponents)
+	{
+		componentItr->Update(deltaTime);
+	}
+}
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+	if (HasRender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
+	{
+		m_pRenderCP->Render(m_pTransformCP->GetPosition());
+	}
+	
 }
 
-void dae::GameObject::SetTexture(const std::string& filename)
-{
-	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
-}
 
-void dae::GameObject::SetPosition(float x, float y)
+const bool dae::GameObject::HasRender() const
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	return m_HasRender;
 }
