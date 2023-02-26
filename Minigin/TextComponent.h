@@ -3,6 +3,7 @@
 #include <memory>
 #include "Component.h"
 #include "RenderComponent.h"
+#include <SDL_ttf.h>
 
 namespace dae {
 
@@ -12,7 +13,7 @@ namespace dae {
 	{
 	public:
 
-		TextComponent(const std::string& text, std::shared_ptr<Font> font, RenderComponent* renderCP);
+		TextComponent(const std::string& text, std::shared_ptr<Font> font, RenderComponent* renderCP, const SDL_Color& color = { 255, 255, 255 });
 		void Update([[maybe_unused]] const float deltaTime) override;
 
 		void CreateTextureFromText();
@@ -24,6 +25,7 @@ namespace dae {
 		std::string m_text;
 		std::shared_ptr<Font> m_font;
 		RenderComponent* m_RenderCP;
+		SDL_Color m_Color;
 		bool m_needsUpdate;
 	};
 

@@ -1,17 +1,17 @@
 #include <stdexcept>
-#include <SDL_ttf.h>
 #include "TextObject.h"
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
 #include "TextComponent.h"
 #include "RenderComponent.h"
+#include "FPSComponent.h"
 
-dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font, glm::vec3 position)
+dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font, glm::vec3 position, const SDL_Color& color)
 {
 	m_GameObject = std::make_shared<dae::GameObject>(); 
 	m_pRenderCP = m_GameObject->AddComponent<RenderComponent>();
-	m_pTextCP = m_GameObject->AddComponent<TextComponent>(text, font, m_pRenderCP);
+	m_pTextCP = m_GameObject->AddComponent<TextComponent>(text, font, m_pRenderCP, color);
 
 	if (position.x != 0 || position.y != 0)
 	{
@@ -35,6 +35,7 @@ std::shared_ptr<dae::GameObject> dae::TextObject::GameObject() const
 
 
 
+
 // This implementation uses the "dirty flag" pattern
 void dae::TextObject::SetText(const std::string& text)
 {
@@ -43,4 +44,9 @@ void dae::TextObject::SetText(const std::string& text)
 		m_pTextCP->SetText(text);
 	}
 	
+}
+
+void dae::TextObject::AddFPSComponent()
+{
+	m_GameObject->AddComponent<FPSComponent>(m_pTextCP);
 }

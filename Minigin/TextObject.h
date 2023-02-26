@@ -1,9 +1,8 @@
 #pragma once
 #include <string>
 #include <memory>
-
-#include "Transform.h"
 #include "GameObject.h"
+#include <SDL_ttf.h>
 
 namespace dae
 {
@@ -21,7 +20,7 @@ namespace dae
 		void SetText(const std::string& text);
 		//void SetPosition(float x, float y);
 
-		TextObject(const std::string& text, std::shared_ptr<Font> font, glm::vec3 position = glm::vec3{ 0.f, 0.f, 0.f });
+		TextObject(const std::string& text, std::shared_ptr<Font> font, glm::vec3 position, const SDL_Color& color = {255, 255, 255});
 		virtual ~TextObject() = default;
 		TextObject(const TextObject& other) = delete;
 		TextObject(TextObject&& other) = delete;
@@ -29,6 +28,9 @@ namespace dae
 		TextObject& operator=(TextObject&& other) = delete;
 
 		std::shared_ptr<dae::GameObject> GameObject() const;
+
+		void AddFPSComponent();
+
 	private:
 
 		std::shared_ptr<dae::GameObject> m_GameObject;

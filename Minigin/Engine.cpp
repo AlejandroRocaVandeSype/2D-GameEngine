@@ -4,11 +4,12 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "Minigin.h"
+#include "Engine.h"
 #include "InputManager.h"
-#include "SceneManager.h"
+//#include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Game.h"
 #include <chrono>
 #include <iostream>
 
@@ -44,7 +45,7 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-dae::Minigin::Minigin(const std::string &dataPath)
+dae::Engine::Engine(const std::string &dataPath)
 {
 	PrintSDLVersion();
 	
@@ -71,7 +72,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	ResourceManager::GetInstance().Init(dataPath);
 }
 
-dae::Minigin::~Minigin()
+dae::Engine::~Engine()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
@@ -79,23 +80,19 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
+void dae::Engine::Run(const std::function<void()>& load)
 {
 	load();
 
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
+	//auto& renderer = Renderer::GetInstance();
+	//auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
+	Game* pGame{ new Game() };
 
-	// Testing fps
-	int frameCount{ 0 };
-	float fpsTimer{ 0.f };
-
-	// todo: this update loop could use some work.
-	
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
+
 	while (doContinue)
 	{
 		const auto currentTime = high_resolution_clock::now();
@@ -104,25 +101,13 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		
 		doContinue = input.ProcessInput();
 		
-		// Update using a variable time step
-		sceneManager.Update(deltaTime);
+		// Update Game
+		pGame->Update(deltaTime);
 		
-		// Render all the scenes
-		renderer.Render();
-
-		
-		// Update the frame counter
-		frameCount++;
-		fpsTimer += deltaTime;
-
-		if (fpsTimer >= 1.0f)
-		{
-			// We get how many frames we get in one second
-			float fps{ float(frameCount / fpsTimer) };
-			std::cout << fps << std::endl;
-			fpsTimer = 0.f;
-			frameCount = 0;
-		}
+		// Render Game
+		pGame->Render();
 		
 	}
+
+	delete pGame;
 }
