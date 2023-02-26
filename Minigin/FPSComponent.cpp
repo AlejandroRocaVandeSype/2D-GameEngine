@@ -1,6 +1,5 @@
 #include "FPSComponent.h"
 #include "TextComponent.h"
-#include <string>
 
 using namespace dae;
 

@@ -1,8 +1,11 @@
 #include "GameObject.h"
+#include <iostream>
 
+using namespace dae;
 
-dae::GameObject::GameObject()
+GameObject::GameObject()
 	: m_IsActive{ true }
+	, m_IsDead { false }
 	, m_HasToRender { false }
 	, m_pRenderCP{ nullptr }
 {
@@ -10,8 +13,9 @@ dae::GameObject::GameObject()
 	m_pTransformCP = AddComponent<TransformComponent>();
 }
 
-dae::GameObject::~GameObject()
+GameObject::~GameObject()
 {
+	//std::cout << "entro" << std::endl;
 	for (auto& componentItr : m_vComponents)
 	{
 		delete componentItr;
@@ -19,24 +23,31 @@ dae::GameObject::~GameObject()
 	m_vComponents.clear();
 }
 
-void dae::GameObject::Update([[maybe_unused]] const float deltaTime)
+void GameObject::Update([[maybe_unused]] const float deltaTime)
 {
-	for (auto& componentItr : m_vComponents)
+	if (m_IsActive)  // Only if the object is active we update
 	{
-		componentItr->Update(deltaTime);
-	}
-}
-
-void dae::GameObject::Render() const
-{
-	if (HasARender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
-	{
-		m_pRenderCP->Render(m_pTransformCP->GetPosition());
+		for (auto& componentItr : m_vComponents)
+		{
+			componentItr->Update(deltaTime);
+		}
 	}
 	
 }
 
-void dae::GameObject::RemoveComponent(Component::ComponentType type)
+void GameObject::Render() const
+{
+	if (m_IsActive)
+	{
+		if (HasARender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
+		{
+			m_pRenderCP->Render(m_pTransformCP->GetPosition());
+		}
+	}
+	
+}
+
+void GameObject::RemoveComponent(Component::ComponentType type)
 {
 	
 	for (auto componentItr = m_vComponents.begin(); componentItr != m_vComponents.end(); ++componentItr)
@@ -57,8 +68,27 @@ void dae::GameObject::RemoveComponent(Component::ComponentType type)
 	}
 }
 
+void GameObject::Destroy()
+{
+	
+}
 
-const bool dae::GameObject::HasARender() const
+const bool GameObject::HasARender() const
 {
 	return m_HasToRender;
+}
+
+const bool GameObject::IsDead() const
+{
+	return m_IsDead;
+}
+
+void GameObject::SetIsActive(const bool isActive)
+{
+	m_IsActive = isActive;
+}
+
+void GameObject::SetIsDead(const bool isDead)
+{
+	m_IsDead = isDead;
 }

@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include <iostream>
 
 using namespace dae;
 
@@ -19,6 +20,21 @@ void Scene::Remove(std::shared_ptr<GameObject> object)
 	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
 }
 
+// Remove all "dead" objects after update
+void Scene::RemoveDeadObjects()
+{
+	for (auto& object : m_objects)
+	{
+		if (object->IsDead())
+		{
+			std::cout << "hd" << std::endl;
+			object.reset();
+			std::cout << object.use_count() << std::endl;
+			Remove(object);
+		}
+	}
+}
+
 void Scene::RemoveAll()
 {
 	m_objects.clear();
@@ -26,10 +42,27 @@ void Scene::RemoveAll()
 
 void Scene::Update([[maybe_unused]] const float deltaTime)
 {
+	bool isADeadObject = false;
 	for(auto& object : m_objects)
 	{
-		object->Update(deltaTime);
+		if (!object->IsDead())
+		{
+			object->Update(deltaTime);
+		}
+		else
+		{
+			// Object needs to be delete it after updating all objects
+			isADeadObject = true;
+		}
+		
 	}
+
+	if (isADeadObject)
+	{
+		// At least one game object is marked as "Dead" and needs to be removed 
+		RemoveDeadObjects();
+	}
+
 }
 
 void Scene::Render() const

@@ -1,5 +1,7 @@
 #include "TextureObject.h"
 #include "RenderComponent.h"
+#include <iostream>
+using namespace dae;
 
 TextureObject::TextureObject(const std::string& filename, glm::vec3 position)
 {
@@ -34,5 +36,5 @@ void TextureObject::SetTexture(const std::string& filename)
 
 TextureObject::~TextureObject()
 {
-	
+	//std::cout << "EntroTexture" << std::endl;
 }

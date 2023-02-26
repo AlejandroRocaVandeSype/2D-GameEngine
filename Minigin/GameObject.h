@@ -1,11 +1,9 @@
 #pragma once
 
 #include <vector>
-#include <memory>
 #include <type_traits>
 #include "RenderComponent.h"
 #include "TransformComponent.h"
-#include <iostream>
 
 namespace dae
 {
@@ -25,12 +23,18 @@ namespace dae
 		void Update([[maybe_unused]] const float deltaTime);
 		void Render() const;
 
+		void Destroy();
+
 		template <typename T, typename... Args> T* AddComponent(Args&&... args);
 		void RemoveComponent(Component::ComponentType type);
 		template <typename T> T* GetComponent() const;
 
 		const bool HasARender() const;
 		template <typename T> bool HasComponentAlready() const;
+		const bool IsDead() const;
+
+		void SetIsActive(const bool isActive);
+		void SetIsDead(const bool isDead);
 
 	private:
 
@@ -40,10 +44,12 @@ namespace dae
 		TransformComponent* m_pTransformCP;
 
 		bool m_IsActive;
+		bool m_IsDead;
 		bool m_HasToRender;		// Does this gameObject have a render component?
 
 	};
 
+	// Look for the component in the container and returns if found. (Nullptr otherwise)
 	template <typename T>
 	inline T* dae::GameObject::GetComponent() const
 	{
@@ -61,7 +67,8 @@ namespace dae
 		return nullptr;
 	}
 
-	// Add component if it is not already in the container
+	// Add the component in the container
+	// If component already inside, returns nullptr and it doesnt add it
 	template <typename T, typename... Args>
 	inline T* GameObject::AddComponent(Args&&... args)
 	{
@@ -74,6 +81,7 @@ namespace dae
 			return nullptr;
 		}
 
+		// Create an instance of the component with the corresponding args
 		T* component = new T(std::forward<Args>(args)...);
 		if (m_HasToRender == false)
 		{		

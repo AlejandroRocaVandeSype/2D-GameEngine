@@ -10,6 +10,7 @@ namespace dae
 	public:
 		void Add(std::shared_ptr<GameObject> object);
 		void Remove(std::shared_ptr<GameObject> object);
+		void RemoveDeadObjects();
 		void RemoveAll();
 
 		void Update([[maybe_unused]] const float deltaTime);

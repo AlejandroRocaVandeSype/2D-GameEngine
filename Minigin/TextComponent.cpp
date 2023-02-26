@@ -11,7 +11,7 @@ TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font
 	, m_text{ text }
 	, m_font { font }
 	, m_needsUpdate{ true }
-	, m_RenderCP { renderCP }
+	, m_pRenderCP { renderCP }
 	, m_Color{ color }
 
 {
@@ -20,7 +20,7 @@ TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font
 
 void TextComponent::Update([[maybe_unused]] const float deltaTime)
 {
-	if (m_needsUpdate && m_RenderCP != nullptr)
+	if (m_needsUpdate && m_pRenderCP != nullptr)
 	{
 		CreateTextureFromText();
 		m_needsUpdate = false;
@@ -43,7 +43,7 @@ void TextComponent::CreateTextureFromText()
 	}
 	SDL_FreeSurface(surf);
 
-	m_RenderCP->SetTexture(std::make_shared<dae::Texture2D>(texture));
+	m_pRenderCP->SetTexture(std::make_shared<dae::Texture2D>(texture));
 	m_needsUpdate = false;
 
 }

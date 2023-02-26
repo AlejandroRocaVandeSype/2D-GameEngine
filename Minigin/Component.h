@@ -5,7 +5,7 @@ class Component
 {
 public:
 
-	// Having an enum avoid doing some dynamic cast to check types so it is faster
+	// Having an enum avoid doing some dynamic cast to check types 
 	enum ComponentType { TransformCP, RenderCP, TextCP, FPSCP};
 
 	Component(ComponentType type);

@@ -2,12 +2,11 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 
+using namespace dae;
 
 RenderComponent::RenderComponent()
 	: Component(ComponentType::RenderCP)
-{
-
-}
+{}
 
 
 void RenderComponent::Update([[maybe_unused]] const float deltaTime)

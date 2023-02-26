@@ -1,11 +1,9 @@
 #pragma once
-#include <string>
-#include <memory>
-#include "Component.h"
 #include "RenderComponent.h"
 #include <SDL_ttf.h>
 
-namespace dae {
+namespace dae 
+{
 
 	class Font;
 	
@@ -24,7 +22,7 @@ namespace dae {
 
 		std::string m_text;
 		std::shared_ptr<Font> m_font;
-		RenderComponent* m_RenderCP;
+		RenderComponent* m_pRenderCP;
 		SDL_Color m_Color;
 		bool m_needsUpdate;
 	};
