@@ -9,7 +9,7 @@
 namespace dae { 
 	class Texture2D; 
 }
-class RenderComponent : public Component
+class RenderComponent final : public Component
 {
 public :
 	RenderComponent();
@@ -18,11 +18,11 @@ public :
 	virtual void Render(const glm::vec3& position) const;
 
 	void SetTexture(const std::string& filename);
-	
+	void SetTexture(std::shared_ptr<dae::Texture2D> texture);
 
-protected :
+private :
 
 	std::shared_ptr<dae::Texture2D> m_texture{};
-	bool m_needsUpdate;
+	
 };
 

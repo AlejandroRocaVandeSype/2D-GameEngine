@@ -32,14 +32,8 @@ namespace dae
 	private:
 
 		std::shared_ptr<dae::GameObject> m_GameObject;
-		TextComponent* m_pRenderCP;
-		/*
-		bool m_needsUpdate;
-		std::string m_text;
-
-		Transform m_transform{};
-		std::shared_ptr<Font> m_font;
-		std::shared_ptr<Texture2D> m_textTexture;
-		*/
+		TextComponent* m_pTextCP;
+		RenderComponent* m_pRenderCP;
+		
 	};
 }

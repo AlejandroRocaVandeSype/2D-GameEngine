@@ -3,8 +3,7 @@
 #include <vector>
 #include <memory>
 #include <type_traits>
-
-#include "TextComponent.h"
+#include "RenderComponent.h"
 #include "TransformComponent.h"
 #include <iostream>
 
@@ -26,7 +25,7 @@ namespace dae
 		void Update([[maybe_unused]] const float deltaTime);
 		void Render() const;
 
-		template <typename T> T* AddComponent();
+		template <typename T, typename... Args> T* AddComponent(Args&&... args);
 		void RemoveComponent(Component::ComponentType type);
 		template <typename T> T* GetComponent() const;
 
@@ -63,8 +62,8 @@ namespace dae
 	}
 
 	// Add component if it is not already in the container
-	template <typename T>
-	inline T* GameObject::AddComponent()
+	template <typename T, typename... Args>
+	inline T* GameObject::AddComponent(Args&&... args)
 	{
 		
 		static_assert(std::is_base_of<Component, T>::value, "Incorrect type passed to AddComponent function");
@@ -75,7 +74,7 @@ namespace dae
 			return nullptr;
 		}
 
-		T* component = new T();
+		T* component = new T(std::forward<Args>(args)...);
 		if (m_HasToRender == false)
 		{		
 			if (std::is_base_of<RenderComponent, T>::value)
@@ -95,7 +94,6 @@ namespace dae
 	template <typename T>
 	inline bool GameObject::HasComponentAlready() const
 	{
-		// It still doesnt check that if TextComponent is added, to not add a RenderComponent
 		// Dont add the component if already added
 		for (const auto& component : m_vComponents)
 		{

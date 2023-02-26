@@ -6,7 +6,7 @@ class Component
 public:
 
 	// Having an enum avoid doing some dynamic cast to check types so it is faster
-	enum ComponentType { TransformCP, RenderCP};
+	enum ComponentType { TransformCP, RenderCP, TextCP};
 
 	Component(ComponentType type);
 	virtual ~Component() = default;

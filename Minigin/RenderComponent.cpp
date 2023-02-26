@@ -4,8 +4,7 @@
 
 
 RenderComponent::RenderComponent()
-	: Component(ComponentType::RenderCP),
-	m_needsUpdate{ true }
+	: Component(ComponentType::RenderCP)
 {
 
 }
@@ -13,10 +12,7 @@ RenderComponent::RenderComponent()
 
 void RenderComponent::Update([[maybe_unused]] const float deltaTime)
 {
-	if (m_needsUpdate)
-	{
-		m_needsUpdate = false;
-	}
+
 }
 
 void RenderComponent::Render(const glm::vec3& position) const
@@ -33,5 +29,11 @@ void RenderComponent::SetTexture(const std::string& filename)
 {
 	m_texture = dae::ResourceManager::GetInstance().LoadTexture(filename);
 }
+
+void RenderComponent::SetTexture(std::shared_ptr<dae::Texture2D> texture)
+{
+	m_texture = texture;
+}
+
 
 

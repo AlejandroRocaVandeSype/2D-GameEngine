@@ -7,17 +7,20 @@
 
 using namespace dae;
 
-TextComponent::TextComponent()
-	: RenderComponent()
+TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, RenderComponent* renderCP)
+	: Component(Component::TextCP)
+	, m_text{ text }
+	, m_font { font }
+	, m_needsUpdate{ true }
+	, m_RenderCP { renderCP }
 {
 
 }
 
 void TextComponent::Update([[maybe_unused]] const float deltaTime)
 {
-	if (m_needsUpdate)
+	if (m_needsUpdate && m_RenderCP != nullptr)
 	{
-		RenderComponent::Update(deltaTime);
 		CreateTextureFromText();
 		m_needsUpdate = false;
 	}
@@ -39,7 +42,7 @@ void TextComponent::CreateTextureFromText()
 	}
 	SDL_FreeSurface(surf);
 
-	m_texture = std::make_shared<dae::Texture2D>(texture);
+	m_RenderCP->SetTexture(std::make_shared<dae::Texture2D>(texture));
 	m_needsUpdate = false;
 
 }
@@ -48,11 +51,5 @@ void TextComponent::CreateTextureFromText()
 void TextComponent::SetText(const std::string& text)
 {
 	m_text = text;
-	m_needsUpdate = true;
-}
-
-void TextComponent::SetFont(std::shared_ptr<Font> font)
-{
-	m_font = std::move(font);
 	m_needsUpdate = true;
 }
