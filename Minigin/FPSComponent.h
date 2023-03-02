@@ -12,6 +12,7 @@ namespace dae
 		FPSComponent(TextComponent* pTextCP);
 
 		void Update([[maybe_unused]] const float deltaTime) override;
+		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	private:
 

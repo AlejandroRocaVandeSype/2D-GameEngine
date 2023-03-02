@@ -7,7 +7,7 @@
 using namespace dae;
 
 TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, RenderComponent* renderCP, const SDL_Color& color)
-	: Component(Component::TextCP)
+	: Component("TextComponent")
 	, m_text{ text }
 	, m_font { font }
 	, m_needsUpdate{ true }
@@ -25,6 +25,11 @@ void TextComponent::Update([[maybe_unused]] const float deltaTime)
 		CreateTextureFromText();
 		m_needsUpdate = false;
 	}
+}
+
+void TextComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+{
+
 }
 
 void TextComponent::CreateTextureFromText()

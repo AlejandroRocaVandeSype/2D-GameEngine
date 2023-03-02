@@ -39,6 +39,7 @@ std::shared_ptr<dae::GameObject> dae::TextObject::GameObject() const
 // This implementation uses the "dirty flag" pattern
 void dae::TextObject::SetText(const std::string& text)
 {
+	
 	if (m_pTextCP != nullptr)
 	{
 		m_pTextCP->SetText(text);

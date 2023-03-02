@@ -1,17 +1,27 @@
 #include "RenderComponent.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-
+#include <iostream>
 using namespace dae;
 
 RenderComponent::RenderComponent()
-	: Component(ComponentType::RenderCP)
+	: Component("RenderComponent")
 {}
 
 
 void RenderComponent::Update([[maybe_unused]] const float deltaTime)
 {
 
+}
+
+void RenderComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+{
+
+}
+
+RenderComponent::~RenderComponent()
+{
+	std::cout << "RenderComponent destructor" << std::endl;
 }
 
 void RenderComponent::Render(const glm::vec3& position) const

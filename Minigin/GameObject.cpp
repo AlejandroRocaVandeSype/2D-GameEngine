@@ -10,20 +10,28 @@ GameObject::GameObject()
 	, m_pRenderCP{ nullptr }
 {
 	// All gameObjects have a transform component attach when created
+	//m_pTransformCP = std::make_shared<TransformComponent>(AddComponent<TransformComponent>());
 	m_pTransformCP = AddComponent<TransformComponent>();
+	
 }
 
 GameObject::~GameObject()
 {
-	//std::cout << "entro" << std::endl;
+	std::cout << "GameObject destructor" << std::endl;
+	
 	for (auto& componentItr : m_vComponents)
 	{
 		delete componentItr;
+		componentItr = nullptr;
 	}
 	m_vComponents.clear();
+
+	m_pTransformCP = nullptr;
+	m_pRenderCP = nullptr;
+	
 }
 
-void GameObject::Update([[maybe_unused]] const float deltaTime)
+void GameObject::Update(const float deltaTime)
 {
 	if (m_IsActive)  // Only if the object is active we update
 	{
@@ -47,26 +55,16 @@ void GameObject::Render() const
 	
 }
 
-void GameObject::RemoveComponent(Component::ComponentType type)
+// Send a message to all the components
+void GameObject::SendMessage(const std::string& message, const std::string& value)
 {
-	
-	for (auto componentItr = m_vComponents.begin(); componentItr != m_vComponents.end(); ++componentItr)
+	// Check who sent the message to not send it him again
+	for (auto& componentItr : m_vComponents)
 	{
-		if ((*componentItr) != nullptr && (*componentItr)->Type() == type)
-		{
-			delete* componentItr;
-			m_vComponents.erase(componentItr);
-
-			if (type == Component::RenderCP)
-			{
-				// In case the render was delete it, we dont want to render anymore
-				m_HasToRender = false;
-			}
-
-			break;
-		}
+		componentItr->ReceiveMessage(message, value);
 	}
 }
+
 
 void GameObject::Destroy()
 {

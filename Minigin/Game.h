@@ -26,12 +26,12 @@ namespace dae
 
 	private:
 
-		Renderer* m_pRenderer;
-		SceneManager* m_pSceneManager;
-		Scene* m_pScene;
+		Renderer* m_pRenderer{};
+		SceneManager* m_pSceneManager{};
+		Scene* m_pScene{};
 		std::shared_ptr<TextureObject> go;
-		std::shared_ptr<TextObject> to;
-		std::shared_ptr<TextObject> fpsObject;
+		//std::shared_ptr<TextObject> to;
+		//std::shared_ptr<TextObject> fpsObject;
 	};
 }
 

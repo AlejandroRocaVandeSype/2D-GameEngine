@@ -5,6 +5,7 @@ using namespace dae;
 
 TextureObject::TextureObject(const std::string& filename, glm::vec3 position)
 {
+	
 	m_GameObject = std::make_shared<dae::GameObject>();
 	m_pRenderCP = m_GameObject->AddComponent<RenderComponent>();
 
@@ -36,5 +37,5 @@ void TextureObject::SetTexture(const std::string& filename)
 
 TextureObject::~TextureObject()
 {
-	//std::cout << "EntroTexture" << std::endl;
+	std::cout << "TextureObject destructor" << std::endl;
 }

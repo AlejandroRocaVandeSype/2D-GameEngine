@@ -3,7 +3,8 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Scene.h"
-
+#include "TextComponent.h"
+#include "TextObject.h"
 
 using namespace dae;
 
@@ -18,13 +19,27 @@ Game::Game()
 	}
 	
 	// Background 
-	go = std::make_shared<TextureObject>("background.tga");
-	//go.reset();
-	m_pScene->Add(go->GameObject());
-	//go->GameObject()->SetIsDead(true);
 
-	//go->GameObject()->SetIsDead(true);
 	
+	go = std::make_shared<TextureObject>("background.tga");
+	m_pScene->Add(go->GameObject());
+	
+	//go->GameObject()->RemoveComponent<RenderComponent>();
+	
+
+	/*
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	auto fpsObject = std::make_shared<TextObject>("0 FPS", font, glm::vec3{ 10, 20, 0 }, SDL_Color{ 0, 255, 0 });
+	fpsObject->AddFPSComponent();
+	m_pScene->Add(fpsObject->GameObject());
+
+	fpsObject->GameObject()->RemoveComponent<TextComponent>();
+	
+	*/
+
+		
+	
+	/*
 	// Logo
 	go = std::make_shared<TextureObject>("logo.tga", glm::vec3{ 216, 180, 0 });
 	m_pScene->Add(go->GameObject());
@@ -40,7 +55,7 @@ Game::Game()
 	fpsObject->AddFPSComponent();
 	m_pScene->Add(fpsObject->GameObject());
 	
-	
+	*/
 }
 
 Game::~Game()

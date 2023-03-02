@@ -8,7 +8,7 @@ namespace dae
 	class TextureObject
 	{
 	public:
-		TextureObject(const std::string& filename, glm::vec3 position = glm::vec3{ 0.f, 0.f, 0.f });
+		TextureObject(const std::string& filename, glm::vec3 position = glm::vec3{0.f, 0.f, 0.f});
 		~TextureObject();
 
 		std::shared_ptr<dae::GameObject> GameObject() const;
@@ -17,8 +17,8 @@ namespace dae
 
 	private:
 
-		std::shared_ptr<dae::GameObject> m_GameObject;
-		RenderComponent* m_pRenderCP;
+		std::shared_ptr<dae::GameObject> m_GameObject{};
+		RenderComponent* m_pRenderCP{};
 	};
 }
 

@@ -1,14 +1,13 @@
 #include "Component.h"
 
 
-Component::Component(ComponentType type)
-	: m_ComponentType{ type }
+Component::Component(const std::string& name)
+	: m_Name { name }
 {
 
 }
 
-
-const Component::ComponentType Component::Type() const
+const std::string& Component::GetName() const
 {
-	return m_ComponentType;
+	return m_Name;
 }

@@ -13,9 +13,10 @@ namespace dae
 	{
 	public:
 		RenderComponent();
-
+		~RenderComponent();
 		virtual void Update([[maybe_unused]] const float deltaTime) override;
 		virtual void Render(const glm::vec3& position) const;
+		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 		void SetTexture(const std::string& filename);
 		void SetTexture(std::shared_ptr<dae::Texture2D> texture);

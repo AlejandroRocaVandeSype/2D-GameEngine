@@ -4,7 +4,7 @@
 using namespace dae;
 
 FPSComponent::FPSComponent(TextComponent* pTextCP)
-	: Component(Component::FPSCP)
+	: Component("FPSComponent")
 	, m_FpsTimer { 0 }
 	, m_FrameCount { 0 }
 	, MAX_SECOND { 1.0f }
@@ -37,4 +37,15 @@ void FPSComponent::Update([[maybe_unused]] const float deltaTime)
 	m_FrameCount++;
 	m_FpsTimer += deltaTime;
 
+}
+
+void FPSComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+{
+	if (message == "RemoveComponent")
+	{
+		if (value == "TextComponent")
+		{
+			m_pTextCP = nullptr;
+		}
+	}
 }

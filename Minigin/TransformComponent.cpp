@@ -1,18 +1,31 @@
 #include "TransformComponent.h"
-
+#include <iostream>
 
 TransformComponent::TransformComponent(glm::vec3 position)
-	: Component(ComponentType::TransformCP),
+	: Component("TransformComponent"),
 	m_position{ position }
-{}
+{
+
+}
 
 TransformComponent::TransformComponent(float x, float y, float z)
 	:TransformComponent(glm::vec3{x, y, z})
 {}
 
+TransformComponent::~TransformComponent()
+{
+	std::cout << "TransformComponent destructor" << std::endl;
+}
 void TransformComponent::Update([[maybe_unused]] const float deltaTime)
 {
 	// Update position using physics (Velocity etc)
+
+
+}
+
+void TransformComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+{
+
 }
 
 void TransformComponent::SetPosition(const float x, const float y, const float z)
