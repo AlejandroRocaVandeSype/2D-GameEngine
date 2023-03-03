@@ -57,12 +57,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextObject.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureObject.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Engine Files\Scene</Filter>
     </ClInclude>
@@ -78,9 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextObject.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -109,9 +100,6 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Engine Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureObject.cpp">
-      <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Engine Files</Filter>

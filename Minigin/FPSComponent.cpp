@@ -5,7 +5,7 @@
 using namespace dae;
 
 FPSComponent::FPSComponent(GameObject* pOwner)
-	: Component("FPSComponent", pOwner)
+	: Component("FPSCP", pOwner)
 	, m_FpsTimer { 0 }
 	, m_FrameCount { 0 }
 	, MAX_SECOND { 1.0f }
@@ -52,9 +52,9 @@ void FPSComponent::Update(const float deltaTime)
 
 void FPSComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
 {
-	if (message == "RemoveComponent")
+	if (message == "RemoveCP")
 	{
-		if (value == "TextComponent")
+		if (value == "TextCP")
 		{
 			m_pTextCP = nullptr;
 		}

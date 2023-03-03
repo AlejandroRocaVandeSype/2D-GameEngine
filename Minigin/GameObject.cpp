@@ -17,15 +17,7 @@ GameObject::GameObject(glm::vec3 startPosition)
 GameObject::~GameObject()
 {
 	std::cout << "GameObject destructor" << std::endl;
-	/*
-	for (auto& componentItr : m_vComponents)
-	{
-		delete componentItr;
-		componentItr = nullptr;
-	}
-	m_vComponents.clear();
-	*/
-
+	
 	m_pTransformCP = nullptr;
 	m_pRenderCP = nullptr;
 	
@@ -58,18 +50,13 @@ void GameObject::Render() const
 // Send a message to all the components
 void GameObject::SendMessage(const std::string& message, const std::string& value)
 {
-	// Check who sent the message to not send it him again
+	// TODO: Check who sent the message to not send it him again
 	for (auto& componentItr : m_vComponents)
 	{
 		componentItr->ReceiveMessage(message, value);
 	}
 }
 
-
-void GameObject::Destroy()
-{
-	
-}
 
 const bool GameObject::HasARender() const
 {

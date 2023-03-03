@@ -2,7 +2,7 @@
 #include <iostream>
 
 TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 position)
-	: Component("TransformComponent", pOwner),
+	: Component("TransformCP", pOwner),
 	m_position{ position }
 {
 

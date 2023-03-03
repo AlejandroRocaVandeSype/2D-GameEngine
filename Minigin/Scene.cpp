@@ -23,14 +23,15 @@ void Scene::Remove(std::shared_ptr<GameObject> object)
 // Remove all "dead" objects after update
 void Scene::RemoveDeadObjects()
 {
-	for (auto& object : m_objects)
+	for (int objectIdx { 0 }; objectIdx < m_objects.size();)
 	{
-		if (object->IsMarkedAsDead())
+		if (m_objects[objectIdx]->IsMarkedAsDead())
 		{			
-			//object.reset();
-			std::cout << object.use_count() << std::endl;
-			object->Destroy();
-			Remove(object);
+			Remove(m_objects[objectIdx]);
+		}
+		else
+		{
+			objectIdx++;
 		}
 	}
 }

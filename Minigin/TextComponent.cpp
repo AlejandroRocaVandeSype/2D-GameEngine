@@ -8,7 +8,7 @@
 using namespace dae;
 
 TextComponent::TextComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
-	: Component("TextComponent", pOwner)
+	: Component("TextCP", pOwner)
 	, m_text{ text }
 	, m_font { font }
 	, m_needsUpdate{ true }
@@ -38,9 +38,15 @@ void TextComponent::Update([[maybe_unused]] const float deltaTime)
 	}
 }
 
-void TextComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void TextComponent::ReceiveMessage(const std::string& message, const std::string& value)
 {
-
+	if (message == "RemoveCP")
+	{
+		if (value == "RenderCP")
+		{
+			m_pRenderCP = nullptr;
+		}
+	}
 }
 
 void TextComponent::CreateTextureFromText()
