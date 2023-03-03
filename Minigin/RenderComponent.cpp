@@ -4,9 +4,19 @@
 #include <iostream>
 using namespace dae;
 
-RenderComponent::RenderComponent()
-	: Component("RenderComponent")
-{}
+
+RenderComponent::RenderComponent(GameObject* pOwner)
+	: Component("RenderComponent", pOwner)
+	, m_texture { nullptr }
+{
+	
+}
+
+RenderComponent::RenderComponent(GameObject* pOwner, const std::string& filename)
+	: Component("RenderComponent", pOwner)
+{
+	SetTexture(filename);
+}
 
 
 void RenderComponent::Update([[maybe_unused]] const float deltaTime)
@@ -33,7 +43,7 @@ void RenderComponent::Render(const glm::vec3& position) const
 	
 }
 
-
+// Try to create a new texture in the resourceManager and returns it created
 void RenderComponent::SetTexture(const std::string& filename)
 {
 	m_texture = dae::ResourceManager::GetInstance().LoadTexture(filename);

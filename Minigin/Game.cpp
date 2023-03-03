@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Scene.h"
 #include "TextComponent.h"
+#include "FPSComponent.h"
 #include "TextObject.h"
 
 using namespace dae;
@@ -19,11 +20,32 @@ Game::Game()
 	}
 	
 	// Background 
+	go = std::make_shared<GameObject>();
+	go->AddComponent<RenderComponent>(go.get(), "background.tga");
+	m_pScene->Add(go);
 
+	// Previous gameObject is not deleted since inside the scene there is still a shared_ptr owning the original one
+	// LOGO
+	go = std::make_shared<GameObject>(glm::vec3{ 216, 180, 0 });
+	go->AddComponent<RenderComponent>(go.get(), "logo.tga");
+	m_pScene->Add(go);
 	
-	go = std::make_shared<TextureObject>("background.tga");
-	m_pScene->Add(go->GameObject());
-	
+	// TEXT TITLE TEXTURE
+	go = std::make_shared<GameObject>(glm::vec3{ 80, 20, 0 });
+	go->AddComponent<RenderComponent>(go.get());
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	go->AddComponent<TextComponent>(go.get(), "Programming 4 Assignment", font);
+	m_pScene->Add(go);
+
+	// FPS TEXT 
+	go = std::make_shared<GameObject>(glm::vec3{ 10, 20, 0 });
+	go->AddComponent<RenderComponent>(go.get());
+	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	go->AddComponent<TextComponent>(go.get(), "Calculating FPS ...", font, SDL_Color{ 0, 255, 0 });
+	go->AddComponent<FPSComponent>(go.get());
+	m_pScene->Add(go);
+
+	//go->GameObject()->SetIsDead(true);
 	//go->GameObject()->RemoveComponent<RenderComponent>();
 	
 
@@ -33,7 +55,7 @@ Game::Game()
 	fpsObject->AddFPSComponent();
 	m_pScene->Add(fpsObject->GameObject());
 
-	fpsObject->GameObject()->RemoveComponent<TextComponent>();
+	//fpsObject->GameObject()->RemoveComponent<TextComponent>();
 	
 	*/
 

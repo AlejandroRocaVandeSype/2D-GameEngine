@@ -3,19 +3,31 @@
 #include "Texture2D.h"
 #include "Renderer.h"
 #include <stdexcept>
+#include "GameObject.h"
 
 using namespace dae;
 
-TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, RenderComponent* renderCP, const SDL_Color& color)
-	: Component("TextComponent")
+TextComponent::TextComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
+	: Component("TextComponent", pOwner)
 	, m_text{ text }
 	, m_font { font }
 	, m_needsUpdate{ true }
-	, m_pRenderCP { renderCP }
 	, m_Color{ color }
 
 {
+	if (pOwner != nullptr)
+	{
+		m_pRenderCP = pOwner->GetComponent<RenderComponent>();
+	}
+	else
+	{
+		m_pRenderCP = nullptr;
+	}
+}
 
+TextComponent::~TextComponent()
+{
+	std::cout << "TextComponent destructor" << std::endl;
 }
 
 void TextComponent::Update([[maybe_unused]] const float deltaTime)
@@ -23,7 +35,6 @@ void TextComponent::Update([[maybe_unused]] const float deltaTime)
 	if (m_needsUpdate && m_pRenderCP != nullptr)
 	{
 		CreateTextureFromText();
-		m_needsUpdate = false;
 	}
 }
 

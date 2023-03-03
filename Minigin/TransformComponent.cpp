@@ -1,15 +1,15 @@
 #include "TransformComponent.h"
 #include <iostream>
 
-TransformComponent::TransformComponent(glm::vec3 position)
-	: Component("TransformComponent"),
+TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 position)
+	: Component("TransformComponent", pOwner),
 	m_position{ position }
 {
 
 }
 
-TransformComponent::TransformComponent(float x, float y, float z)
-	:TransformComponent(glm::vec3{x, y, z})
+TransformComponent::TransformComponent(dae::GameObject* pOwner, float x, float y, float z)
+	:TransformComponent(pOwner, glm::vec3{x, y, z})
 {}
 
 TransformComponent::~TransformComponent()

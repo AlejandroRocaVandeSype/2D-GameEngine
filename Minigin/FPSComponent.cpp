@@ -1,20 +1,31 @@
 #include "FPSComponent.h"
 #include "TextComponent.h"
+#include "GameObject.h"
 
 using namespace dae;
 
-FPSComponent::FPSComponent(TextComponent* pTextCP)
-	: Component("FPSComponent")
+FPSComponent::FPSComponent(GameObject* pOwner)
+	: Component("FPSComponent", pOwner)
 	, m_FpsTimer { 0 }
 	, m_FrameCount { 0 }
 	, MAX_SECOND { 1.0f }
-	, m_pTextCP { pTextCP }
 {
-
+	if (pOwner != nullptr)
+	{
+		m_pTextCP = pOwner->GetComponent<TextComponent>();
+	}
+	else
+	{
+		m_pTextCP = nullptr;
+	}
 }
 
+FPSComponent::~FPSComponent()
+{
+	std::cout << "FPSComponent destructor" << std::endl;
+}
 
-void FPSComponent::Update([[maybe_unused]] const float deltaTime)
+void FPSComponent::Update(const float deltaTime)
 {
 
 	if (m_FpsTimer >= MAX_SECOND)

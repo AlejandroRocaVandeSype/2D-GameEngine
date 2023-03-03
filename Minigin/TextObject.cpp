@@ -7,11 +7,11 @@
 #include "RenderComponent.h"
 #include "FPSComponent.h"
 
-dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font, glm::vec3 position, const SDL_Color& color)
+dae::TextObject::TextObject([[maybe_unused]] const std::string& text, [[maybe_unused]] std::shared_ptr<Font> font, glm::vec3 position, [[maybe_unused]] const SDL_Color& color)
 {
 	m_GameObject = std::make_shared<dae::GameObject>(); 
-	m_pRenderCP = m_GameObject->AddComponent<RenderComponent>();
-	m_pTextCP = m_GameObject->AddComponent<TextComponent>(text, font, m_pRenderCP, color);
+	//m_pRenderCP = m_GameObject->AddComponent<RenderComponent>();
+	//m_pTextCP = m_GameObject->AddComponent<TextComponent>(text, font, m_pRenderCP, color);
 
 	if (position.x != 0 || position.y != 0)
 	{
@@ -49,5 +49,5 @@ void dae::TextObject::SetText(const std::string& text)
 
 void dae::TextObject::AddFPSComponent()
 {
-	m_GameObject->AddComponent<FPSComponent>(m_pTextCP);
+	//m_GameObject->AddComponent<FPSComponent>(m_pTextCP);
 }

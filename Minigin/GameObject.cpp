@@ -3,28 +3,28 @@
 
 using namespace dae;
 
-GameObject::GameObject()
+GameObject::GameObject(glm::vec3 startPosition)
 	: m_IsActive{ true }
 	, m_IsDead { false }
 	, m_HasToRender { false }
 	, m_pRenderCP{ nullptr }
 {
 	// All gameObjects have a transform component attach when created
-	//m_pTransformCP = std::make_shared<TransformComponent>(AddComponent<TransformComponent>());
-	m_pTransformCP = AddComponent<TransformComponent>();
+	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition);
 	
 }
 
 GameObject::~GameObject()
 {
 	std::cout << "GameObject destructor" << std::endl;
-	
+	/*
 	for (auto& componentItr : m_vComponents)
 	{
 		delete componentItr;
 		componentItr = nullptr;
 	}
 	m_vComponents.clear();
+	*/
 
 	m_pTransformCP = nullptr;
 	m_pRenderCP = nullptr;
@@ -76,7 +76,7 @@ const bool GameObject::HasARender() const
 	return m_HasToRender;
 }
 
-const bool GameObject::IsDead() const
+const bool GameObject::IsMarkedAsDead() const
 {
 	return m_IsDead;
 }

@@ -14,7 +14,7 @@ namespace dae
 		
 	public:
 		
-		GameObject();
+		GameObject(glm::vec3 startPosition = glm::vec3{ 0.f, 0.f, 0.f });
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -32,7 +32,7 @@ namespace dae
 
 		const bool HasARender() const;
 		//template <typename T> bool HasComponentAlready() const;
-		const bool IsDead() const;
+		const bool IsMarkedAsDead() const;
 
 		void SetIsActive(const bool isActive);
 		void SetIsDead(const bool isDead);
@@ -40,12 +40,12 @@ namespace dae
 	private:
 
 
-		std::vector<Component*> m_vComponents;
+		std::vector<std::unique_ptr<Component>> m_vComponents;
 		RenderComponent* m_pRenderCP;
 		TransformComponent* m_pTransformCP;
 
 		bool m_IsActive;
-		bool m_IsDead;
+		bool m_IsDead;			// If the gameObject needs to be removed after updating all gameObjects
 		bool m_HasToRender;		// Does this gameObject have a render component?
 
 	};
@@ -56,7 +56,7 @@ namespace dae
 	{
 		for (auto& componentItr : m_vComponents)
 		{
-			auto casted = dynamic_cast<T*>(componentItr);
+			auto casted = dynamic_cast<T*>(componentItr.get());
 			if (casted)
 			{
 				// Component found
@@ -68,8 +68,6 @@ namespace dae
 		return nullptr;
 	}
 
-	// Add the component in the container
-	// If component already inside, returns nullptr and it doesnt add it
 	template <typename T, typename... Args>
 	inline T* GameObject::AddComponent(Args&&... args)
 	{
@@ -83,30 +81,32 @@ namespace dae
 		}
 		*/
 		// Create an instance of the component with the corresponding args
-		T* component = new T(std::forward<Args>(args)...);
+		auto component = std::make_unique<T>(std::forward<Args>(args)...);
+		T* rawPtr = component.get();
+
 		if (m_HasToRender == false)
 		{
 			if (std::is_base_of<RenderComponent, T>::value)
 			{
 				// We attach a renderComponent to the gameObject
 				m_HasToRender = true;
-				m_pRenderCP = dynamic_cast<RenderComponent*>(component);
+				m_pRenderCP = dynamic_cast<RenderComponent*>(rawPtr);
 			}
 
 		}
 
 		m_vComponents.emplace_back(std::move(component));
 
-		return component;
+		return rawPtr;
 
 	}
-
+	
 	template <typename T> 
 	inline void GameObject::RemoveComponent()
 	{
 		for (auto componentItr = m_vComponents.begin(); componentItr != m_vComponents.end(); ++componentItr)
 		{
-			auto component = dynamic_cast<T*>(*componentItr);
+			auto component = dynamic_cast<T*>(componentItr->get());
 			if (component)
 			{
 				
@@ -117,7 +117,7 @@ namespace dae
 				}
 				
 				SendMessage("RemoveComponent", component->GetName());
-				delete* componentItr;
+			
 				m_vComponents.erase(componentItr);  // With smart pointers this enough to delete the object
 			
 				break;

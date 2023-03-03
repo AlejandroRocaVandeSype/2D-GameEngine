@@ -9,9 +9,10 @@ namespace dae
 	{
 	public:
 
-		FPSComponent(TextComponent* pTextCP);
+		FPSComponent(GameObject* pOwner);
+		~FPSComponent();
 
-		void Update([[maybe_unused]] const float deltaTime) override;
+		void Update(const float deltaTime) override;
 		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	private:

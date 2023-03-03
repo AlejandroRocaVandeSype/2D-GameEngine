@@ -25,11 +25,11 @@ void Scene::RemoveDeadObjects()
 {
 	for (auto& object : m_objects)
 	{
-		if (object->IsDead())
-		{
-			std::cout << "hd" << std::endl;
-			object.reset();
+		if (object->IsMarkedAsDead())
+		{			
+			//object.reset();
 			std::cout << object.use_count() << std::endl;
+			object->Destroy();
 			Remove(object);
 		}
 	}
@@ -45,7 +45,7 @@ void Scene::Update([[maybe_unused]] const float deltaTime)
 	bool isADeadObject = false;
 	for(auto& object : m_objects)
 	{
-		if (!object->IsDead())
+		if (!object->IsMarkedAsDead())
 		{
 			object->Update(deltaTime);
 		}

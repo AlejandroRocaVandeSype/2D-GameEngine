@@ -11,7 +11,8 @@ namespace dae
 	{
 	public:
 
-		TextComponent(const std::string& text, std::shared_ptr<Font> font, RenderComponent* renderCP, const SDL_Color& color = { 255, 255, 255 });
+		TextComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255 });
+		~TextComponent();
 		void Update([[maybe_unused]] const float deltaTime) override;
 		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 		void CreateTextureFromText();

@@ -29,7 +29,7 @@ namespace dae
 		Renderer* m_pRenderer{};
 		SceneManager* m_pSceneManager{};
 		Scene* m_pScene{};
-		std::shared_ptr<TextureObject> go;
+		std::shared_ptr<GameObject> go;
 		//std::shared_ptr<TextObject> to;
 		//std::shared_ptr<TextObject> fpsObject;
 	};
