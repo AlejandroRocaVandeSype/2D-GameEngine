@@ -1,11 +1,17 @@
 #include "TransformComponent.h"
+#include "GameObject.h"
 #include <iostream>
 
-TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 position)
-	: Component("TransformCP", pOwner),
-	m_position{ position }
+TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 position, float rotation, glm::vec3 scale)
+	: Component("TransformCP", pOwner)
+	, m_WorldPosition { glm::vec3{ 0,0,0 } }
+	, m_LocalPosition{ glm::vec3{ 0,0,0 } }
+	, m_Scale { scale }
+	, m_Rotation { rotation }
+	, m_IsPositionDirty { false }
 {
-
+	// World position will automatically be updated when required
+	SetLocalPosition(position);
 }
 
 TransformComponent::TransformComponent(dae::GameObject* pOwner, float x, float y, float z)
@@ -28,14 +34,56 @@ void TransformComponent::ReceiveMessage([[maybe_unused]] const std::string& mess
 
 }
 
-void TransformComponent::SetPosition(const float x, const float y, const float z)
+void TransformComponent::UpdateWorldPosition()
 {
-	m_position.x = x;
-	m_position.y = y;
-	m_position.z = z;
+	if (m_IsPositionDirty)
+	{
+		auto pOwner = GetOwner();
+		if (pOwner != nullptr)
+		{
+			if (pOwner->getParent() == nullptr)
+			{
+				// No parent -> WorldPos == LocalPos
+				m_WorldPosition = m_LocalPosition;
+			}
+			else
+			{
+				// Calculate the worldPosition with the parentWorldPos and the localPos of the child
+				m_WorldPosition = pOwner->getParent()->GetWorldPosition() + m_LocalPosition;
+			}
+		}
+	}
+
+	m_IsPositionDirty = false;
 }
 
-void TransformComponent::SetPosition(glm::vec3 position)
+
+// Changing the position will always be the localPosition
+// Next time worldPosition is asked, it will be updated with the local before returning
+void TransformComponent::SetLocalPosition(const glm::vec3& position)
 {
-	m_position = position;
+	m_LocalPosition = position;
+	SetPositionDirty();  // Everytime localPosition is changed, the worldPosition also needs to be updated
+}
+
+void TransformComponent::SetPositionDirty()
+{
+	m_IsPositionDirty = true;
+}
+
+// Always check if the localPosition was changed before returning
+const glm::vec3 TransformComponent::GetWorldPosition() 
+{
+	if (m_IsPositionDirty)
+	{
+		// Update the world position
+		UpdateWorldPosition();
+	}
+	
+	return m_WorldPosition;
+}
+
+const glm::vec3 TransformComponent::GetLocalPosition() const 
+{
+	return m_LocalPosition;
 }

@@ -101,6 +101,7 @@ void dae::Engine::Run(const std::function<void()>& load)
 		
 		doContinue = input.ProcessInput();
 		
+		// TO DO : FixedUpdate to fix the CPU usage?
 		// Update Game
 		pGame->Update(deltaTime);
 		

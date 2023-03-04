@@ -52,6 +52,7 @@ Game::Game()
 
 	auto go_Enemy = std::make_shared<GameObject>(glm::vec3{ 320, 300, 0 });
 	go_Enemy->AddComponent<RenderComponent>(go_Enemy.get(), "Enemy.png");
+	go_Enemy->SetParent(go_Player.get(), true);
 	m_pScene->Add(go_Enemy);
 }
 

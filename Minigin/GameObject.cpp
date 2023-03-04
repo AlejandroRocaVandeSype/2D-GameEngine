@@ -4,13 +4,16 @@
 using namespace dae;
 
 GameObject::GameObject(glm::vec3 startPosition)
-	: m_IsActive{ true }
+	: m_pParent { nullptr }
+	, m_IsActive{ true }
 	, m_IsDead { false }
 	, m_HasToRender { false }
 	, m_pRenderCP{ nullptr }
 {
 	// All gameObjects have a transform component attach when created
 	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition);
+
+	SetParent(nullptr);
 	
 }
 
@@ -41,7 +44,7 @@ void GameObject::Render() const
 	{
 		if (HasARender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
 		{
-			m_pRenderCP->Render(m_pTransformCP->GetPosition());
+			m_pRenderCP->Render(m_pTransformCP->GetWorldPosition());
 		}
 	}
 	
@@ -56,6 +59,71 @@ void GameObject::SendMessage(const std::string& message, const std::string& valu
 		componentItr->ReceiveMessage(message, value);
 	}
 }
+
+void GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
+{
+	// FIRST UPDATE THE LOCAL POSITION OF THE GAMEOBJECT
+	if (parent == nullptr)
+	{
+		// This gameObject wont have parent --> LocalPosition = WorldPosition
+		if (m_pTransformCP != nullptr)
+		{
+			m_pTransformCP->SetLocalPosition(m_pTransformCP->GetWorldPosition());
+		}
+	}
+	else
+	{
+		// Check if we want to move the gameObject to its parent worldPosition
+		if (keepWorldPosition)
+		{
+			if (m_pTransformCP != nullptr)
+			{
+				m_pTransformCP->SetLocalPosition(m_pTransformCP->GetLocalPosition() - parent->GetWorldPosition());
+			}
+		}
+
+		if (m_pTransformCP != nullptr)
+		{
+			m_pTransformCP->SetPositionDirty();
+		}
+		
+	}
+
+	// NOW MAKE THE SCENEGRAPH HIERARCHY 
+	if (m_pParent != nullptr)
+	{
+		// This gameObject already has a parent -> Remove itself as a child 
+		m_pParent->RemoveChild(this);		
+	}
+	m_pParent = parent;
+
+	// If we are adding a new parent to the gameObject then we need to add this as a child
+	if (m_pParent != nullptr)
+	{
+		m_pParent->AddChild(this);
+	}
+
+}
+
+const GameObject* GameObject::getParent() const
+{
+	return m_pParent;
+}
+
+void GameObject::RemoveChild([[maybe_unused]] GameObject* child)
+{
+
+}
+void GameObject::AddChild([[maybe_unused]] GameObject* child)
+{
+
+}
+
+const glm::vec3 GameObject::GetWorldPosition() const
+{
+	return m_pTransformCP->GetWorldPosition();
+}
+
 
 
 const bool GameObject::HasARender() const
