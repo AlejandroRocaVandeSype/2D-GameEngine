@@ -13,7 +13,7 @@ namespace dae
 		void RemoveDeadObjects();
 		void RemoveAll();
 
-		void Update([[maybe_unused]] const float deltaTime);
+		void Update(const float deltaTime);
 		void Render() const;
 
 		~Scene();

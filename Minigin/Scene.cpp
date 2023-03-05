@@ -41,7 +41,7 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-void Scene::Update([[maybe_unused]] const float deltaTime)
+void Scene::Update(const float deltaTime)
 {
 	bool isADeadObject = false;
 	for(auto& object : m_objects)

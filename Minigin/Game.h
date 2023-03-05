@@ -19,7 +19,7 @@ namespace dae
 		Game& operator=(const Game& other) = delete;
 		Game& operator=(Game&& other) = delete;
 
-		void Update([[maybe_unused]] const float deltaTime);
+		void Update(const float deltaTime);
 		void Render() const;
 
 	private:

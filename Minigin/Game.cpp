@@ -21,7 +21,6 @@ Game::Game()
 	}
 	
 	// Background 
-	
 	auto go_Background = std::make_shared<GameObject>();
 	go_Background->AddComponent<RenderComponent>(go_Background.get(), "background.tga");
 	go_Background->AddComponent<TransformComponent>(go_Background.get());
@@ -49,22 +48,20 @@ Game::Game()
 	go_FPS->AddComponent<FPSComponent>(go_FPS.get());
 	m_pScene->Add(go_FPS);
 	
-	auto go_Player = std::make_shared<GameObject>(glm::vec3{ 200, 300, 0 });
+	// PLayer ship sprite
+	auto go_Player = std::make_shared<GameObject>(glm::vec3{ 300, 300, 0 });
 	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
-	go_Player->AddComponent<RotatorComponent>(go_Player.get());
+	go_Player->AddComponent<RotatorComponent>(go_Player.get(), 50.f, 3.f);
 	m_pScene->Add(go_Player);
 
-	//go_Player->SetParent(go_Title.get());
-	//go_FPS->SetParent(go_Player.get(), true);
-
+	// Enemy ship sprite
 	auto go_Enemy = std::make_shared<GameObject>(glm::vec3{ 330, 300, 0 });
 	go_Enemy->SetParent(go_Player.get(), true);
 	go_Enemy->AddComponent<RenderComponent>(go_Enemy.get(), "Enemy.png");
-	go_Enemy->AddComponent<RotatorComponent>(go_Enemy.get());
+	go_Enemy->AddComponent<RotatorComponent>(go_Enemy.get(), 20.f, 1.f);
 	m_pScene->Add(go_Enemy);
 	
 	
-	//go_Player->SetIsDead(true);
 	
 }
 
@@ -73,7 +70,7 @@ Game::~Game()
 	
 }
 
-void Game::Update([[maybe_unused]] const float deltaTime)
+void Game::Update(const float deltaTime)
 {
 	// Update all gameObjects from the scenes
 	m_pSceneManager->Update(deltaTime);

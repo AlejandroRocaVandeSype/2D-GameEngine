@@ -14,6 +14,8 @@ TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 positi
 	// World position will automatically be updated when required
 	SetLocalPosition(position);
 
+	// TODO : Local and World Scale and local and world rotation
+
 	// create a scale matrix using the scale vector and 
 	//glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), m_ScaleVector);
 }
@@ -44,11 +46,13 @@ void TransformComponent::UpdateWorldPosition()
 			}
 			else
 			{
-				std::cout << "Parent : " << pOwner->getParent()->GetWorldPosition().x << ", " << pOwner->getParent()->GetWorldPosition().y << std::endl;
-				std::cout << "LocalPositionChild : " << m_LocalPosition.x << ", " << m_LocalPosition.y << std::endl;
+				//std::cout << "Parent : " << pOwner->getParent()->GetWorldPosition().x << ", " << pOwner->getParent()->GetWorldPosition().y << std::endl;
+				//std::cout << "LocalPositionChild : " << m_LocalPosition.x << ", " << m_LocalPosition.y << std::endl;
+				// 
 				// Calculate the worldPosition with the parentWorldPos and the localPos of the child
 				m_WorldPosition = pOwner->getParent()->GetWorldPosition() + m_LocalPosition;
-				std::cout << "m_WorldPosition : " << m_WorldPosition.x << ", " << m_WorldPosition.y << std::endl;
+
+				//std::cout << "m_WorldPosition : " << m_WorldPosition.x << ", " << m_WorldPosition.y << std::endl;
 
 			}
 

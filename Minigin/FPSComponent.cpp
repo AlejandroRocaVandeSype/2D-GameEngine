@@ -50,7 +50,7 @@ void FPSComponent::Update(const float deltaTime)
 
 }
 
-void FPSComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void FPSComponent::ReceiveMessage(const std::string& message, const std::string& value)
 {
 	if (message == "RemoveCP")
 	{
