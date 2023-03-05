@@ -32,9 +32,12 @@ namespace dae
 
 		// SCENEGRAPH
 		void SetParent(GameObject* parent, bool keepWorldPosition = true);
+		void SetPositionDirty();
+		void UpdateChildrenPosition();
 		const GameObject* getParent() const;
+		std::vector<GameObject*>& getChildren();
 		const glm::vec3 GetWorldPosition() const;
-
+		
 		const bool HasARender() const;
 		template <typename T> bool HasComponentAlready() const;
 		const bool IsMarkedAsDead() const;
@@ -47,9 +50,10 @@ namespace dae
 		// SceneGraph
 		void RemoveChild(GameObject* child);
 		void AddChild(GameObject* child);
+		
 
 		GameObject* m_pParent;
-		//std::vector<GameObject*> m_Children;
+		std::vector<GameObject*> m_vChildren;
 
 		// Components of the GameObject
 		std::vector<std::unique_ptr<Component>> m_vComponents;

@@ -69,6 +69,9 @@
     <ClInclude Include="FPSComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="RotatorComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -117,6 +120,9 @@
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,7 +10,6 @@ public:
 
 	TransformComponent(dae::GameObject* pOwner, glm::vec3 position = glm::vec3{0.f, 0.f, 0.f}, float rotation = 0.0f, 
 		glm::vec3 scale = glm::vec3{ 1.f, 1.f, 1.f });
-	TransformComponent(dae::GameObject* pOwner, float x, float y, float z);
 	~TransformComponent();
 	virtual void Update([[maybe_unused]] const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
@@ -26,7 +25,7 @@ public:
 private:
 	glm::vec3 m_WorldPosition;		// Global position relative with the world space
 	glm::vec3 m_LocalPosition;		// Position relative to the parent (local space) If no parent localPos = worldPos
-	glm::vec3 m_Scale;
+	glm::vec3 m_ScaleVector;
 	float m_Rotation;				// In radians
 
 	bool m_IsPositionDirty;

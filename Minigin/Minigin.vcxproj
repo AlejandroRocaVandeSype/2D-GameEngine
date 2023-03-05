@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Font.h" />
@@ -195,6 +196,7 @@
   <ItemGroup>
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Font.cpp" />

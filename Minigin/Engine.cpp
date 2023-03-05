@@ -108,6 +108,8 @@ void dae::Engine::Run(const std::function<void()>& load)
 		// Render Game
 		pGame->Render();
 		
+		// Sleep to control framerate
+		std::this_thread::sleep_for(std::chrono::milliseconds(16));
 	}
 
 	delete pGame;
