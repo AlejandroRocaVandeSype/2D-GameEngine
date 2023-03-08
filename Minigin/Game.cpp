@@ -70,7 +70,7 @@ Game::~Game()
 	
 }
 
-void Game::Update(const float deltaTime)
+void Game::Update([[maybe_unused]] const float deltaTime)
 {
 	// Update all gameObjects from the scenes
 	m_pSceneManager->Update(deltaTime);

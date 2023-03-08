@@ -11,7 +11,7 @@
 #include "ResourceManager.h"
 #include "Game.h"
 #include <chrono>
-
+#include <iostream>
 
 SDL_Window* g_window{};
 
@@ -91,8 +91,12 @@ void dae::Engine::Run(const std::function<void()>& load)
 	Game* pGame{ new Game() };
 
 	bool doContinue = true;
-	auto lastTime = std::chrono::high_resolution_clock::now();
 
+	// Limit the FPS and reduce CPU usage
+	const int TARGET_FRAME_RATE{ 60 };
+	const int TARGET_FRAME_TIME{ 1000 / TARGET_FRAME_RATE };
+	
+	auto lastTime = std::chrono::high_resolution_clock::now();
 	while (doContinue)
 	{
 		const auto currentTime = high_resolution_clock::now();
@@ -108,9 +112,13 @@ void dae::Engine::Run(const std::function<void()>& load)
 		// Render Game
 		pGame->Render();
 		
-		// Sleep to control framerate
-		// TODO : Fin a better way
-		std::this_thread::sleep_for(std::chrono::milliseconds(8));
+		const auto sleepTime = currentTime + milliseconds(TARGET_FRAME_TIME) - high_resolution_clock::now();
+		if (sleepTime.count() > 0)
+		{
+			// Sleep to avoid going too fast and max our fps to 60
+			std::this_thread::sleep_for(sleepTime);
+		}
+			
 	}
 
 	delete pGame;
