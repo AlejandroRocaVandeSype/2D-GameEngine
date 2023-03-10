@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include <stdexcept>
 #include "GameObject.h"
+#include <iostream>
 
 using namespace dae;
 

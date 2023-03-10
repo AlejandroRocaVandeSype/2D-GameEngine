@@ -4,7 +4,6 @@
 #include <type_traits>
 #include "RenderComponent.h"
 #include "TransformComponent.h"
-#include <iostream>
 
 namespace dae
 {
@@ -14,7 +13,7 @@ namespace dae
 		
 	public:
 		
-		GameObject(glm::vec3 startPosition = glm::vec3{ 0.f, 0.f, 0.f });
+		GameObject(GameObject* pParent, glm::vec3 startPosition = glm::vec3{ 0.f, 0.f, 0.f });
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -38,7 +37,7 @@ namespace dae
 		void RemoveDeadChildren();
 		const GameObject* getParent() const;
 		bool HasChildren() const;
-		//std::vector<GameObject*>& getChildren();
+		bool HasParent() const;
 		const glm::vec3 GetWorldPosition() const;
 		
 		const bool HasARender() const;
@@ -51,9 +50,9 @@ namespace dae
 	private:
 
 		// SceneGraph 
-		void RemoveChild(GameObject* child);						// Remove child from the container but not from the scene
+		bool FreeChild(GameObject* child);						// Remove child from the container but not destroy it from the scene
 		void AddChild(GameObject* child);
-		void DestroyChild(GameObject* child);										// Remove the child from the scene and the container of children
+		void DestroyChild(GameObject* child);						// Remove the child from the container and destroy it from the scene
 
 		GameObject* m_pParent;
 		std::vector<std::unique_ptr<GameObject>> m_vChildren;		// Parent will own his children
@@ -62,7 +61,7 @@ namespace dae
 		// Components of the GameObject
 		std::vector<std::unique_ptr<Component>> m_vComponents;  
 		RenderComponent* m_pRenderCP;
-		TransformComponent* m_pTransformCP;
+		TransformComponent* m_pTransformCP{};
 
 		bool m_IsActive;
 		bool m_IsDead;			// If the gameObject needs to be removed after updating all gameObjects

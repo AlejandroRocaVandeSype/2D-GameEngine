@@ -1,6 +1,7 @@
 #include "FPSComponent.h"
 #include "TextComponent.h"
 #include "GameObject.h"
+#include <iostream>
 
 using namespace dae;
 

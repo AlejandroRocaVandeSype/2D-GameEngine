@@ -1,9 +1,10 @@
 #include "GameObject.h"
+#include "SceneManager.h"
 #include <iostream>
 
 using namespace dae;
 
-GameObject::GameObject(glm::vec3 startPosition)
+GameObject::GameObject(GameObject* pParent, glm::vec3 startPosition)
 	: m_pParent { nullptr }
 	, m_IsActive{ true }
 	, m_IsDead { false }
@@ -15,7 +16,7 @@ GameObject::GameObject(glm::vec3 startPosition)
 	// When gameObject is created, WorldPos = localPos since it wont have a parent at start
 	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition);
 
-	SetParent(nullptr);
+	SetParent(pParent);
 	
 }
 
@@ -117,7 +118,7 @@ void GameObject::SendMessage(const std::string& message, const std::string& valu
 
 // Updates the parent of the gameObject
 // If pNewParent = nullptr --> We want to remove the current parent (if it has) and 
-// we use removeChild to remove it from the children container
+// we use freeChild to remove it from the children container from the parent (children will still exits)
 void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 {
 	// FIRST UPDATE THE LOCAL POSITION OF THE GAMEOBJECT
@@ -149,10 +150,14 @@ void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 	}
 
 	// NOW MAKE THE SCENEGRAPH HIERARCHY 
+
+	// To know if a parent lost his child and the scene needs to own the orphan child
+	bool childRemoved{ false };    
+
 	if (m_pParent != nullptr)
 	{
-		// This gameObject already has a parent -> Remove itself as a child 
-		m_pParent->RemoveChild(this);		
+		// This gameObject already has a parent -> Remove itself as a child (Dont destroy)
+		childRemoved = m_pParent->FreeChild(this);		
 	}
 	m_pParent = pNewParent;
 
@@ -160,6 +165,14 @@ void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 	if (m_pParent != nullptr)
 	{
 		m_pParent->AddChild(this);
+	}
+	else
+	{
+		if (childRemoved)
+		{
+			// Now the scene owns this gameObject
+			SceneManager::GetInstance().AddToActiveScene(this);
+		}	
 	}
 
 }
@@ -169,22 +182,24 @@ const GameObject* GameObject::getParent() const
 	return m_pParent;
 }
 
-void GameObject::RemoveChild([[maybe_unused]] GameObject* child)
+// Look for the child in the container and remove if found (It doesnt delete it from the scene)
+bool GameObject::FreeChild(GameObject* child)
 {
-	// Look for the child in the container and remove if found
-	/*
-	m_vChildren.erase(std::remove_if(m_vChildren.begin(), m_vChildren.end(),
-		[child](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == child; }), m_vChildren.end()); */
-
-	/*
-	auto childItr = std::find(m_vChildren.begin(), m_vChildren.end(), child);
-
-	if (childItr != m_vChildren.end())
+	
+	for (auto childItr{ m_vChildren.begin() }; childItr != m_vChildren.end(); ++childItr)
 	{
-		// Found
-		m_vChildren.erase(childItr);
+		if (childItr->get() == child)
+		{
+			// Found
+			childItr->release();					// Parent doesnt own the child anymore
+			childItr = m_vChildren.erase(childItr);
+		
+			return true;
+		}
+
 	}
-	*/
+
+	return false;
 }
 
 void GameObject::AddChild(GameObject* child)
@@ -193,9 +208,10 @@ void GameObject::AddChild(GameObject* child)
 }
 
 // After updating all gameObjects check if there are any "dead" children
+// If there are then destroy them 
 void GameObject::RemoveDeadChildren()
 {
-
+	&dae::SceneManager::GetInstance();
 	for (auto itr { m_vChildren.begin()}; itr != m_vChildren.end();)
 	{
 		auto child = itr->get();
@@ -232,11 +248,17 @@ const glm::vec3 GameObject::GetWorldPosition() const
 
 bool GameObject::HasChildren() const
 {
-
 	return m_vChildren.size() > 0;
-
 }
 
+bool GameObject::HasParent() const
+{
+	if (m_pParent != nullptr)
+	{
+		return true;
+	}
+	return false;
+}
 
 const bool GameObject::HasARender() const
 {

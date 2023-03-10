@@ -1,5 +1,6 @@
 #include "RotatorComponent.h"
 #include "GameObject.h"
+#include <iostream>
 #include <glm/gtc/constants.hpp>
 
 /* Makes the object move in a circle around its parent if it has one. Otherwise, it does it around its own center */
@@ -38,7 +39,8 @@ void RotatorComponent::Update(const float deltaTime)
 
 	if (m_pTransformCP != nullptr)
 	{	
-		if (m_pParentTransformCP != nullptr)
+
+		if (GetOwner()->getParent() != nullptr && m_pParentTransformCP != nullptr)
 		{
 			// If there is a parent rotate around him
 			m_Center = m_pParentTransformCP->GetWorldPosition();
@@ -47,7 +49,7 @@ void RotatorComponent::Update(const float deltaTime)
 		m_CirclePos.x = m_Center.x + (RADIUS * cos(m_Angle));
 		m_CirclePos.y = m_Center.y + (RADIUS * sin(m_Angle));
 
-		if (m_pParentTransformCP != nullptr)
+		if (GetOwner()->getParent() != nullptr && m_pParentTransformCP != nullptr)
 		{
 			// If it has a parent calculate the pos relative to him
 			// TODO : This should be automatically calculated in the SetLocalPos
