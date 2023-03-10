@@ -6,7 +6,6 @@
 #include <SDL_ttf.h>
 #include "Engine.h"
 #include "InputManager.h"
-//#include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Game.h"
@@ -80,15 +79,11 @@ dae::Engine::~Engine()
 	SDL_Quit();
 }
 
-void dae::Engine::Run(const std::function<void()>& load)
+void dae::Engine::Run(const std::function<Game*()>& loadGame)
 {
-	load();
+	Game* pGame = loadGame();
 
-	//auto& renderer = Renderer::GetInstance();
-	//auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-
-	Game* pGame{ new Game() };
 
 	bool doContinue = true;
 

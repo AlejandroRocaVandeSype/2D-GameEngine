@@ -9,6 +9,7 @@ GameObject::GameObject(glm::vec3 startPosition)
 	, m_IsDead { false }
 	, m_HasToRender { false }
 	, m_pRenderCP{ nullptr }
+	, m_TotalDeadChildren { 0 }
 {
 	// All gameObjects have a transform component attach when created
 	// When gameObject is created, WorldPos = localPos since it wont have a parent at start
@@ -22,11 +23,14 @@ GameObject::~GameObject()
 {
 	std::cout << "GameObject destructor" << std::endl;	
 	// TODO : Remove parents from all the children
+	
+	/*
 	if (m_pParent != nullptr)
 	{
 		SetParent(nullptr);
 	}
-
+	*/
+	/*
 	if (!m_vChildren.empty())
 	{
 		for (auto& child : m_vChildren)
@@ -34,6 +38,7 @@ GameObject::~GameObject()
 			child->SetParent(nullptr);
 		}
 	}
+	*/
 
 	m_pTransformCP = nullptr;
 	m_pRenderCP = nullptr;
@@ -42,22 +47,35 @@ GameObject::~GameObject()
 
 void GameObject::Update(const float deltaTime)
 {
-	// TODO : Check if components is marked as dead and remove at the end
+	// TODO : Check if components are marked as dead and remove at the end
 	if (m_IsActive)  // Only if the object is active we update
 	{
 		for (auto& componentItr : m_vComponents)
 		{
 			componentItr->Update(deltaTime);
 		}
+
+		// If this gameObject has children update them too
+		if (!m_vChildren.empty())
+		{
+			for (auto& child : m_vChildren)
+			{
+				if (!child->IsMarkedAsDead())
+				{
+					child->Update(deltaTime);
+				}
+				
+			}
+		}
 	}
 	
 }
-
+/*
 std::vector<GameObject*>& GameObject::getChildren()
 {
 	return m_vChildren;
 }
-
+*/
 void GameObject::UpdateChildrenPosition()
 {
 	// Set position is dirty to all children in order to update its positions
@@ -74,6 +92,14 @@ void GameObject::Render() const
 		if (HasARender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
 		{
 			m_pRenderCP->Render(m_pTransformCP->GetWorldPosition());
+		}
+
+		if (!m_vChildren.empty())
+		{
+			for (auto& child : m_vChildren)
+			{
+				child->Render();
+			}
 		}
 	}
 	
@@ -143,8 +169,14 @@ const GameObject* GameObject::getParent() const
 	return m_pParent;
 }
 
-void GameObject::RemoveChild(GameObject* child)
+void GameObject::RemoveChild([[maybe_unused]] GameObject* child)
 {
+	// Look for the child in the container and remove if found
+	/*
+	m_vChildren.erase(std::remove_if(m_vChildren.begin(), m_vChildren.end(),
+		[child](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == child; }), m_vChildren.end()); */
+
+	/*
 	auto childItr = std::find(m_vChildren.begin(), m_vChildren.end(), child);
 
 	if (childItr != m_vChildren.end())
@@ -152,17 +184,56 @@ void GameObject::RemoveChild(GameObject* child)
 		// Found
 		m_vChildren.erase(childItr);
 	}
+	*/
 }
 
 void GameObject::AddChild(GameObject* child)
 {
-	m_vChildren.push_back(child);
+	m_vChildren.emplace_back(child);
+}
+
+// After updating all gameObjects check if there are any "dead" children
+void GameObject::RemoveDeadChildren()
+{
+
+	for (auto itr { m_vChildren.begin()}; itr != m_vChildren.end();)
+	{
+		auto child = itr->get();
+		if (child->IsMarkedAsDead())
+		{
+			// Destroy child and all the children of this child if it has any
+			itr = m_vChildren.erase(itr);
+		}
+		else
+		{
+			if (child->HasChildren())
+			{
+				child->RemoveDeadChildren();
+			}
+
+			itr++;
+		}	
+	}
+
+}
+
+void GameObject::DestroyChild(GameObject* child)
+{
+	m_vChildren.erase(std::remove_if(m_vChildren.begin(), m_vChildren.end(),
+		[child](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == child; }), m_vChildren.end());
 }
 
 const glm::vec3 GameObject::GetWorldPosition() const
 {
 	// TODO : What if the transformCP doesnt exit?
 	return m_pTransformCP->GetWorldPosition();
+
+}
+
+bool GameObject::HasChildren() const
+{
+
+	return m_vChildren.size() > 0;
 
 }
 
@@ -182,9 +253,20 @@ void GameObject::SetIsActive(const bool isActive)
 	m_IsActive = isActive;
 }
 
-void GameObject::SetIsDead(const bool isDead)
+void GameObject::MarkAsDead()
 {
-	m_IsDead = isDead;
+	m_IsDead = true;
+
+	if (m_pParent != nullptr)
+	{
+		// If it has a parent --> Indicate that his child is marked as dead
+		m_pParent->IncCountDeadChildren();
+	}
+}
+
+void GameObject::IncCountDeadChildren()
+{
+	m_TotalDeadChildren++;
 }
 
 void GameObject::SetPositionDirty()

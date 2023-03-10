@@ -34,8 +34,11 @@ namespace dae
 		void SetParent(GameObject* parent, bool keepWorldPosition = true);
 		void SetPositionDirty();
 		void UpdateChildrenPosition();
+		void IncCountDeadChildren();
+		void RemoveDeadChildren();
 		const GameObject* getParent() const;
-		std::vector<GameObject*>& getChildren();
+		bool HasChildren() const;
+		//std::vector<GameObject*>& getChildren();
 		const glm::vec3 GetWorldPosition() const;
 		
 		const bool HasARender() const;
@@ -43,20 +46,21 @@ namespace dae
 		const bool IsMarkedAsDead() const;
 
 		void SetIsActive(const bool isActive);
-		void SetIsDead(const bool isDead);
+		void MarkAsDead();
 
 	private:
 
-		// SceneGraph
-		void RemoveChild(GameObject* child);
+		// SceneGraph 
+		void RemoveChild(GameObject* child);						// Remove child from the container but not from the scene
 		void AddChild(GameObject* child);
-		
+		void DestroyChild(GameObject* child);										// Remove the child from the scene and the container of children
 
 		GameObject* m_pParent;
-		std::vector<GameObject*> m_vChildren;
+		std::vector<std::unique_ptr<GameObject>> m_vChildren;		// Parent will own his children
+		int m_TotalDeadChildren;									// Keep track of how many children are "dead"
 
 		// Components of the GameObject
-		std::vector<std::unique_ptr<Component>> m_vComponents;
+		std::vector<std::unique_ptr<Component>> m_vComponents;  
 		RenderComponent* m_pRenderCP;
 		TransformComponent* m_pTransformCP;
 
