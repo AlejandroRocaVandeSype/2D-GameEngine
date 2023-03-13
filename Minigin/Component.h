@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_COMPONENT
+#define GAME_ENGINE_COMPONENT
 #include <string>
 //#include <unordered_set>
 
@@ -58,3 +59,4 @@ protected:
 	
 };
 
+#endif

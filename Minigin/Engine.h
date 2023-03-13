@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_ENGINE
+#define GAME_ENGINE_ENGINE
+
 #include <string>
 #include <functional>
 
@@ -18,3 +20,5 @@ namespace dae
 		Engine& operator=(Engine&& other) = delete;
 	};
 }
+
+#endif

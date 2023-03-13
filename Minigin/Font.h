@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_FONT
+#define GAME_ENGINE_FONT
+
 #include <string>
 
 struct _TTF_Font;
@@ -23,3 +25,5 @@ namespace dae
 		unsigned int m_size;
 	};
 }
+
+#endif

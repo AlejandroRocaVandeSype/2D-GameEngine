@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_SINGLETON
+#define GAME_ENGINE_SINGLETON
+
 namespace dae
 {
 	template <typename T>
@@ -21,3 +23,5 @@ namespace dae
 		Singleton() = default;
 	};
 }
+
+#endif

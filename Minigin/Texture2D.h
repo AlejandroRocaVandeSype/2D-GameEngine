@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_TEXTURE2D
+#define GAME_ENGINE_TEXTURE2D
+
 #include <glm/vec2.hpp>
 
 struct SDL_Texture;
@@ -25,3 +27,5 @@ namespace dae
 		SDL_Texture* m_texture;
 	};
 }
+
+#endif

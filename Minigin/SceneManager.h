@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_SCENEMANAGER
+#define GAME_ENGINE_SCENEMANAGER
+
 #include <vector>
 #include <string>
 #include <memory>
@@ -23,3 +25,5 @@ namespace dae
 		int m_ActiveScene;
 	};
 }
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_GAMEOBJECT
+#define GAME_ENGINE_GAMEOBJECT
 
 #include <vector>
 #include <type_traits>
@@ -170,3 +171,5 @@ namespace dae
 
 
 }
+
+#endif

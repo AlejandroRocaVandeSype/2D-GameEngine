@@ -1,7 +1,8 @@
-#pragma once
+#ifndef GAME_ENGINE_TRANSFORMCOMPONENT
+#define GAME_ENGINE_TRANSFORMCOMPONENT
+
 #include "Component.h"
 #include <glm/glm.hpp>
-
 
 class TransformComponent final : public Component
 {
@@ -37,3 +38,4 @@ private:
 
 };
 
+#endif

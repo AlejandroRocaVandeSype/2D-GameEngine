@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_RESOURCEMANAGER
+#define GAME_ENGINE_RESOURCEMANAGER
+
 #include <string>
 #include <memory>
 #include "Singleton.h"
@@ -19,3 +21,5 @@ namespace dae
 		std::string m_dataPath;
 	};
 }
+
+#endif

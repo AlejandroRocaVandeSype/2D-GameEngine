@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_SCENE
+#define GAME_ENGINE_SCENE
+
 #include "SceneManager.h"
 
 namespace dae
@@ -32,3 +34,5 @@ namespace dae
 	};
 
 }
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_RENDERCOMPONENT
+#define GAME_ENGINE_RENDERCOMPONENT
 
 #include <memory>
 #include <glm/glm.hpp>
@@ -33,4 +34,4 @@ namespace dae
 	};
 }
 
-
+#endif

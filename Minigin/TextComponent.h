@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_TEXTCOMPONENT
+#define GAME_ENGINE_TEXTCOMPONENT
 #include "RenderComponent.h"
 #include <SDL_ttf.h>
 
@@ -30,4 +31,4 @@ namespace dae
 
 }
 
-
+#endif

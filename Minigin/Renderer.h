@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_RENDERER
+#define GAME_ENGINE_RENDERER
+
 #include <SDL.h>
 #include "Singleton.h"
 
@@ -28,3 +30,4 @@ namespace dae
 	};
 }
 
+#endif

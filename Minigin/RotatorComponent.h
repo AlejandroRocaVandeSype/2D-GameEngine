@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_ROTATORCOMPONENT
+#define GAME_ENGINE_ROTATORCOMPONENT
 #include "Component.h"
 #include <glm/glm.hpp>
 
@@ -22,3 +23,4 @@ private:
 	TransformComponent* m_pTransformCP{};
 };
 
+#endif

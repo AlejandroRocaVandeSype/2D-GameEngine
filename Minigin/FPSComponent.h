@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_FPSCOMPONENT
+#define GAME_ENGINE_FPSCOMPONENT
 #include "Component.h"
 
 
@@ -26,4 +27,5 @@ namespace dae
 	};
 }
 
+#endif
 

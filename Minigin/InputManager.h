@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GAME_ENGINE_INPUTMANAGER
+#define GAME_ENGINE_INPUTMANAGER
+
 #include "Singleton.h"
 
 namespace dae
@@ -10,3 +12,5 @@ namespace dae
 	};
 
 }
+
+#endif

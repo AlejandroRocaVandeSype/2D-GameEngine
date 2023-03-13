@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_ENGINE_GAME
+#define GAME_ENGINE_GAME
 
 #include <memory>
 
@@ -31,4 +32,5 @@ namespace dae
 	};
 }
 
+#endif
 
