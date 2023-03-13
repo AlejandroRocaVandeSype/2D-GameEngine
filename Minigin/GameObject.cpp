@@ -10,7 +10,6 @@ GameObject::GameObject(GameObject* pParent, glm::vec3 startPosition, glm::vec2 s
 	, m_IsDead { false }
 	, m_HasToRender { false }
 	, m_pRenderCP{ nullptr }
-	, m_TotalDeadChildren { 0 }
 {
 	// All gameObjects have a transform component attach when created
 	// When gameObject is created, WorldPos = localPos since it wont have a parent at start
@@ -90,9 +89,19 @@ void GameObject::Render() const
 {
 	if (m_IsActive)
 	{
-		if (HasARender() && m_pRenderCP != nullptr && m_pTransformCP != nullptr)
+		if (HasARender() && m_pRenderCP != nullptr)
 		{
-			m_pRenderCP->Render(m_pTransformCP->GetWorldPosition());
+			if (m_pTransformCP != nullptr)
+			{
+				// Render based on the transformCP world position
+				m_pRenderCP->Render(m_pTransformCP->GetWorldPosition());
+			}
+			else
+			{
+				// TransformCP was destroyed for some reason -> Use the last position saved to render
+				m_pRenderCP->Render(m_PreviousWorldPosition);
+			}
+			
 		}
 
 		if (!m_vChildren.empty())
@@ -240,10 +249,31 @@ void GameObject::DestroyChild(GameObject* child)
 		[child](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == child; }), m_vChildren.end());
 }
 
+
+void GameObject::RemoveParentFromChildren()
+{
+	for (auto childItr{ m_vChildren.begin() }; childItr != m_vChildren.end(); ++childItr)
+	{
+		// Problem here with itr when we remove a child from its parent
+		auto child = childItr->get();
+		child->SetParent(nullptr);
+	}
+}
+
 const glm::vec3 GameObject::GetWorldPosition() const
 {
 	// TODO : What if the transformCP doesnt exit?
-	return m_pTransformCP->GetWorldPosition();
+
+	if (m_pTransformCP != nullptr)
+	{
+		return m_pTransformCP->GetWorldPosition();
+	}
+	else
+	{
+		// Return the last world position saved
+		return m_PreviousWorldPosition;
+	}
+	
 
 }
 
@@ -280,17 +310,8 @@ void GameObject::MarkAsDead()
 {
 	m_IsDead = true;
 
-	if (m_pParent != nullptr)
-	{
-		// If it has a parent --> Indicate that his child is marked as dead
-		m_pParent->IncCountDeadChildren();
-	}
 }
 
-void GameObject::IncCountDeadChildren()
-{
-	m_TotalDeadChildren++;
-}
 
 void GameObject::SetPositionDirty()
 {
@@ -298,4 +319,9 @@ void GameObject::SetPositionDirty()
 	{
 		m_pTransformCP->SetPositionDirty();
 	}
+}
+
+void GameObject::SavePreviousWorldPosition(const glm::vec3& prevWorldPos)
+{
+	m_PreviousWorldPosition = prevWorldPos;
 }

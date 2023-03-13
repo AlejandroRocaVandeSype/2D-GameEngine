@@ -48,6 +48,8 @@ void TransformComponent::UpdateWorldPosition()
 
 			}
 
+			pOwner->SavePreviousWorldPosition(m_WorldPosition);
+
 			// Update children position to move along with the parent
 			pOwner->UpdateChildrenPosition();
 
