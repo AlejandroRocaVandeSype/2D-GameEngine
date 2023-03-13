@@ -13,7 +13,7 @@ namespace dae
 		
 	public:
 		
-		GameObject(GameObject* pParent, glm::vec3 startPosition = glm::vec3{ 0.f, 0.f, 0.f });
+		GameObject(GameObject* pParent, glm::vec3 startPosition, glm::vec2 scale = { 1.f, 1.f});
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -166,7 +166,6 @@ namespace dae
 		return false;
 	}
 
-	
 	
 
 

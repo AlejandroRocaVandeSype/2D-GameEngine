@@ -21,7 +21,7 @@ Game::Game()
 	}
 	
 	// Background 
-	auto go_Background = std::make_shared<GameObject>(nullptr);
+	auto go_Background = std::make_shared<GameObject>(nullptr, glm::vec3{0.f, 0.f, 0.f});
 	go_Background->AddComponent<RenderComponent>(go_Background.get(), "background.tga");
 	go_Background->AddComponent<TransformComponent>(go_Background.get());
 	m_pScene->Add(go_Background);
@@ -65,7 +65,7 @@ Game::Game()
 	
 	// PLayer ship sprite
 	//GameObject* go_Player = new GameObject(go_Logo, glm::vec3{ 330, 300, 0 });
-	auto go_Player = std::make_shared<GameObject>(nullptr, glm::vec3{ 300, 300, 0 });
+	auto go_Player = std::make_shared<GameObject>(nullptr, glm::vec3{ 300, 300, 0 }, glm::vec2{ 1.5f, 1.5f });
 	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
 	go_Player->AddComponent<RotatorComponent>(go_Player.get(), 50.f, 3.f);
 	m_pScene->Add(go_Player);
@@ -73,12 +73,12 @@ Game::Game()
 	// Enemy ship sprite
 	//auto go_Enemy = std::make_shared<GameObject>(nullptr, glm::vec3{ 330, 300, 0 });
 	
-	GameObject* go_Enemy = new GameObject(go_Player.get(), glm::vec3{330, 300, 0});
+	GameObject* go_Enemy = new GameObject(go_Player.get(), glm::vec3{330, 300, 0}, glm::vec2{1.5f, 1.5f});
 	go_Enemy->AddComponent<RenderComponent>(go_Enemy, "Enemy.png");
-	go_Enemy->AddComponent<RotatorComponent>(go_Enemy, 20.f, 1.f);
+	go_Enemy->AddComponent<RotatorComponent>(go_Enemy, 30.f, 1.f);
 	//m_pScene->Add(go_Enemy);
 	
-	//go_Enemy->MarkAsDead();
+	//go_Player->MarkAsDead();
 	//go_Enemy->SetParent(nullptr);
 }
 

@@ -18,9 +18,7 @@ private:
 	const float FULL_ROTATION_VALUE;
 	float m_Angle;
 	glm::vec3 m_CirclePos;
-	glm::vec3 m_Center;							// Center of the circle
 
 	TransformComponent* m_pTransformCP{};
-	TransformComponent* m_pParentTransformCP{};
 };
 

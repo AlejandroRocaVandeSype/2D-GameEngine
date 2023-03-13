@@ -4,7 +4,7 @@
 
 using namespace dae;
 
-GameObject::GameObject(GameObject* pParent, glm::vec3 startPosition)
+GameObject::GameObject(GameObject* pParent, glm::vec3 startPosition, glm::vec2 scale)
 	: m_pParent { nullptr }
 	, m_IsActive{ true }
 	, m_IsDead { false }
@@ -14,7 +14,7 @@ GameObject::GameObject(GameObject* pParent, glm::vec3 startPosition)
 {
 	// All gameObjects have a transform component attach when created
 	// When gameObject is created, WorldPos = localPos since it wont have a parent at start
-	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition);
+	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition, scale);
 
 	SetParent(pParent);
 	
@@ -115,6 +115,7 @@ void GameObject::SendMessage(const std::string& message, const std::string& valu
 		componentItr->ReceiveMessage(message, value);
 	}
 }
+
 
 // Updates the parent of the gameObject
 // If pNewParent = nullptr --> We want to remove the current parent (if it has) and 

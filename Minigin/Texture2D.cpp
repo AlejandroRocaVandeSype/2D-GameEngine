@@ -13,6 +13,11 @@ glm::ivec2 dae::Texture2D::GetSize() const
 	return { dst.w,dst.h };
 }
 
+void dae::Texture2D::ChangeScale()
+{
+
+}
+
 SDL_Texture* dae::Texture2D::GetSDLTexture() const
 {
 	return m_texture;

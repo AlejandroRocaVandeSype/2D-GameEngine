@@ -49,6 +49,9 @@ void dae::SceneManager::AddToActiveScene(GameObject* gameObject)
 			m_scenes.at(m_ActiveScene)->Add(sharedPtr);
 		}
 	}
+	else
+	{
+		std::cerr << "Error! Trying to add a gameObject that already has parent to the scene" << '\n';
+	}
 	
-	std::cerr << " Error! Trying to add a gameObject that already has parent to the scene" << std::endl;
 }

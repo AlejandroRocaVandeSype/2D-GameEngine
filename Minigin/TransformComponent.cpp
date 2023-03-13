@@ -3,21 +3,19 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <iostream>
 
-TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 position, float rotation, glm::vec3 scale)
+TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 position, glm::vec2 scale)
 	: Component("TransformCP", pOwner)
 	, m_WorldPosition { glm::vec3{ 0,0,0 } }
 	, m_LocalPosition{ glm::vec3{ 0,0,0 } }
-	, m_ScaleVector { scale }
-	, m_Rotation { rotation }
+	, m_CenterOffset{ glm::vec3{ 0,0,0 } }
 	, m_IsPositionDirty { false }
 {
 	// World position will automatically be updated when required
 	SetLocalPosition(position);
 
 	// TODO : Local and World Scale and local and world rotation
-
-	// create a scale matrix using the scale vector and 
-	//glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), m_ScaleVector);
+	SetScale(scale);
+	
 }
 
 TransformComponent::~TransformComponent()
@@ -31,7 +29,6 @@ void TransformComponent::Update([[maybe_unused]] const float deltaTime)
 
 }
 
-
 void TransformComponent::UpdateWorldPosition()
 {
 	if (m_IsPositionDirty)
@@ -41,26 +38,18 @@ void TransformComponent::UpdateWorldPosition()
 		{
 			if (pOwner->getParent() == nullptr)
 			{
-				// No parent -> WorldPos == LocalPos
-				m_WorldPosition = m_LocalPosition;
+				// No parent -> WorldPos = LocalPos
+				m_WorldPosition = m_LocalPosition + m_CenterOffset;
 			}
 			else
 			{
-				//std::cout << "Parent : " << pOwner->getParent()->GetWorldPosition().x << ", " << pOwner->getParent()->GetWorldPosition().y << std::endl;
-				//std::cout << "LocalPositionChild : " << m_LocalPosition.x << ", " << m_LocalPosition.y << std::endl;
-				// 
 				// Calculate the worldPosition with the parentWorldPos and the localPos of the child
 				m_WorldPosition = pOwner->getParent()->GetWorldPosition() + m_LocalPosition;
-
-				//std::cout << "m_WorldPosition : " << m_WorldPosition.x << ", " << m_WorldPosition.y << std::endl;
 
 			}
 
 			// Update children position to move along with the parent
 			pOwner->UpdateChildrenPosition();
-
-			
-
 
 		}
 	}
@@ -82,6 +71,19 @@ void TransformComponent::SetLocalPosition(const glm::vec3& position)
 	SetPositionDirty();  // Everytime localPosition is changed, the worldPosition also needs to be updated
 }
 
+void TransformComponent::SetCenterOffset(const glm::vec3& centerOffset)
+{
+	m_CenterOffset = centerOffset;
+	SetPositionDirty();
+}
+
+
+void TransformComponent::SetScale(const glm::vec2& scale)
+{
+	m_Scale = scale;
+
+}
+
 // WorldPosition needs to be updated
 void TransformComponent::SetPositionDirty()
 {
@@ -101,7 +103,13 @@ const glm::vec3 TransformComponent::GetWorldPosition()
 	return m_WorldPosition;
 }
 
+
 const glm::vec3 TransformComponent::GetLocalPosition() const 
 {
 	return m_LocalPosition;
+}
+
+const glm::vec2 TransformComponent::GetScale() const
+{
+	return m_Scale;
 }
