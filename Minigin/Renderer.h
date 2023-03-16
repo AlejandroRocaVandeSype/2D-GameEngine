@@ -15,9 +15,10 @@ namespace dae
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};
 		SDL_Color m_clearColor{};	
+		bool m_ShowDemoWindow{ true };
 	public:
 		void Init(SDL_Window* window);
-		void Render() const;
+		void Render();
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
@@ -27,6 +28,7 @@ namespace dae
 
 		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+
 	};
 }
 

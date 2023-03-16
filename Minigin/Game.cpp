@@ -69,7 +69,7 @@ Game::Game()
 	auto go_Player = std::make_shared<GameObject>(nullptr, glm::vec3{ 300, 300, 0 }, glm::vec2{ 1.5f, 1.5f });
 	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
 	go_Player->AddComponent<RotatorComponent>(go_Player.get(), 50.f, 3.f);
-	go_Player->AddComponent<TestComponent>(go_Player.get());
+	//go_Player->AddComponent<TestComponent>(go_Player.get());
 	m_pScene->Add(go_Player);
 
 	// Enemy ship sprite

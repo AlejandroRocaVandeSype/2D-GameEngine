@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include "InputManager.h"
-
+#include "imgui_impl_sdl.h"
 
 // If false means we want to close the game
 bool dae::InputManager::ProcessInput()
@@ -17,6 +17,8 @@ bool dae::InputManager::ProcessInput()
 			
 		}
 		// etc...
+
+		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	return true;
