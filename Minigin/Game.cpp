@@ -11,7 +11,8 @@
 #include <iostream>
 using namespace dae;
 
-Game::Game()
+Game::Game(const Window& window)
+	: m_Window { window }
 {
 	m_pRenderer = &Renderer::GetInstance();
 	m_pSceneManager = &SceneManager::GetInstance();

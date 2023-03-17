@@ -4,6 +4,7 @@
 #include "Texture2D.h"
 #include "backends/imgui_impl_sdl.h"
 #include "backends/imgui_impl_opengl2.h"
+#include "imgui_plot.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -46,8 +47,15 @@ void dae::Renderer::Render()
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
+	bool windowActive = true;
+	ImGui::SetNextWindowSize(ImVec2(300.f, 350.f));
+	ImGui::Begin("Exercise2", &windowActive);
+	//ImGui::PlotConfig conf;
 
-	ImGui::ShowDemoWindow(&m_ShowDemoWindow);
+	
+	ImGui::End();
+	//ImGui::Plot("Exercise2", conf);
+	//ImGui::ShowDemoWindow(&m_ShowDemoWindow);
 
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());

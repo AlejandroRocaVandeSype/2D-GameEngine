@@ -11,6 +11,7 @@
 #include "Game.h"
 #include <chrono>
 #include <iostream>
+#include "structs.h"
 
 SDL_Window* g_window{};
 
@@ -44,7 +45,7 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-dae::Engine::Engine(const std::string &dataPath)
+dae::Engine::Engine(const std::string &dataPath, const Window& window)
 {
 	PrintSDLVersion();
 	
@@ -54,13 +55,14 @@ dae::Engine::Engine(const std::string &dataPath)
 	}
 
 	g_window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		window.title.c_str(),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		int(window.width),
+		int(window.height),
 		SDL_WINDOW_OPENGL
 	);
+
 	if (g_window == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
@@ -81,6 +83,7 @@ dae::Engine::~Engine()
 
 void dae::Engine::Run(const std::function<Game*()>& loadGame)
 {
+	// The '()' will invoke the lambda function
 	Game* pGame = loadGame();
 
 	auto& input = InputManager::GetInstance();
