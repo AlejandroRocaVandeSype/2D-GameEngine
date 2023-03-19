@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "Singleton.h"
 
+class TrashTheCache;
 namespace dae
 {
 	class Texture2D;
@@ -15,10 +16,18 @@ namespace dae
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};
 		SDL_Color m_clearColor{};	
-		bool m_ShowDemoWindow{ true };
+
+		// IMGUI
+		bool m_Ex1ButtonPressed{ false };
+		bool m_Ex2ButtonPressed{ false };
+		bool m_ShowExercise1{ false };
+		bool m_ShowExercise2{ false };
+		float m_XValues[11]{ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 };
+
 	public:
 		void Init(SDL_Window* window);
 		void Render();
+		void UpdateImGui(TrashTheCache* pExercise1, TrashTheCache* pExercise2);
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;

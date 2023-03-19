@@ -4,6 +4,8 @@
 #include <memory>
 #include "structs.h"
 
+class TrashTheCache;
+
 namespace dae
 {
 	class Renderer;
@@ -30,7 +32,8 @@ namespace dae
 		Renderer* m_pRenderer{};
 		SceneManager* m_pSceneManager{};
 		Scene* m_pScene{};
-		
+		TrashTheCache* m_pExercise1{};
+		TrashTheCache* m_pExercise2{};
 	};
 }
 

@@ -8,12 +8,16 @@
 #include "RotatorComponent.h"
 #include "TestComponent.h"
 #include "GameObject.h"
+#include "TrashTheCache.h"
 #include <iostream>
 using namespace dae;
 
 Game::Game(const Window& window)
 	: m_Window { window }
 {
+	m_pExercise1 = new TrashTheCache();
+	m_pExercise2 = new TrashTheCache();
+
 	m_pRenderer = &Renderer::GetInstance();
 	m_pSceneManager = &SceneManager::GetInstance();
 
@@ -22,6 +26,7 @@ Game::Game(const Window& window)
 		m_pScene = &m_pSceneManager->CreateScene("Demo");
 	}
 	
+	/*
 	// Background 
 	auto go_Background = std::make_shared<GameObject>(nullptr, glm::vec3{0.f, 0.f, 0.f});
 	go_Background->AddComponent<RenderComponent>(go_Background.get(), "background.tga");
@@ -83,11 +88,15 @@ Game::Game(const Window& window)
 	
 	//go_Player->MarkAsDead();
 	//go_Enemy->SetParent(nullptr);
+
+	*/
 }
 
 Game::~Game()
 {
 	std::cout << "Game destructor" << std::endl;
+	delete m_pExercise1;
+	delete m_pExercise2;
 }
 
 void Game::Update(const float deltaTime)
@@ -101,6 +110,7 @@ void Game::Update(const float deltaTime)
 void Game::Render() const
 {
 	// Render all the scenes
+	m_pRenderer->UpdateImGui(m_pExercise1, m_pExercise2);
 	m_pRenderer->Render();
 }
 

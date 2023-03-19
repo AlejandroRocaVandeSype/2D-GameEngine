@@ -22,6 +22,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{86b87fb8-774e-4668-bc2f-d6a4e43ab422}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Week4Exercise">
+      <UniqueIdentifier>{0ee2583d-82a4-4bf6-999f-e3bd22d1d3b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -108,6 +111,9 @@
     <ClInclude Include="structs.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
+    <ClInclude Include="TrashTheCache.h">
+      <Filter>Game Files\Week4Exercise</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -190,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="structs.cpp">
       <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashTheCache.cpp">
+      <Filter>Game Files\Week4Exercise</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
