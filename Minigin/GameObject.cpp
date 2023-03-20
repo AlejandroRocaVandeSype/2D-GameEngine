@@ -12,123 +12,17 @@ GameObject::GameObject(GameObject* pParent, glm::vec3 startPosition, glm::vec2 s
 	, m_pRenderCP{ nullptr }
 {
 	// All gameObjects have a transform component attach when created
-	// When gameObject is created, WorldPos = localPos since it wont have a parent at start
 	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition, scale);
 
 	SetParent(pParent);
 	
 }
 
-GameObject::~GameObject()
-{
-	std::cout << "GameObject destructor" << std::endl;	
-	// TODO : Remove parents from all the children
-	
-	/*
-	if (m_pParent != nullptr)
-	{
-		SetParent(nullptr);
-	}
-	*/
-	/*
-	if (!m_vChildren.empty())
-	{
-		for (auto& child : m_vChildren)
-		{
-			child->SetParent(nullptr);
-		}
-	}
-	*/
-
-	m_pTransformCP = nullptr;
-	m_pRenderCP = nullptr;
-	
-}
-
-void GameObject::Update(const float deltaTime)
-{
-	// TODO : Check if components are marked as dead and remove at the end
-	if (m_IsActive)  // Only if the object is active we update
-	{
-		for (auto& componentItr : m_vComponents)
-		{
-			componentItr->Update(deltaTime);
-		}
-
-		// If this gameObject has children update them too
-		if (!m_vChildren.empty())
-		{
-			for (auto& child : m_vChildren)
-			{
-				if (!child->IsMarkedAsDead())
-				{
-					child->Update(deltaTime);
-				}
-				
-			}
-		}
-	}
-	
-}
-/*
-std::vector<GameObject*>& GameObject::getChildren()
-{
-	return m_vChildren;
-}
-*/
-void GameObject::UpdateChildrenPosition()
-{
-	// Set position is dirty to all children in order to update its positions
-	for (auto& child : m_vChildren)
-	{
-		child->SetPositionDirty();
-	}
-}
-
-void GameObject::Render() const
-{
-	if (m_IsActive)
-	{
-		if (HasARender() && m_pRenderCP != nullptr)
-		{
-			if (m_pTransformCP != nullptr)
-			{
-				// Render based on the transformCP world position
-				m_pRenderCP->Render(m_pTransformCP->GetWorldPosition());
-			}
-			else
-			{
-				// TransformCP was destroyed for some reason -> Use the last position saved to render
-				m_pRenderCP->Render(m_PreviousWorldPosition);
-			}
-			
-		}
-
-		if (!m_vChildren.empty())
-		{
-			for (auto& child : m_vChildren)
-			{
-				child->Render();
-			}
-		}
-	}
-	
-}
-
-// Send a message to all the components
-void GameObject::SendMessage(const std::string& message, const std::string& value)
-{
-	// TODO: Check who sent the message to not send it him again
-	for (auto& componentItr : m_vComponents)
-	{
-		componentItr->ReceiveMessage(message, value);
-	}
-}
-
-
-// Updates the parent of the gameObject
-// If pNewParent = nullptr --> We want to remove the current parent (if it has) and 
-// we use freeChild to remove it from the children container from the parent (children will still exits)
+// -----------------------------------------------------------------------------
+//				*Updates the parent of the GameObject*
+// pNewParent = nullptr --> Current parent will be removed (if it has one)
+// This function doesn't destroy any GameObject. Only updates the scenegraph hierarchy
+// -----------------------------------------------------------------------------
 void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 {
 	// FIRST UPDATE THE LOCAL POSITION OF THE GAMEOBJECT
@@ -156,18 +50,16 @@ void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 		{
 			m_pTransformCP->SetPositionDirty();
 		}
-		
+
 	}
 
 	// NOW MAKE THE SCENEGRAPH HIERARCHY 
-
 	// To know if a parent lost his child and the scene needs to own the orphan child
-	bool childRemoved{ false };    
-
+	bool childRemoved{ false };
 	if (m_pParent != nullptr)
 	{
 		// This gameObject already has a parent -> Remove itself as a child (Dont destroy)
-		childRemoved = m_pParent->FreeChild(this);		
+		childRemoved = m_pParent->FreeChild(this);
 	}
 	m_pParent = pNewParent;
 
@@ -182,20 +74,17 @@ void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 		{
 			// Now the scene owns this gameObject
 			SceneManager::GetInstance().AddToActiveScene(this);
-		}	
+		}
 	}
 
 }
 
-const GameObject* GameObject::getParent() const
-{
-	return m_pParent;
-}
-
-// Look for the child in the container and remove if found (It doesnt delete it from the scene)
+// -----------------------------------------------------------------------------
+//					*Remove child from parent's container*
+// It doesn't delete the child from the scene
+// -----------------------------------------------------------------------------
 bool GameObject::FreeChild(GameObject* child)
 {
-	
 	for (auto childItr{ m_vChildren.begin() }; childItr != m_vChildren.end(); ++childItr)
 	{
 		if (childItr->get() == child)
@@ -203,23 +92,106 @@ bool GameObject::FreeChild(GameObject* child)
 			// Found
 			childItr->release();					// Parent doesnt own the child anymore
 			childItr = m_vChildren.erase(childItr);
-		
+
 			return true;
 		}
-
 	}
-
 	return false;
 }
 
+// -----------------------------------------------------------------------------
+//					*Add child to parent's container*
+// This (GameObject) is gonna be child new parent
+// child will be now owned by the this GameObject
+// -----------------------------------------------------------------------------
 void GameObject::AddChild(GameObject* child)
 {
 	m_vChildren.emplace_back(child);
 }
 
-// After updating all gameObjects check if there are any "dead" children
-// If there are then destroy them 
-void GameObject::RemoveDeadChildren()
+// -----------------------------------------------------------------------------
+//					*Update the GameObject*
+// Update all the components from the GameObject
+// Do this for all his children too if he has any
+// -----------------------------------------------------------------------------
+void GameObject::Update(const float deltaTime)
+{
+	// TODO : Check if components are marked as dead and remove at the end
+	if (m_IsActive)  // Only if the object is active we update
+	{
+		for (auto& componentItr : m_vComponents)
+		{
+			componentItr->Update(deltaTime);
+		}
+
+		// If this gameObject has children update them too
+		if (!m_vChildren.empty())
+		{
+			for (auto& child : m_vChildren)
+			{
+				if (!child->IsMarkedAsDead())
+				{
+					child->Update(deltaTime);
+				}
+				
+			}
+		}
+	}
+	
+}
+
+const bool GameObject::IsMarkedAsDead() const
+{
+	return m_IsDead;
+}
+
+void GameObject::Render() const
+{
+	if (m_IsActive)
+	{
+		if (m_HasToRender && m_pRenderCP != nullptr)
+		{
+			if (m_pTransformCP != nullptr)
+			{
+				// Render based on the transformCP world position
+				m_pRenderCP->Render(m_pTransformCP->GetWorldPosition());
+			}
+			else
+			{
+				// TransformCP was destroyed for some reason -> Use the last position saved to render
+				m_pRenderCP->Render(m_PreviousWorldPosition);
+			}
+			
+		}
+
+		if (!m_vChildren.empty())
+		{
+			for (auto& child : m_vChildren)
+			{
+				child->Render();
+			}
+		}
+	}
+	
+}
+
+// Send a message to all components
+void GameObject::SendMessage(const std::string& message, const std::string& value)
+{
+	// TODO: Check who sent the message to not send it him again
+	for (auto& componentItr : m_vComponents)
+	{
+		componentItr->ReceiveMessage(message, value);
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+//				*Delete all children that are marked as "dead"*
+// This function is called after all GameObjects have been updated
+// It will remove them from the scene
+// -----------------------------------------------------------------------------
+void GameObject::DeleteDeadChildren()
 {
 	&dae::SceneManager::GetInstance();
 	for (auto itr { m_vChildren.begin()}; itr != m_vChildren.end();)
@@ -234,7 +206,7 @@ void GameObject::RemoveDeadChildren()
 		{
 			if (child->HasChildren())
 			{
-				child->RemoveDeadChildren();
+				child->DeleteDeadChildren();
 			}
 
 			itr++;
@@ -243,27 +215,30 @@ void GameObject::RemoveDeadChildren()
 
 }
 
-void GameObject::DestroyChild(GameObject* child)
+bool GameObject::HasChildren() const
+{
+	return m_vChildren.size() > 0;
+}
+
+
+void GameObject::DeleteChild(GameObject* child)
 {
 	m_vChildren.erase(std::remove_if(m_vChildren.begin(), m_vChildren.end(),
 		[child](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == child; }), m_vChildren.end());
 }
 
-
+// Remove this GameObject as parent from all his children
 void GameObject::RemoveParentFromChildren()
 {
-	for (auto childItr{ m_vChildren.begin() }; childItr != m_vChildren.end(); ++childItr)
+	while(!m_vChildren.empty())
 	{
-		// Problem here with itr when we remove a child from its parent
-		auto child = childItr->get();
-		child->SetParent(nullptr);
+		// Set parent will reduce the size of the children container
+		m_vChildren.at(0)->SetParent(nullptr);
 	}
 }
 
 const glm::vec3 GameObject::GetWorldPosition() const
 {
-	// TODO : What if the transformCP doesnt exit?
-
 	if (m_pTransformCP != nullptr)
 	{
 		return m_pTransformCP->GetWorldPosition();
@@ -273,13 +248,11 @@ const glm::vec3 GameObject::GetWorldPosition() const
 		// Return the last world position saved
 		return m_PreviousWorldPosition;
 	}
-	
-
 }
 
-bool GameObject::HasChildren() const
+const GameObject* GameObject::getParent() const
 {
-	return m_vChildren.size() > 0;
+	return m_pParent;
 }
 
 bool GameObject::HasParent() const
@@ -291,27 +264,21 @@ bool GameObject::HasParent() const
 	return false;
 }
 
-const bool GameObject::HasARender() const
-{
-	return m_HasToRender;
-}
-
-const bool GameObject::IsMarkedAsDead() const
-{
-	return m_IsDead;
-}
-
 void GameObject::SetIsActive(const bool isActive)
 {
 	m_IsActive = isActive;
 }
 
+// -----------------------------------------------------------------------------
+//				*Mark the GameObject as "dead"*
+// It will delete the GameObject from the scene (Including all his children if any)
+// This will only happens after the update loop is finished
+// -----------------------------------------------------------------------------
 void GameObject::MarkAsDead()
 {
 	m_IsDead = true;
 
 }
-
 
 void GameObject::SetPositionDirty()
 {
@@ -324,4 +291,13 @@ void GameObject::SetPositionDirty()
 void GameObject::SavePreviousWorldPosition(const glm::vec3& prevWorldPos)
 {
 	m_PreviousWorldPosition = prevWorldPos;
+}
+
+GameObject::~GameObject()
+{
+	std::cout << "GameObject destructor" << std::endl;
+
+	m_pTransformCP = nullptr;
+	m_pRenderCP = nullptr;
+
 }

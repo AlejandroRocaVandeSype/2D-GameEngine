@@ -21,28 +21,30 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		void Update([[maybe_unused]] const float deltaTime);
+		void Update(const float deltaTime);
 		void Render() const;
 		void SendMessage(const std::string& message, const std::string& value);
 
-		// COMPONENTS GAMEOBJECT
+		// ----------------------------------------------------
+		// COMPONENTS ARCHITECTURE
+		// ----------------------------------------------------
 		template <typename T, typename... Args> T* AddComponent(Args&&... args);
 		template <typename T> void RemoveComponent();
 		template <typename T> T* GetComponent() const;
 
+		// ----------------------------------------------------
 		// SCENEGRAPH
+		// ----------------------------------------------------
 		void SetParent(GameObject* parent, bool keepWorldPosition = true);
-		void SetPositionDirty();
-		void UpdateChildrenPosition();
-		void RemoveDeadChildren();
 		void RemoveParentFromChildren();
-		const GameObject* getParent() const;
+		void DeleteDeadChildren();
 		bool HasChildren() const;
 		bool HasParent() const;
+		const GameObject* getParent() const;
 		const glm::vec3 GetWorldPosition() const;
+		void SetPositionDirty();
 		void SavePreviousWorldPosition(const glm::vec3& prevWorldPos);
 
-		const bool HasARender() const;
 		template <typename T> bool HasComponentAlready() const;
 		const bool IsMarkedAsDead() const;
 
@@ -54,7 +56,7 @@ namespace dae
 		// SceneGraph 
 		bool FreeChild(GameObject* child);						// Remove child from the container but not destroy it from the scene
 		void AddChild(GameObject* child);
-		void DestroyChild(GameObject* child);					// Remove the child from the container and destroy it from the scene
+		void DeleteChild(GameObject* child);					// Remove the child from the container and destroy it from the scene
 
 		GameObject* m_pParent;
 		std::vector<std::unique_ptr<GameObject>> m_vChildren;	// Parent will own his children
@@ -89,15 +91,15 @@ namespace dae
 		return nullptr;
 	}
 
+	// Add a component avoiding duplicates
 	template <typename T, typename... Args>
 	inline T* GameObject::AddComponent(Args&&... args)
 	{
 		static_assert(std::is_base_of<Component, T>::value, "Incorrect type passed to AddComponent function");
-
 		
 		if (HasComponentAlready<T>())
 		{
-			// Component already added
+			// Duplicate component
 			return nullptr;
 		}
 		
@@ -122,6 +124,7 @@ namespace dae
 
 	}
 	
+	// Remove the component and send a message to all remaining components indicating the component that has been removed
 	template <typename T> 
 	inline void GameObject::RemoveComponent()
 	{
@@ -129,8 +132,7 @@ namespace dae
 		{
 			auto component = dynamic_cast<T*>(componentItr->get());
 			if (component)
-			{
-				
+			{				
 				if (std::is_base_of<RenderComponent, T>::value)
 				{
 					m_HasToRender = false;
@@ -144,15 +146,14 @@ namespace dae
 				
 				SendMessage("RemoveCP", component->GetName());
 			
-				m_vComponents.erase(componentItr);  // With smart pointers this enough to delete the object
-			
+				m_vComponents.erase(componentItr);  // With smart pointers this is enough to delete the object			
 				break;
 			}
 			
 		}
 	}
 
-	
+	// Check if the component is already in container
 	template <typename T>
 	inline bool GameObject::HasComponentAlready() const
 	{
@@ -167,9 +168,6 @@ namespace dae
 
 		return false;
 	}
-
-	
-
 
 }
 

@@ -40,7 +40,8 @@ void TestComponent::Update(const float deltaTime)
 
 		if (pos.x >= 400.f && m_IsDone == false)
 		{
-			//GetOwner()->RemoveParentFromChildren();
+			GetOwner()->RemoveParentFromChildren();
+			GetOwner()->MarkAsDead();
 			m_IsDone = true;
 		}
 

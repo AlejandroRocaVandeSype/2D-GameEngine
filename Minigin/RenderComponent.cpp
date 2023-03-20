@@ -28,6 +28,38 @@ RenderComponent::RenderComponent(GameObject* pOwner, const std::string& filename
 }
 
 
+// -----------------------------------------------------------------------------
+//				*Set the scale of the texture*
+// The scale will be defined by the transformCP from the GameObject owner
+// It doesn't actually change the size of the texture, is only used for the render
+// visually scale the texture
+// -----------------------------------------------------------------------------
+void RenderComponent::SetScale()
+{
+	GameObject* pOwner{ GetOwner() };
+	if (pOwner != nullptr)
+	{
+		TransformComponent* t = pOwner->GetComponent<TransformComponent>();
+		if (t != nullptr)
+		{
+			m_Scale = t->GetScale();
+		}
+	}
+}
+
+// Try to create a new texture in the resourceManager and returns it created
+void RenderComponent::SetTexture(const std::string& filename)
+{
+	m_texture = dae::ResourceManager::GetInstance().LoadTexture(filename);
+
+	if (m_texture != nullptr)
+	{
+		// New texture loaded
+		m_IsTextureDirty = true;
+	}
+
+}
+
 void RenderComponent::Update([[maybe_unused]] const float deltaTime)
 {
 	if (m_IsTextureDirty)
@@ -61,39 +93,6 @@ void RenderComponent::Render(const glm::vec3& position) const
 	
 }
 
-// Get the scale from the transform component and set it if the gameObject is scaled
-void RenderComponent::SetScale()
-{
-	GameObject* pOwner{ GetOwner() };
-	if (pOwner != nullptr)
-	{
-		TransformComponent* t = pOwner->GetComponent<TransformComponent>();
-
-		if (t != nullptr)
-		{
-			glm::vec2 objectScale{ t->GetScale() };
-
-			if (objectScale.x != 1.f || objectScale.y != 1.f)
-			{
-				// Object needs to be scaled
-				m_Scale = objectScale;
-			}
-		}
-	}
-}
-
-// Try to create a new texture in the resourceManager and returns it created
-void RenderComponent::SetTexture(const std::string& filename)
-{
-	m_texture = dae::ResourceManager::GetInstance().LoadTexture(filename);
-
-	if (m_texture != nullptr)
-	{
-		// New texture loaded
-		m_IsTextureDirty = true;
-	}
-
-}
 
 void RenderComponent::SetTexture(std::shared_ptr<dae::Texture2D> texture)
 {

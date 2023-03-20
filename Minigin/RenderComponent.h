@@ -28,7 +28,7 @@ namespace dae
 		std::shared_ptr<dae::Texture2D> m_texture{};
 		glm::vec2 m_Scale;
 		glm::vec2 m_TextureSize;
-		bool m_IsTextureDirty;
+		bool m_IsTextureDirty;							// To indicate if the texture changed or not
 
 		void SetScale();
 	};

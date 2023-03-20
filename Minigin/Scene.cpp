@@ -18,45 +18,17 @@ void Scene::Add(std::shared_ptr<GameObject> object)
 	}
 	else
 	{
-		std::cerr << " Error! Trying to add a gameObject that already has parent to the scene" << std::endl;
+		std::cerr << " Error! Trying to add a gameObject that already has parent to the scene" << '\n';
 	}
 	
-	
-	
-	
 }
 
-void Scene::Remove(std::shared_ptr<GameObject> object)
+void Scene::Render() const
 {
-	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
-}
-
-// Remove all "dead" objects after update
-void Scene::RemoveDeadObjects()
-{
-	for (size_t objectIdx { 0 }; objectIdx < m_objects.size();)
+	for (const auto& object : m_objects)
 	{
-		if (m_objects[objectIdx]->IsMarkedAsDead())
-		{			
-			// If removed dont increase the itr
-			// If parent is removed, no need to check children because they will be destoyed too
-			Remove(m_objects[objectIdx]);
-		}
-		else
-		{
-			if (m_objects[objectIdx]->HasChildren())
-			{
-				m_objects[objectIdx]->RemoveDeadChildren();
-			}
-
-			objectIdx++;
-		}
+		object->Render();
 	}
-}
-
-void Scene::RemoveAll()
-{
-	m_objects.clear();
 }
 
 void Scene::Update(const float deltaTime)
@@ -71,11 +43,39 @@ void Scene::Update(const float deltaTime)
 	
 }
 
-void Scene::Render() const
+// Remove all "dead" objects after update
+void Scene::RemoveDeadObjects()
 {
-	for (const auto& object : m_objects)
+	for (size_t objectIdx{ 0 }; objectIdx < m_objects.size();)
 	{
-		object->Render();
+		if (m_objects[objectIdx]->IsMarkedAsDead())
+		{
+			// If removed dont increase the itr
+			// If parent is removed, no need to check children because they will be destoyed too
+			Remove(m_objects[objectIdx]);
+		}
+		else
+		{
+			if (m_objects[objectIdx]->HasChildren())
+			{
+				m_objects[objectIdx]->DeleteDeadChildren();
+			}
+
+			objectIdx++;
+		}
 	}
 }
+
+void Scene::Remove(std::shared_ptr<GameObject> object)
+{
+	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
+}
+
+
+void Scene::RemoveAll()
+{
+	m_objects.clear();
+}
+
+
 

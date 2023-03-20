@@ -8,13 +8,3 @@ Component::Component(const std::string& name, dae::GameObject* pOwner)
 {
 
 }
-
-const std::string& Component::GetName() const
-{
-	return m_Name;
-}
-
-dae::GameObject* Component::GetOwner() const
-{
-	return m_pOwner;
-}
