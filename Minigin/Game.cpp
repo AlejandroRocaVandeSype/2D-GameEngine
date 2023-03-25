@@ -7,8 +7,7 @@
 #include "RotatorComponent.h"
 #include "TestComponent.h"
 #include "GameObject.h"
-#include "InputManager.h"
-#include "MoveCommand.h"
+#include "MoveComponent.h"
 
 #include <iostream>
 
@@ -74,6 +73,7 @@ Game::Game(const Window& window)
 	//GameObject* go_Player = new GameObject(go_Logo, glm::vec3{ 330, 300, 0 });
 	auto go_Player = std::make_shared<GameObject>(nullptr, glm::vec3{ 300, 300, 0 }, glm::vec2{ 1.5f, 1.5f });
 	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
+	go_Player->AddComponent<MoveComponent>(go_Player.get(), 200.f);
 	//go_Player->AddComponent<RotatorComponent>(go_Player.get(), 50.f, 3.f);
 	//go_Player->AddComponent<TestComponent>(go_Player.get());
 	m_pScene->Add(go_Player);
@@ -86,11 +86,7 @@ Game::Game(const Window& window)
 	go_Enemy->AddComponent<RotatorComponent>(go_Enemy, 30.f, 1.f);
 	//m_pScene->Add(go_Enemy);
 
-	auto& input = InputManager::GetInstance();
-	SDL_KeyCode key{ SDLK_a };
-
-	std::unique_ptr<Command> command = std::make_unique<MoveCommand>(go_Player.get(), glm::vec3{-10, 0, 0}, 60.f);
-	input.BindCommand(key, std::move(command));
+	go_Player->MarkAsDead();
 
 }
 

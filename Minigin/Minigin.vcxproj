@@ -194,9 +194,8 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameActor.h" />
-    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="TestComponent.h" />
@@ -228,9 +227,8 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameActor.cpp" />
-    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="TestComponent.cpp" />
