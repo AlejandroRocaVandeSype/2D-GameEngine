@@ -1,0 +1,12 @@
+#ifndef GAME_ENGINE_GAMEACTOR
+#define GAME_ENGINE_GAMEACTOR
+
+// GAMEOBJECT THAT CAN BE CONTROLLED BY THE PLAYER
+class GameActor final
+{
+
+
+
+};
+
+#endif

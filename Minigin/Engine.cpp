@@ -101,7 +101,7 @@ void dae::Engine::Run(const std::function<Game*()>& loadGame)
 		const float deltaTime = duration<float>(currentTime - lastTime).count();
 		lastTime = currentTime;
 		
-		doContinue = input.ProcessInput();
+		doContinue = input.ProcessInput(deltaTime);
 		
 		// TO DO : FixedUpdate to fix the CPU usage?
 		// Update Game

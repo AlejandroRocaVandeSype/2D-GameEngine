@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Engine Files\Components">
-      <UniqueIdentifier>{a2e55be8-552e-499a-b9b0-d5ee0e5ce3b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -19,11 +16,17 @@
     <Filter Include="Engine Files\Scene">
       <UniqueIdentifier>{7838ce47-a6d1-47cf-87f4-a675dc85856d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{86b87fb8-774e-4668-bc2f-d6a4e43ab422}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Files\Week4Exercise">
       <UniqueIdentifier>{0ee2583d-82a4-4bf6-999f-e3bd22d1d3b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine Files\imgui">
+      <UniqueIdentifier>{86b87fb8-774e-4668-bc2f-d6a4e43ab422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Components">
+      <UniqueIdentifier>{a2e55be8-552e-499a-b9b0-d5ee0e5ce3b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine Files\Components">
+      <UniqueIdentifier>{c38eef23-bf5c-4b0e-ade1-bf2e08d89422}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,20 +51,8 @@
     <ClInclude Include="Engine.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Engine Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Engine Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderComponent.h">
-      <Filter>Engine Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="TextComponent.h">
-      <Filter>Engine Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Game Files</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Engine Files\Scene</Filter>
@@ -73,40 +64,40 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="FPSComponent.h">
-      <Filter>Engine Files\Components</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="RotatorComponent.h">
-      <Filter>Engine Files\Components</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TestComponent.h">
-      <Filter>Engine Files\Components</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imconfig.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imgui.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_sdl.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imstb_rectpack.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imstb_textedit.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imstb_truetype.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imgui_plot.h">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="structs.h">
       <Filter>Engine Files</Filter>
@@ -114,25 +105,37 @@
     <ClInclude Include="TrashTheCache.h">
       <Filter>Game Files\Week4Exercise</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameActor.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Engine Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Engine Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Engine Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="TextComponent.cpp">
-      <Filter>Engine Files\Components</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Engine Files</Filter>
@@ -162,43 +165,67 @@
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
-      <Filter>Engine Files\Components</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Engine Files\Components</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="TestComponent.cpp">
-      <Filter>Engine Files\Components</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_sdl.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_plot.cpp">
-      <Filter>imgui</Filter>
+      <Filter>Engine Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="structs.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="TrashTheCache.cpp">
       <Filter>Game Files\Week4Exercise</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameActor.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
