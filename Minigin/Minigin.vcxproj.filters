@@ -28,6 +28,9 @@
     <Filter Include="Engine Files\Components">
       <UniqueIdentifier>{c38eef23-bf5c-4b0e-ade1-bf2e08d89422}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\Input">
+      <UniqueIdentifier>{dc3fe815-8820-4b42-8289-44a1e5231c98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -40,9 +43,6 @@
       <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
@@ -114,9 +114,6 @@
     <ClInclude Include="RenderComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
@@ -125,6 +122,15 @@
     </ClInclude>
     <ClInclude Include="MoveComponent.h">
       <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Engine Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Engine Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Engine Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +153,6 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -209,9 +212,6 @@
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
@@ -220,6 +220,15 @@
     </ClCompile>
     <ClCompile Include="MoveComponent.cpp">
       <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Engine Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Engine Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Engine Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

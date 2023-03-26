@@ -5,11 +5,13 @@ namespace dae
 {
 	class GameObject;
 }
+
+// COMMAND PATTERN FOR INPUT MANAGEMENT
 class Command
 {
 public :
 
-	explicit Command(dae::GameObject* actor);			// Here I should pass the object that needs to be "commanded" Component?
+	explicit Command(dae::GameObject* actor);
 	Command(const Command& other) = delete;
 	Command(Command&& other) = delete;
 	Command& operator=(const Command& other) = delete;
@@ -23,7 +25,7 @@ protected:
 	dae::GameObject* GetActor() const { return m_Actor; }
 
 private : 
-	dae::GameObject* m_Actor;   // What if the GameObject is destroyed?
+	dae::GameObject* m_Actor;   
 
 }; 
 

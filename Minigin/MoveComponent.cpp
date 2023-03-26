@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include "MoveCommand.h"
 #include "GameObject.h"
-
+#include "Controller.h"
 
 MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed)
 	: Component("MoveCP", pOwner)
@@ -22,14 +22,33 @@ MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed)
 
 	// Bind all commands with their corresponding keys
 	input.BindCommand(keyA, std::move(moveLeftCommand));
-	m_Keys.push_back(keyA);
+	//m_Keys.push_back(keyA);
 	input.BindCommand(keyD, std::move(moveRightCommand));
-	m_Keys.push_back(keyD);
+	//m_Keys.push_back(keyD);
 	input.BindCommand(keyW, std::move(moveUpCommand));
-	m_Keys.push_back(keyW);
+	//m_Keys.push_back(keyW);
 	input.BindCommand(keyS, std::move(moveDownCommand));
-	m_Keys.push_back(keyS);
+	//m_Keys.push_back(keyS);
+
 	
+}
+
+
+MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed, unsigned controllerIdx)
+	: Component("MoveCP", pOwner)
+{
+
+	std::unique_ptr<Command> moveLeftCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ -1, 0, 0 }, speed);
+	std::unique_ptr<Command> moveRightCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 1, 0, 0 }, speed);
+	std::unique_ptr<Command> moveUpCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, -1, 0 }, speed);
+	std::unique_ptr<Command> moveDownCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, 1, 0 }, speed);
+
+	auto& input = dae::InputManager::GetInstance();
+
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadLeft, std::move(moveLeftCommand));
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadRigth, std::move(moveRightCommand));
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadUp, std::move(moveUpCommand));
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadDown, std::move(moveDownCommand));
 }
 
 
@@ -46,11 +65,13 @@ void MoveComponent::ReceiveMessage([[maybe_unused]] const std::string& message, 
 
 MoveComponent::~MoveComponent()
 {
+	/*
 	// Make sure we dont try to move 
 	auto& input = dae::InputManager::GetInstance();
 
 	for (const auto& key : m_Keys)
 	{
-		//input.UnbindCommand(key);
+		input.UnbindCommand(key);
 	}
+	*/
 }
