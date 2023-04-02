@@ -2,10 +2,11 @@
 #include "backends/imgui_impl_sdl.h"
 #include <iostream>
 
-
 // If false means we want to close the game
 bool dae::InputManager::ProcessInput(float deltaTime)
 {
+	
+
 	// Handle keyboard Input
 	bool keepGameRunning = ProcessKeyboardInput(deltaTime);
 
@@ -15,12 +16,17 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 		return keepGameRunning;
 	}
 
+	if (m_Controllers.size() < MAX_CONTROLLERS)
+	{
+		CheckControllerConnected();
+	}
+
 	// Process controllers input if there are any controllers
 	if (!m_Controllers.empty())
 	{
 		return ProcessControllersInput(deltaTime);
 	}
-	
+
 	return true;
 }
 
@@ -54,13 +60,34 @@ bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
 	return true;
 }
 
+// -----------------------------------------------------------------------------
+//			*Checks if a new Controller has been added to the Game*
+// This will only be checked the first time the Controller has been added to the 
+// game. Once a controller is added, we use the isConnected parameter from the 
+// controller object itselt to check if it disconnects or reconnect
+// -----------------------------------------------------------------------------
+void dae::InputManager::CheckControllerConnected()
+{
+	// We can still add more controllers to the Game
+	unsigned int controllerIdx{ unsigned(m_Controllers.size()) };
+	if (Controller::IsNewControllerAdded(controllerIdx))
+	{
+		// New controller
+		m_Controllers.emplace_back(std::make_unique<Controller>(controllerIdx));
+	}
+
+}
+
 // Process Input from all conected controllers
-bool dae::InputManager::ProcessControllersInput(float deltaTime)
+bool dae::InputManager::ProcessControllersInput([[maybe_unused]] float deltaTime)
 {
 	for (const auto& controller : m_Controllers)
 	{
 		if (controller->IsConnected())
 		{
+
+			std::cout << "Update controller " << controller->GetControllerIdx() << "\n";
+			/*
 			controller->Update();
 
 			// Loop through all the available commands
@@ -78,8 +105,8 @@ bool dae::InputManager::ProcessControllersInput(float deltaTime)
 					}
 				}
 			}
+			*/
 		}
-			
 	}
 
 	return true;

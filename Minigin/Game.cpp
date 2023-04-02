@@ -25,9 +25,9 @@ Game::Game(const Window& window)
 		m_pScene = &m_pSceneManager->CreateScene("Demo");
 	}
 	
-	auto& input = dae::InputManager::GetInstance();
+	//auto& input = dae::InputManager::GetInstance();
 	// Add a controller to be available to use for the user
-	input.NewAvailableController(0);
+	//input.NewAvailableController(0);
 	
 	// Background 
 	auto go_Background = std::make_shared<GameObject>(nullptr, glm::vec3{0.f, 0.f, 0.f});

@@ -27,6 +27,7 @@ namespace dae
 
 		bool ProcessKeyboardInput(float deltaTime);
 		bool ProcessControllersInput(float deltaTime);
+		void CheckControllerConnected();
 
 		// *** KEYBOARD ***
 		// All registered Commands for the Keyboard	
@@ -42,8 +43,6 @@ namespace dae
 		// A command will be binded to the indicated controller with the indicated button
 		using ControllerCommandsMap = std::map<ControllerKey, std::unique_ptr<Command>>;	
 		ControllerCommandsMap m_ControllerCommands;
-
-
 
 	};
 

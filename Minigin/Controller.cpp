@@ -1,7 +1,7 @@
 #define WIN32_LEAND_AND_MEAN
 #include <Windows.h>
 #include <XInput.h>
-
+#include <iostream>
 #include "Controller.h"
 
 /* IMPLEMENTATION OF THE CONTROLLER CLASS TO IMPROVE 
@@ -12,6 +12,8 @@ class Controller::ControllerImpl
 public:
 	ControllerImpl(unsigned controllerIdx)
 		: m_ControllerIndex { controllerIdx }
+		, m_IsConnected { true }
+		, m_ItWasConnected { true }
 	{	
 		// Clear states to ensure it only contains valid data
 		ZeroMemory(&m_PreviousState, sizeof(XINPUT_STATE));
@@ -41,18 +43,47 @@ public:
 	bool IsUpThisFrame(unsigned int button) const { return m_ButtonReleasedThisFrame & button; }
 	bool IsPressed(unsigned int button) const { return m_CurrentState.Gamepad.wButtons & button; } 
 
-	bool IsConnected() const 
+	bool IsConnected() 
 	{
-
-		// Get the state of this controller to check if it is connected
 		XINPUT_STATE state;
 		DWORD result = XInputGetState(m_ControllerIndex, &state);
 		if (result == ERROR_SUCCESS)
 		{
-			// This controller is Connected
+			if (!m_ItWasConnected)  // Check previous state of the Controller
+			{
+				// Controller has been reconnected
+				std::cout << "Controller " << m_ControllerIndex << " connected. \n";
+				m_IsConnected = true;
+				m_ItWasConnected = true;
+			}
+		}
+		else
+		{
+			// Controller disconnected
+			if (m_ItWasConnected)
+			{
+				std::cout << "Controller " << m_ControllerIndex << " disconnected. \n";
+				m_IsConnected = false;
+				m_ItWasConnected = false;
+			}
+		}
+	
+		return m_IsConnected;
+		
+	}
+
+	// Checks if a new Controller has been added to the Game
+	static bool IsNewControllerAdded(const unsigned controllerIdx)
+	{
+		// Get the state of this controller to check if it is connected
+		XINPUT_STATE state;
+		DWORD result = XInputGetState(controllerIdx, &state);
+		if (result == ERROR_SUCCESS)
+		{
+			std::cout << "Controller " << controllerIdx << " connected.\n";
 			return true;
 		}
-
+		
 		return false;
 	}
 
@@ -67,7 +98,9 @@ private:
 	WORD m_ButtonPressedThisFrame;
 	WORD m_ButtonReleasedThisFrame;
 
-	unsigned m_ControllerIndex;					// Index of the connected controller
+	unsigned m_ControllerIndex;			// Index of the connected controller
+	bool m_IsConnected;					// Automatically true when an instance of this class is created
+	bool m_ItWasConnected;				// Previous state of the Controller (in order to know if it has been reconnected)
 
 };
 
@@ -104,9 +137,14 @@ bool Controller::IsPressed(XboxControllerButton button) const
 	return pImpl->IsPressed(static_cast<unsigned int>(button));
 }
 
-bool  Controller::IsConnected() const
+bool Controller::IsConnected() const
 {
 	return pImpl->IsConnected();
+}
+
+bool Controller::IsNewControllerAdded(const unsigned controllerIdx)
+{
+	return ControllerImpl::IsNewControllerAdded(controllerIdx);
 }
 
 const unsigned Controller::GetControllerIdx() const

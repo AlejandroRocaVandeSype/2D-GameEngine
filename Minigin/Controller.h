@@ -4,7 +4,6 @@
 class Controller final
 {
 public:
-
 	enum class XboxControllerButton  
 	{ 
 		// Specific for XBOX 360 CONTROLLER
@@ -35,15 +34,14 @@ public:
 
 	bool IsConnected() const;
 
+	static bool IsNewControllerAdded(const unsigned controllerIdx);
+
 	const unsigned GetControllerIdx() const;
 
-
 private:
-
 	// Pimpl pattern --> This way none of the classes will know that XInput is being used
 	class ControllerImpl;
 	ControllerImpl* pImpl;
-
 
 };
 
