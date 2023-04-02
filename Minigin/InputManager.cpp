@@ -6,7 +6,6 @@
 bool dae::InputManager::ProcessInput(float deltaTime)
 {
 	
-
 	// Handle keyboard Input
 	bool keepGameRunning = ProcessKeyboardInput(deltaTime);
 
@@ -16,7 +15,7 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 		return keepGameRunning;
 	}
 
-	if (m_Controllers.size() < MAX_CONTROLLERS)
+	if (int(m_Controllers.size()) < MAX_CONTROLLERS)
 	{
 		CheckControllerConnected();
 	}
@@ -44,17 +43,32 @@ bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
 		if (e.type == SDL_KEYDOWN)
 		{
 			// Check if the key pressed is binded to any command..
-			SDL_Keycode key{ e.key.keysym.sym };
-			auto commandItr = m_KeyBoardCommands.find(key);
+			auto keyDown{ e.key.keysym.sym };
+			KeyTypeKeyPair keyPair{ std::make_pair(keyDown, dae::InputType::KeyPressed) };
+			m_KeyboardCommandItr = m_KeyBoardCommands.find(keyPair);
+			
+			m_LastKeyPressed = keyDown;
 
-			if (commandItr != m_KeyBoardCommands.end())
+		}
+
+		if (e.type == SDL_KEYUP)
+		{
+			SDL_Keycode keyUp{ e.key.keysym.sym };
+			if (m_LastKeyPressed == keyUp)
 			{
-				// Founded a key binded to a Command -> Execute it
-				commandItr->second->Execute(deltaTime);
+				m_KeyboardCommandItr = m_KeyBoardCommands.end();
+				m_LastKeyPressed = SDLK_UNKNOWN; // Reset last pressed key
 			}
+
 		}
 
 		ImGui_ImplSDL2_ProcessEvent(&e);
+	}
+
+	if (m_KeyboardCommandItr != m_KeyBoardCommands.end())
+	{
+		// A key binded to a Command has been downed, released or is being pressed -> Execute the command
+		m_KeyboardCommandItr->second->Execute(deltaTime);
 	}
 
 	return true;
@@ -79,15 +93,13 @@ void dae::InputManager::CheckControllerConnected()
 }
 
 // Process Input from all conected controllers
-bool dae::InputManager::ProcessControllersInput([[maybe_unused]] float deltaTime)
+bool dae::InputManager::ProcessControllersInput(float deltaTime)
 {
 	for (const auto& controller : m_Controllers)
 	{
 		if (controller->IsConnected())
 		{
-
-			std::cout << "Update controller " << controller->GetControllerIdx() << "\n";
-			/*
+			//std::cout << "Update controller " << controller->GetControllerIdx() << "\n";	
 			controller->Update();
 
 			// Loop through all the available commands
@@ -105,74 +117,40 @@ bool dae::InputManager::ProcessControllersInput([[maybe_unused]] float deltaTime
 					}
 				}
 			}
-			*/
+		
 		}
 	}
 
 	return true;
 }
 
-// Add the controller to the Input Manager available controllers. 
-// However, it is not binded to any command yet
-void dae::InputManager::NewAvailableController(unsigned controllerIdx)
-{
-
-	if (controllerIdx > MAX_VALID_CONTROLLER_IDX)
-	{
-		std::cerr << "Controller Index " << controllerIdx << " is invalid ! Controller not added. \n";
-		return;
-	}
-
-	if (int(m_Controllers.size()) < MAX_CONTROLLERS)
-	{
-
-		bool IsAdded{ false };
-		for (const auto& controllers : m_Controllers)
-		{
-			if (controllers->GetControllerIdx() == controllerIdx)
-			{
-				// This controller is already added
-				IsAdded = true;
-				std::cerr << "Controller Index " << controllerIdx << " is already added ! Controller not added. \n";
-				break;
-			}
-		}
-
-		if (!IsAdded)
-		{
-			// New controller
-			m_Controllers.emplace_back(std::make_unique<Controller>(controllerIdx));
-		}
-	
-	}
-	
-}
-
 // Bind Commands to keys.
 // If key already exits in the map it will simply swap the command associated with the key
-void dae::InputManager::BindCommand(SDL_Keycode key, std::unique_ptr<Command> command)
+void dae::InputManager::BindCommand(SDL_Keycode key, dae::InputType type, std::unique_ptr<Command> command)
 {
-	m_KeyBoardCommands[key] = std::move(command);
+	KeyTypeKeyPair keyPair{ std::make_pair(key, type) };
+	m_KeyBoardCommands[keyPair] = std::move(command);
 }
 
 // Bind commands to a existing Controller
 void  dae::InputManager::BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
 	std::unique_ptr<Command> command)
 {
-	ControllerKey key{ std::make_pair(controllerIdx, button) };
+	ControllerKey keyPair{ std::make_pair(controllerIdx, button) };
 
-
-	m_ControllerCommands[key] = std::move(command);
+	m_ControllerCommands[keyPair] = std::move(command);
 	
 }
 
 // Unbind the command associated to the key passed through parameter
 // This will delete the element from the command map
-void dae::InputManager::UnbindCommand(SDL_Keycode key)
+void dae::InputManager::UnbindCommand([[maybe_unused]] SDL_Keycode key)
 {
+	/*
 	auto commandItr = m_KeyBoardCommands.find(key);
 	if (commandItr != m_KeyBoardCommands.end())
 	{
 		m_KeyBoardCommands.erase(commandItr);
 	}
+	*/
 }

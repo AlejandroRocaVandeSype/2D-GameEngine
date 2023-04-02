@@ -1,5 +1,6 @@
 #ifndef GAME_ENGINE_CONTROLLER
 #define GAME_ENGINE_CONTROLLER
+#include <memory>
 
 class Controller final
 {
@@ -41,7 +42,7 @@ public:
 private:
 	// Pimpl pattern --> This way none of the classes will know that XInput is being used
 	class ControllerImpl;
-	ControllerImpl* pImpl;
+	std::unique_ptr<ControllerImpl> pImpl;
 
 };
 

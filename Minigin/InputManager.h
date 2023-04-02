@@ -11,15 +11,17 @@
 
 namespace dae
 {
+	enum class InputType {
+		KeyPressed,
+	};
+
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput(float deltaTime);
 
-		void NewAvailableController(unsigned controllerIdx);
-
 		// Binding/Unbinding commands
-		void BindCommand(SDL_Keycode key, std::unique_ptr<Command> command);
+		void BindCommand(SDL_Keycode key, dae::InputType type, std::unique_ptr<Command> command);
 		void BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, std::unique_ptr<Command> command);
 		void UnbindCommand(SDL_Keycode key);
 		
@@ -30,14 +32,17 @@ namespace dae
 		void CheckControllerConnected();
 
 		// *** KEYBOARD ***
+		using KeyTypeKeyPair = std::pair<SDL_Keycode, InputType>;
 		// All registered Commands for the Keyboard	
-		std::map<SDL_Keycode, std::unique_ptr<Command>> m_KeyBoardCommands{};  
-		
+		using KeyBoardCommandsMap = std::map<KeyTypeKeyPair, std::unique_ptr<Command>>;
+		KeyBoardCommandsMap m_KeyBoardCommands;
+		SDL_Keycode m_LastKeyPressed{ SDLK_UNKNOWN };
+		KeyBoardCommandsMap::iterator m_KeyboardCommandItr{ m_KeyBoardCommands.end() };
+
 		// *** CONTROLLERS ***
-		// All available controllers to be used (doesn't mean that are connected to the PC)
+		// All available controllers to be used 
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};  
 		const int MAX_CONTROLLERS{ 2 };		
-		const unsigned MAX_VALID_CONTROLLER_IDX{ 3 };			// More than this value is not a valid controller index
 		// Button binded to a controller
 		using ControllerKey = std::pair<unsigned, Controller::XboxControllerButton>;	
 		// A command will be binded to the indicated controller with the indicated button

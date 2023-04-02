@@ -21,13 +21,13 @@ MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed)
 	std::unique_ptr<Command> moveDownCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, 1, 0 }, speed);
 
 	// Bind all commands with their corresponding keys
-	input.BindCommand(keyA, std::move(moveLeftCommand));
+	input.BindCommand(keyA, dae::InputType::KeyPressed, std::move(moveLeftCommand));
 	//m_Keys.push_back(keyA);
-	input.BindCommand(keyD, std::move(moveRightCommand));
+	input.BindCommand(keyD, dae::InputType::KeyPressed, std::move(moveRightCommand));
 	//m_Keys.push_back(keyD);
-	input.BindCommand(keyW, std::move(moveUpCommand));
+	input.BindCommand(keyW, dae::InputType::KeyPressed, std::move(moveUpCommand));
 	//m_Keys.push_back(keyW);
-	input.BindCommand(keyS, std::move(moveDownCommand));
+	input.BindCommand(keyS, dae::InputType::KeyPressed, std::move(moveDownCommand));
 	//m_Keys.push_back(keyS);
 
 	

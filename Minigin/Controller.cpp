@@ -108,13 +108,12 @@ private:
 
 Controller::Controller(unsigned controllerIdx)
 {
-	pImpl = new ControllerImpl(controllerIdx);
+	pImpl = std::make_unique<ControllerImpl>(controllerIdx);
 }
-
 
 Controller::~Controller()
 {
-	delete pImpl;
+	std::cout << "Controller destructor \n";
 }
 
 void Controller::Update()
