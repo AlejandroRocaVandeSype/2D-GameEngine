@@ -8,7 +8,7 @@ class RotatorComponent final: public Component
 {
 public:
 	RotatorComponent(dae::GameObject* pOwner, float radius, float rotationTime);
-	~RotatorComponent();
+	~RotatorComponent() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 

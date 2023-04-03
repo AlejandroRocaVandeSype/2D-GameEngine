@@ -9,7 +9,7 @@ class TestComponent : public Component
 {
 public:
 	TestComponent(dae::GameObject* pOwner);
-	~TestComponent();
+	~TestComponent() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 

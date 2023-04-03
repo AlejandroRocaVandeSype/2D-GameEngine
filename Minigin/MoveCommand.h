@@ -14,10 +14,10 @@ public:
 	virtual ~MoveCommand() override;
 	void Execute(float deltaTime) override;
 
-
 private :
 	float m_Speed;
 	glm::vec3 m_Direction;		// Normalized vector that indicates the direction of the movement
+	dae::GameObject* m_Actor;
 };
 
 #endif

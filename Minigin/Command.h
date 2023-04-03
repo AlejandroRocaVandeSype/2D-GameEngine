@@ -11,7 +11,7 @@ class Command
 {
 public :
 
-	explicit Command(dae::GameObject* actor);
+	explicit Command() {};
 	Command(const Command& other) = delete;
 	Command(Command&& other) = delete;
 	Command& operator=(const Command& other) = delete;
@@ -20,13 +20,6 @@ public :
 
 	virtual void Execute(float deltaTime) = 0; 
 	
-
-protected:
-	dae::GameObject* GetActor() const { return m_Actor; }
-
-private : 
-	dae::GameObject* m_Actor;   
-
 }; 
 
 #endif

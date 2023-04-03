@@ -11,7 +11,7 @@ public:
 
 	TransformComponent(dae::GameObject* pOwner, glm::vec3 position = glm::vec3{0.f, 0.f, 0.f}, 
 		glm::vec2 scale = glm::vec2{ 1.f, 1.f });
-	~TransformComponent();
+	virtual ~TransformComponent() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 

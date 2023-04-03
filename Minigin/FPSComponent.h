@@ -11,7 +11,7 @@ namespace dae
 	public:
 
 		FPSComponent(GameObject* pOwner);
-		~FPSComponent();
+		virtual ~FPSComponent() override;
 
 		void Update(const float deltaTime) override;
 		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;

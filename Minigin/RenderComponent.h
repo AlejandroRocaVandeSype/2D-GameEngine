@@ -15,7 +15,7 @@ namespace dae
 	public:
 		RenderComponent(dae::GameObject* pOwner);
 		RenderComponent(dae::GameObject* pOwner, const std::string& filename);
-		~RenderComponent();
+		~RenderComponent() override;
 		virtual void Update(const float deltaTime) override;
 		virtual void Render(const glm::vec3& position) const;
 		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
