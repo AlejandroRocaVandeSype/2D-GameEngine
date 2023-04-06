@@ -27,7 +27,6 @@ namespace dae
 	public:
 		void Init(SDL_Window* window);
 		void Render();
-		void UpdateImGui(TrashTheCache* pExercise1, TrashTheCache* pExercise2);
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;

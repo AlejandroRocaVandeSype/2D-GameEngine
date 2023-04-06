@@ -5,10 +5,8 @@
 // If false means we want to close the game
 bool dae::InputManager::ProcessInput(float deltaTime)
 {
-	
 	// Handle keyboard Input
 	bool keepGameRunning = ProcessKeyboardInput(deltaTime);
-
 	if (keepGameRunning == false)
 	{
 		// Close the game
@@ -126,8 +124,13 @@ bool dae::InputManager::ProcessControllersInput(float deltaTime)
 
 // Bind Commands to keys.
 // If key already exits in the map it will simply swap the command associated with the key
-void dae::InputManager::BindCommand(SDL_Keycode key, dae::InputType type, std::unique_ptr<Command> command)
+void dae::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keycode key, dae::InputType type)
 {
+	if (type == InputType::Default)
+	{
+		type = InputType::KeyPressed;
+	}
+
 	KeyTypeKeyPair keyPair{ std::make_pair(key, type) };
 	m_KeyBoardCommands[keyPair] = std::move(command);
 }
@@ -144,13 +147,42 @@ void  dae::InputManager::BindCommand(unsigned int controllerIdx, const Controlle
 
 // Unbind the command associated to the key passed through parameter
 // This will delete the element from the command map
-void dae::InputManager::UnbindCommand([[maybe_unused]] SDL_Keycode key)
+void  dae::InputManager::UnbindCommand(SDL_Keycode key, dae::InputType type)
 {
-	/*
-	auto commandItr = m_KeyBoardCommands.find(key);
+	if (type == InputType::Default)
+	{
+		type = InputType::KeyPressed;
+	}
+
+	KeyTypeKeyPair keyPair{ std::make_pair(key, type) };
+	auto commandItr = m_KeyBoardCommands.find(keyPair);
 	if (commandItr != m_KeyBoardCommands.end())
 	{
 		m_KeyBoardCommands.erase(commandItr);
 	}
-	*/
+	
+}
+
+void dae::InputManager::UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button)
+{
+	ControllerKey keyPair{ std::make_pair(controllerIdx, button) };
+	auto commandItr = m_ControllerCommands.find(keyPair);
+	if (commandItr != m_ControllerCommands.end())
+	{
+		m_ControllerCommands.erase(commandItr);
+	}
+	
+}
+
+void dae::InputManager::UnbindAllCommands()
+{
+	for (auto commandItr{ m_KeyBoardCommands.begin() }; commandItr != m_KeyBoardCommands.end();)
+	{
+		commandItr = m_KeyBoardCommands.erase(commandItr);
+	}
+
+	for (auto commandItr{ m_ControllerCommands.begin() }; commandItr != m_ControllerCommands.end();)
+	{
+		commandItr = m_ControllerCommands.erase(commandItr);
+	}
 }

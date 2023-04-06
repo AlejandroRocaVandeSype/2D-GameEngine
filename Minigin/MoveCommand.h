@@ -10,6 +10,7 @@
 class MoveCommand final : public Command
 {
 public:
+
 	explicit MoveCommand(dae::GameObject* actor, glm::vec3 direction, float speed);
 	virtual ~MoveCommand() override;
 	void Execute(float deltaTime) override;

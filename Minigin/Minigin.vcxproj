@@ -214,7 +214,6 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="TrashTheCache.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl2.cpp" />
@@ -248,7 +247,6 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="TrashTheCache.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

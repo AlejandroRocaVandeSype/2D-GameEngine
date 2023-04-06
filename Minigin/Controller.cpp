@@ -43,8 +43,11 @@ public:
 	bool IsUpThisFrame(unsigned int button) const { return m_ButtonReleasedThisFrame & button; }
 	bool IsPressed(unsigned int button) const { return m_CurrentState.Gamepad.wButtons & button; } 
 
+
+	// Check if the controller is still connected or not. Returning true if connected
 	bool IsConnected() 
 	{
+		// Instead of showing a text in the console the connected/disconnnected should be done with Imgui
 		XINPUT_STATE state;
 		DWORD result = XInputGetState(m_ControllerIndex, &state);
 		if (result == ERROR_SUCCESS)

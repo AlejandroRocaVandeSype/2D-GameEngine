@@ -16,9 +16,6 @@
     <Filter Include="Engine Files\Scene">
       <UniqueIdentifier>{7838ce47-a6d1-47cf-87f4-a675dc85856d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Week4Exercise">
-      <UniqueIdentifier>{0ee2583d-82a4-4bf6-999f-e3bd22d1d3b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine Files\imgui">
       <UniqueIdentifier>{86b87fb8-774e-4668-bc2f-d6a4e43ab422}</UniqueIdentifier>
     </Filter>
@@ -30,6 +27,9 @@
     </Filter>
     <Filter Include="Engine Files\Input">
       <UniqueIdentifier>{dc3fe815-8820-4b42-8289-44a1e5231c98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Commands">
+      <UniqueIdentifier>{1032f041-14cf-4623-a717-29b0c37a9047}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +102,6 @@
     <ClInclude Include="structs.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
-    <ClInclude Include="TrashTheCache.h">
-      <Filter>Game Files\Week4Exercise</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
@@ -117,9 +114,6 @@
     <ClInclude Include="Component.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="MoveComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
@@ -131,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Engine Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Game Files\Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,9 +197,6 @@
     <ClCompile Include="structs.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
-    <ClCompile Include="TrashTheCache.cpp">
-      <Filter>Game Files\Week4Exercise</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
@@ -215,9 +209,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="MoveComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
@@ -229,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Engine Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Game Files\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

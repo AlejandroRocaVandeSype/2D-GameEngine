@@ -13,6 +13,7 @@ namespace dae
 {
 	enum class InputType {
 		KeyPressed,
+		Default			// = KeyPressed
 	};
 
 	class InputManager final : public Singleton<InputManager>
@@ -21,9 +22,11 @@ namespace dae
 		bool ProcessInput(float deltaTime);
 
 		// Binding/Unbinding commands
-		void BindCommand(SDL_Keycode key, dae::InputType type, std::unique_ptr<Command> command);
+		void BindCommand(std::unique_ptr<Command> command, SDL_Keycode key, dae::InputType type = InputType::Default);
 		void BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, std::unique_ptr<Command> command);
-		void UnbindCommand(SDL_Keycode key);
+		void UnbindCommand(SDL_Keycode key, InputType type = InputType::Default);
+		void UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button);
+		void UnbindAllCommands();
 		
 	private :
 
@@ -32,7 +35,7 @@ namespace dae
 		void CheckControllerConnected();
 
 		// *** KEYBOARD ***
-		using KeyTypeKeyPair = std::pair<SDL_Keycode, InputType>;
+		using KeyTypeKeyPair = std::pair<SDL_Keycode, InputType>;					// SDL_Keycode - InputType
 		// All registered Commands for the Keyboard	
 		using KeyBoardCommandsMap = std::map<KeyTypeKeyPair, std::unique_ptr<Command>>;
 		KeyBoardCommandsMap m_KeyBoardCommands;
@@ -44,7 +47,7 @@ namespace dae
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};  
 		const int MAX_CONTROLLERS{ 2 };		
 		// Button binded to a controller
-		using ControllerKey = std::pair<unsigned, Controller::XboxControllerButton>;	
+		using ControllerKey = std::pair<unsigned, Controller::XboxControllerButton>;	// ControllerIndex - ControllerButton
 		// A command will be binded to the indicated controller with the indicated button
 		using ControllerCommandsMap = std::map<ControllerKey, std::unique_ptr<Command>>;	
 		ControllerCommandsMap m_ControllerCommands;
