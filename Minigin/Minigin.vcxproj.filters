@@ -129,6 +129,15 @@
     <ClInclude Include="MoveCommand.h">
       <Filter>Game Files\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -223,6 +232,12 @@
     </ClCompile>
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Game Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

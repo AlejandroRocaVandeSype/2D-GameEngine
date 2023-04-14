@@ -77,6 +77,8 @@ Game::Game(const Window& window)
 	//go_Enemy->AddComponent<RotatorComponent>(go_Enemy, 30.f, 1.f);
 	//m_pScene->Add(go_Enemy);
 
+	//go_Enemy->MarkAsDead();
+
 }
 
 Game::~Game()
