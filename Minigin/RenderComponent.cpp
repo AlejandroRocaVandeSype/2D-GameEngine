@@ -64,12 +64,7 @@ void RenderComponent::Update([[maybe_unused]] const float deltaTime)
 {
 	if (m_IsTextureDirty)
 	{
-		glm::ivec2 textureSize{ m_texture->GetSize() };
-		// Scale the texture 
-		m_TextureSize.x = textureSize.x * m_Scale.x;
-		m_TextureSize.y = textureSize.y * m_Scale.y;
-
-		m_IsTextureDirty = false;
+		CalculateTextureSize();
 	}
 }
 
@@ -88,7 +83,11 @@ void RenderComponent::Render(const glm::vec3& position) const
 	if (m_texture != nullptr)
 	{	
 		dae::Renderer::GetInstance().RenderTexture(*m_texture, position.x, position.y, m_TextureSize.x, m_TextureSize.y);
-	
+		
+		for (auto pos : m_vExtraPosToRender)
+		{
+			dae::Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, m_TextureSize.x, m_TextureSize.y);
+		}
 	}
 	
 }
@@ -103,6 +102,31 @@ void RenderComponent::SetTexture(std::shared_ptr<dae::Texture2D> texture)
 		m_IsTextureDirty = true;
 	}
 	
+}
+
+void RenderComponent::CalculateTextureSize()
+{
+	glm::ivec2 textureSize{ m_texture->GetSize() };
+	// Scale the texture 
+	m_TextureSize.x = textureSize.x * m_Scale.x;
+	m_TextureSize.y = textureSize.y * m_Scale.y;
+
+	m_IsTextureDirty = false;
+}
+
+void RenderComponent::SetPositionsToRender(const std::vector<glm::vec2>& positionsToRender)
+{
+	m_vExtraPosToRender = positionsToRender;
+}
+
+const glm::vec2 RenderComponent::GetTextureSize()
+{
+	if (m_IsTextureDirty)
+	{
+		// In case someone request the texture size we calculate it
+		CalculateTextureSize();
+	}
+	return m_TextureSize;
 }
 
 

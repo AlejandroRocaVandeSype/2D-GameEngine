@@ -42,31 +42,47 @@ bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
 		{
 			// Check if the key pressed is binded to any command..
 			auto keyDown{ e.key.keysym.sym };
-			KeyTypeKeyPair keyPair{ std::make_pair(keyDown, dae::InputType::KeyPressed) };
-			m_KeyboardCommandItr = m_KeyBoardCommands.find(keyPair);
-			
-			m_LastKeyPressed = keyDown;
+			KeyTypeKeyPair keyPair{ std::make_pair(keyDown, dae::InputType::Pressed) };
 
+			if (m_KeyBoardCommands.find(keyPair) != m_KeyBoardCommands.end())
+			{
+				m_KeyboardCommandItr = m_KeyBoardCommands.find(keyPair);
+				m_LastKeyPressed = keyDown;
+				m_Pressed = true;
+			}
+			
 		}
 
 		if (e.type == SDL_KEYUP)
 		{
+			
 			SDL_Keycode keyUp{ e.key.keysym.sym };
 			if (m_LastKeyPressed == keyUp)
 			{
 				m_KeyboardCommandItr = m_KeyBoardCommands.end();
 				m_LastKeyPressed = SDLK_UNKNOWN; // Reset last pressed key
+				m_Pressed = false;
 			}
-
+			else
+			{
+				KeyTypeKeyPair keyPair{ std::make_pair(keyUp, dae::InputType::Up) };
+				if (m_KeyBoardCommands.find(keyPair) != m_KeyBoardCommands.end())
+				{
+					m_KeyboardCommandItr = m_KeyBoardCommands.find(keyPair);
+					m_KeyboardCommandItr->second->Execute(deltaTime);
+				}
+			}
+			
 		}
 
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
-	if (m_KeyboardCommandItr != m_KeyBoardCommands.end())
+	if (m_KeyboardCommandItr != m_KeyBoardCommands.end() && m_Pressed)
 	{
-		// A key binded to a Command has been downed, released or is being pressed -> Execute the command
+		// A key binded to a Command is being pressed -> Execute the command
 		m_KeyboardCommandItr->second->Execute(deltaTime);
+
 	}
 
 	return true;
@@ -108,11 +124,34 @@ bool dae::InputManager::ProcessControllersInput(float deltaTime)
 				{
 					// Check if the button of this controller is pressed
 					auto button{ controllerCommand.first.second };
-					if (controller->IsPressed(button))
+					
+					if (button.second == InputType::Pressed)
 					{
-						controllerCommand.second->Execute(deltaTime);
-						return true;
+						if (controller->IsPressed(button.first))
+						{
+							controllerCommand.second->Execute(deltaTime);
+							return true;
+						}
 					}
+
+					if (button.second == InputType::Up)
+					{
+						if (controller->IsUp(button.first))
+						{
+							controllerCommand.second->Execute(deltaTime);
+							return true;
+						}
+					}
+
+					if (button.second == InputType::Down)
+					{
+						if (controller->IsDown(button.first))
+						{
+							controllerCommand.second->Execute(deltaTime);
+							return true;
+						}
+					}
+										
 				}
 			}
 		
@@ -128,7 +167,7 @@ void dae::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keyco
 {
 	if (type == InputType::Default)
 	{
-		type = InputType::KeyPressed;
+		type = InputType::Pressed;
 	}
 
 	KeyTypeKeyPair keyPair{ std::make_pair(key, type) };
@@ -137,9 +176,10 @@ void dae::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keyco
 
 // Bind commands to a existing Controller
 void  dae::InputManager::BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
-	std::unique_ptr<Command> command)
+										InputType type, std::unique_ptr<Command> command)
 {
-	ControllerKey keyPair{ std::make_pair(controllerIdx, button) };
+	ControllerButton buttonType{ std::make_pair(button, type) };
+	ControllerKey keyPair{ std::make_pair(controllerIdx, buttonType) };
 
 	m_ControllerCommands[keyPair] = std::move(command);
 	
@@ -151,7 +191,7 @@ void  dae::InputManager::UnbindCommand(SDL_Keycode key, dae::InputType type)
 {
 	if (type == InputType::Default)
 	{
-		type = InputType::KeyPressed;
+		type = InputType::Pressed;
 	}
 
 	KeyTypeKeyPair keyPair{ std::make_pair(key, type) };
@@ -163,9 +203,11 @@ void  dae::InputManager::UnbindCommand(SDL_Keycode key, dae::InputType type)
 	
 }
 
-void dae::InputManager::UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button)
+void dae::InputManager::UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
+										InputType type)
 {
-	ControllerKey keyPair{ std::make_pair(controllerIdx, button) };
+	ControllerButton buttonType{ std::make_pair(button, type) };
+	ControllerKey keyPair{ std::make_pair(controllerIdx, buttonType) };
 	auto commandItr = m_ControllerCommands.find(keyPair);
 	if (commandItr != m_ControllerCommands.end())
 	{

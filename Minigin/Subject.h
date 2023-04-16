@@ -5,8 +5,12 @@
 
 // *** Class that contains all the observers observing the corresponding object *** 
 
+namespace dae
+{
+	class GameObject;
+}
+
 class Observer;
-class GameObject;
 class Event;
 class Subject final
 {
@@ -14,10 +18,10 @@ class Subject final
 public:
 	void AddObserver(Observer* observer);
 	void RemoveObserver(Observer* observer);
-	void NotifyObservers(GameObject* gameObject, const Event& event);
+	void NotifyObservers(dae::GameObject* gameObject, const Event& event);
 
 private:
-	std::vector<Observer*> m_Observers;
+	std::vector<Observer*> m_Observers{};
 
 };
 #endif

@@ -196,6 +196,9 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="KillCommand.h" />
+    <ClInclude Include="LivesUIComponent.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="Observer.h" />
@@ -232,6 +235,9 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="KillCommand.cpp" />
+    <ClCompile Include="LivesUIComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />

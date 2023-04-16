@@ -12,8 +12,10 @@
 namespace dae
 {
 	enum class InputType {
-		KeyPressed,
-		Default			// = KeyPressed
+		Pressed,
+		Up,
+		Down,
+		Default			// = Pressed
 	};
 
 	class InputManager final : public Singleton<InputManager>
@@ -23,9 +25,9 @@ namespace dae
 
 		// Binding/Unbinding commands
 		void BindCommand(std::unique_ptr<Command> command, SDL_Keycode key, dae::InputType type = InputType::Default);
-		void BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, std::unique_ptr<Command> command);
+		void BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, InputType type, std::unique_ptr<Command> command);
 		void UnbindCommand(SDL_Keycode key, InputType type = InputType::Default);
-		void UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button);
+		void UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, InputType type);
 		void UnbindAllCommands();
 		
 	private :
@@ -40,6 +42,7 @@ namespace dae
 		using KeyBoardCommandsMap = std::map<KeyTypeKeyPair, std::unique_ptr<Command>>;
 		KeyBoardCommandsMap m_KeyBoardCommands;
 		SDL_Keycode m_LastKeyPressed{ SDLK_UNKNOWN };
+		bool m_Pressed{ false };
 		KeyBoardCommandsMap::iterator m_KeyboardCommandItr{ m_KeyBoardCommands.end() };
 
 		// *** CONTROLLERS ***
@@ -47,7 +50,8 @@ namespace dae
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};  
 		const int MAX_CONTROLLERS{ 2 };		
 		// Button binded to a controller
-		using ControllerKey = std::pair<unsigned, Controller::XboxControllerButton>;	// ControllerIndex - ControllerButton
+		using ControllerButton = std::pair< Controller::XboxControllerButton, InputType>;	// Contains the button and the type ( pressed, Down etc)
+		using ControllerKey = std::pair<unsigned, ControllerButton>;						// ControllerIndex - ControllerButton
 		// A command will be binded to the indicated controller with the indicated button
 		using ControllerCommandsMap = std::map<ControllerKey, std::unique_ptr<Command>>;	
 		ControllerCommandsMap m_ControllerCommands;

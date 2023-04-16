@@ -5,9 +5,10 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 #include "RotatorComponent.h"
-#include "TestComponent.h"
-#include "GameObject.h"
 #include "MoveComponent.h"
+#include "HealthComponent.h"
+#include "LivesUIComponent.h"
+#include "GameObject.h"
 #include "InputManager.h"
 #include <iostream>
 
@@ -40,8 +41,8 @@ Game::Game(const Window& window)
 	GameObject* go_Title = new GameObject(go_Logo, glm::vec3{ 80, 20, 0 });
 	//auto go_Title = std::make_shared<GameObject>(glm::vec3{ 80, 20, 0 });
 	go_Title->AddComponent<RenderComponent>(go_Title);
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go_Title->AddComponent<TextComponent>(go_Title, "Programming 4 Assignment", font);
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 30);
+	go_Title->AddComponent<TextComponent>(go_Title, "Press 'K' or 'button Y' to kill player ", font);
 	//m_pScene->Add(go_Title);
 	//go_Title->SetParent(go_Logo);
 	
@@ -57,7 +58,51 @@ Game::Game(const Window& window)
 
 	//go_FPS->SetParent(go_Logo);
 	
+
+	// CONTROLLABLE PLAYER GAMEOBJECT
+	glm::vec3 startPos{ window.width / 2.f, window.height / 1.5f, 0.f };
+	auto go_Player = std::make_shared<GameObject>(nullptr, startPos, glm::vec2{ 1.5f, 1.5f });
+	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
+	go_Player->AddComponent<HealthComponent>(go_Player.get(), 3);
+	go_Player->AddComponent<LivesUIComponent>(go_Player.get(), glm::vec2{10.f, window.height - 50.f});
+	go_Player->AddComponent<MoveComponent>(go_Player.get(), 100.f);
 	
+	m_pScene->Add(go_Player);
+
+	// CONTROLLABLE PLAYER 2 GAMEOBJECT
+	glm::vec3 startPos2{ window.width / 2.f, window.height / 2, 0.f };
+	auto go_Player2 = std::make_shared<GameObject>(nullptr, startPos2, glm::vec2{ 1.5f, 1.5f });
+	go_Player2->AddComponent<RenderComponent>(go_Player2.get(), "Enemy.png");
+	go_Player2->AddComponent<HealthComponent>(go_Player2.get(), 3);
+	go_Player2->AddComponent<LivesUIComponent>(go_Player2.get(), glm::vec2{ window.width - 90.f, window.height - 50.f });
+	go_Player2->AddComponent<MoveComponent>(go_Player2.get(), 200.f, 0);
+
+	m_pScene->Add(go_Player2);
+
+
+
+
+
+
+
+
+
+
+
+
+	// UI 
+	// - Player Remaining lives
+	/*startPos.x = 10.f;
+	startPos.y = window.height - 50.f;
+	auto go_UILives = std::make_shared<GameObject>(nullptr, startPos, glm::vec2{ 1.5f, 1.5f });
+	go_UILives->AddComponent<RenderComponent>(go_UILives.get(), "Player.png");
+	go_UILives->AddComponent<HealthComponent>(go_UILives.get(), 3);
+	go_UILives->AddComponent<LivesUIComponent>(go_UILives.get());
+	//go_UILives->GetComponent<RenderComponent>().
+	m_pScene->Add(go_UILives);
+	*/
+
+	/*
 	// PLayer ship sprite
 	//GameObject* go_Player = new GameObject(go_Logo, glm::vec3{ 330, 300, 0 });
 	auto go_Player = std::make_shared<GameObject>(nullptr, glm::vec3{ 300, 300, 0 }, glm::vec2{ 1.5f, 1.5f });
@@ -78,7 +123,7 @@ Game::Game(const Window& window)
 	//m_pScene->Add(go_Enemy);
 
 	//go_Enemy->MarkAsDead();
-
+	*/
 }
 
 Game::~Game()
