@@ -45,7 +45,7 @@ void LivesUIComponent::ReceiveMessage([[maybe_unused]] const std::string& messag
 
 void LivesUIComponent::OnNotify(dae::GameObject* gameObject, const Event& event)
 {
-	if (event.IsSameEvent("PlayerDiedEvent"))
+	if (event.IsSameEvent("HealthDecremented"))
 	{
 		if (!m_vUILivesPos.empty())
 		{

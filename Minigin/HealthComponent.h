@@ -3,6 +3,8 @@
 
 #include "Component.h"
 #include <glm/glm.hpp>
+#include "Subject.h"
+#include <memory>
 
 class HealthComponent final: public Component
 {
@@ -20,6 +22,7 @@ public:
 
 private:
 	unsigned int m_Lives;			// Amount of lives the GameObject has
+	std::unique_ptr<Subject> m_ActorDiedEvent;
 };
 
 #endif

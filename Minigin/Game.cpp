@@ -63,8 +63,8 @@ Game::Game(const Window& window)
 	glm::vec3 startPos{ window.width / 2.f, window.height / 1.5f, 0.f };
 	auto go_Player = std::make_shared<GameObject>(nullptr, startPos, glm::vec2{ 1.5f, 1.5f });
 	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
+	go_Player->AddComponent<LivesUIComponent>(go_Player.get(), glm::vec2{ 10.f, window.height - 50.f });
 	go_Player->AddComponent<HealthComponent>(go_Player.get(), 3);
-	go_Player->AddComponent<LivesUIComponent>(go_Player.get(), glm::vec2{10.f, window.height - 50.f});
 	go_Player->AddComponent<MoveComponent>(go_Player.get(), 100.f);
 	
 	m_pScene->Add(go_Player);
@@ -73,8 +73,8 @@ Game::Game(const Window& window)
 	glm::vec3 startPos2{ window.width / 2.f, window.height / 2, 0.f };
 	auto go_Player2 = std::make_shared<GameObject>(nullptr, startPos2, glm::vec2{ 1.5f, 1.5f });
 	go_Player2->AddComponent<RenderComponent>(go_Player2.get(), "Enemy.png");
-	go_Player2->AddComponent<HealthComponent>(go_Player2.get(), 3);
 	go_Player2->AddComponent<LivesUIComponent>(go_Player2.get(), glm::vec2{ window.width - 90.f, window.height - 50.f });
+	go_Player2->AddComponent<HealthComponent>(go_Player2.get(), 3);
 	go_Player2->AddComponent<MoveComponent>(go_Player2.get(), 200.f, 0);
 
 	m_pScene->Add(go_Player2);

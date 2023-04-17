@@ -2,8 +2,6 @@
 #define KILLCOMMAND
 
 #include "Command.h"
-#include "Subject.h"
-#include <memory>
 
 class KillCommand final : public Command
 {
@@ -15,7 +13,7 @@ public:
 
 private:
 	dae::GameObject* m_Actor;
-	std::unique_ptr<Subject> m_ActorDiedEvent;
+
 
 };
 
