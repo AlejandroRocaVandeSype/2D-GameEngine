@@ -6,6 +6,7 @@
 #include "Subject.h"
 #include <memory>
 
+class Observer;
 class HealthComponent final: public Component
 {
 public:
@@ -16,6 +17,7 @@ public:
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	void DecrementHealth(unsigned int amount);
+	void AddObserver(Observer* pObserver);
 
 	const unsigned int GetLives() const;
 

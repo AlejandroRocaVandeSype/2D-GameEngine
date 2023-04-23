@@ -2,24 +2,30 @@
 #include "GameObject.h"
 #include "Event.h"
 #include "LivesUIComponent.h"
+#include "Observer.h"
 #include <iostream>
 
 HealthComponent::HealthComponent(dae::GameObject* pOwner, unsigned int lives)
 	: Component("HealthCP", pOwner)
 	, m_Lives { lives }
 {
-	m_ActorDiedEvent = std::make_unique<Subject>();
-
-	if (pOwner != nullptr)
-	{
-		m_ActorDiedEvent->AddObserver(pOwner->GetComponent<LivesUIComponent>());
-	}
 	
 }
 
 HealthComponent::~HealthComponent()
 {
 	std::cout << "Health Component destructor" << std::endl;
+}
+
+// Add an observer to "Observe" the HealthComponent
+void HealthComponent::AddObserver(Observer* pObserver)
+{
+	if (m_ActorDiedEvent == nullptr)
+	{
+		m_ActorDiedEvent = std::make_unique<Subject>();
+	}
+	
+	m_ActorDiedEvent->AddObserver(pObserver);
 }
 
 void HealthComponent::Update([[maybe_unused]] const float deltaTime)
@@ -40,8 +46,12 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 			m_Lives -= amount;
 		}
 
-		Event HealthDecEvent{ "HealthDecremented" };
-		m_ActorDiedEvent->NotifyObservers(GetOwner(), HealthDecEvent);
+		if (m_ActorDiedEvent != nullptr)
+		{
+			Event HealthDecEvent{ "HealthDecremented" };
+			m_ActorDiedEvent->NotifyObservers(GetOwner(), HealthDecEvent);
+		}
+		
 	}	
 }
 

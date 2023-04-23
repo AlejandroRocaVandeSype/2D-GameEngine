@@ -22,7 +22,6 @@ namespace dae
 
 		void SetTexture(const std::string& filename);
 		void SetTexture(std::shared_ptr<dae::Texture2D> texture);
-		void SetPositionsToRender(const std::vector<glm::vec2>& positionsToRender);
 		const glm::vec2 GetTextureSize();
 
 	private:
@@ -30,7 +29,6 @@ namespace dae
 		std::shared_ptr<dae::Texture2D> m_texture{};
 		glm::vec2 m_Scale;
 		glm::vec2 m_TextureSize;
-		std::vector<glm::vec2> m_vExtraPosToRender;		// In case we want to render the same texture multiple times in different pos
 		bool m_IsTextureDirty;							// To indicate if the texture changed or not
 
 		void SetScale();

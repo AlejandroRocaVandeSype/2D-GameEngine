@@ -3,34 +3,41 @@
 #include "Event.h"
 #include "RenderComponent.h"
 
-LivesUIComponent::LivesUIComponent(dae::GameObject* pOwner, glm::vec2 positions)
+LivesUIComponent::LivesUIComponent(dae::GameObject* pOwner, const std::string& spriteFileName, glm::vec2 livesPos
+									, unsigned int amountLives)
 	:Component("LivesUICP", pOwner), Observer()
 {
-
-	auto renderCP{ pOwner->GetComponent<dae::RenderComponent>() };
-	glm::vec2 textureSize;
-	if (renderCP != nullptr)
+	if (amountLives > 0)
 	{
-		textureSize = renderCP->GetTextureSize();
+		// CREATE THE UI LIVES GAMEOBJECTS
 
-		m_vUILivesPos.push_back(positions);
+		// THe pOwner will own this gameObjects not the Component
+		dae::GameObject* pUILive1 = new dae::GameObject(pOwner, glm::vec3{ livesPos.x, livesPos.y, 0.f }, glm::vec2{ 1.5f, 1.5f });
+		pUILive1->AddComponent<dae::RenderComponent>(pUILive1, spriteFileName);
+		m_vUILives.push_back(pUILive1);
 
-		for (int i{ 0 }; i < 2; ++i)
+		auto renderCP{ pUILive1->GetComponent<dae::RenderComponent>() };
+		glm::vec2 textureSize;
+		textureSize = renderCP->GetTextureSize();			// To correctly display the lives 
+		
+		// Create the remaining lives objects
+		for (size_t livesCount{ 1 }; livesCount < amountLives; ++livesCount)
 		{
-			positions.x += textureSize.x + 5.f;
-			m_vUILivesPos.push_back(positions);
-		}
+			livesPos.x += textureSize.x + 5.f;
 
-		renderCP->SetPositionsToRender(m_vUILivesPos);
+			dae::GameObject* pUILive = new dae::GameObject(pOwner, glm::vec3{ livesPos.x, livesPos.y, 0.f }, glm::vec2{ 1.5f, 1.5f });
+			pUILive->AddComponent<dae::RenderComponent>(pUILive, spriteFileName);
+			m_vUILives.push_back(pUILive);
+
+		}
 	}
-	
 
 }
 
 
 LivesUIComponent::~LivesUIComponent()
 {
-
+	m_vUILives.clear();
 }
 
 void LivesUIComponent::Update([[maybe_unused]] const float deltaTime)
@@ -43,20 +50,16 @@ void LivesUIComponent::ReceiveMessage([[maybe_unused]] const std::string& messag
 
 }
 
-void LivesUIComponent::OnNotify(dae::GameObject* gameObject, const Event& event)
+void LivesUIComponent::OnNotify([[maybe_unused]] dae::GameObject* gameObject, const Event& event)
 {
 	if (event.IsSameEvent("HealthDecremented"))
 	{
-		if (!m_vUILivesPos.empty())
+		if (!m_vUILives.empty())
 		{
-			m_vUILivesPos.pop_back();
-			auto renderCP{ gameObject->GetComponent<dae::RenderComponent>()};
-
-			if (renderCP != nullptr)
-			{
-				renderCP->SetPositionsToRender(m_vUILivesPos);
-			}
-
+			// The owner will be in charge of destroying the gameObject
+			m_vUILives.back()->MarkAsDead();
+			m_vUILives.pop_back();
+			
 		}
 		
 	}

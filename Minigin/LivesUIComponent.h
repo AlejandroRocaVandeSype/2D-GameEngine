@@ -9,7 +9,7 @@
 class LivesUIComponent final : public Component, public Observer
 {
 public:
-	LivesUIComponent(dae::GameObject* pOwner, glm::vec2 positions);
+	LivesUIComponent(dae::GameObject* pOwner, const std::string& spriteFileName, glm::vec2 livesPos, unsigned int amountLives);
 	~LivesUIComponent() override;
 
 	virtual void Update(const float deltaTime) override;
@@ -18,7 +18,7 @@ public:
 	void OnNotify(dae::GameObject* gameObject, const Event& event) override;
 
 private:
-	std::vector<glm::vec2> m_vUILivesPos;  // Positions where the lives will be shown
+	std::vector<dae::GameObject*> m_vUILives;			// Contains GameObjects that represents the lives 
 
 };
 
