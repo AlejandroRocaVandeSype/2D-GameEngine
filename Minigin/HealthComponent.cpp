@@ -26,6 +26,7 @@ void HealthComponent::AddObserver(Observer* pObserver)
 	}
 	
 	m_ActorDiedEvent->AddObserver(pObserver);
+
 }
 
 void HealthComponent::Update([[maybe_unused]] const float deltaTime)

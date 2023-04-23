@@ -16,9 +16,11 @@ class Subject final
 {
 
 public:
+	~Subject();
 	void AddObserver(Observer* observer);
 	void RemoveObserver(Observer* observer);
 	void NotifyObservers(dae::GameObject* gameObject, const Event& event);
+
 
 private:
 	std::vector<Observer*> m_Observers{};

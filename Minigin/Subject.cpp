@@ -1,9 +1,21 @@
 #include "Subject.h"
 #include "Observer.h"
+#include "Event.h"
+
+Subject::~Subject()
+{
+	
+	for (const auto& observer : m_Observers)
+	{
+		observer->UnRegisterSubject(this);
+	}
+
+}
 
 void Subject::AddObserver(Observer* observer)
 {
 	m_Observers.push_back(observer);
+	observer->RegisterSubject(this);
 }
 
 void Subject::RemoveObserver(Observer* observer)

@@ -83,6 +83,8 @@ Game::Game(const Window& window)
 	go_Player1UI->AddComponent<LivesUIComponent>(go_Player1UI.get(), "Player.png", glm::vec2{ 10.f, window.height - 50.f }, 3);
 	go_Player->GetComponent<HealthComponent>()->AddObserver(go_Player1UI->GetComponent<LivesUIComponent>());
 	m_pScene->Add(go_Player1UI);
+
+	//go_Player1UI->MarkAsDead();
 	
 	auto go_Player2UI = std::make_shared<GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
 	go_Player2UI->AddComponent<LivesUIComponent>(go_Player2UI.get(), "Enemy.png", glm::vec2{ window.width - 90.f, window.height - 50.f }, 3);
