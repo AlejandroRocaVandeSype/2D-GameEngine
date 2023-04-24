@@ -149,9 +149,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
