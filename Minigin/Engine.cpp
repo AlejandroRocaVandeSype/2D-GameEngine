@@ -6,7 +6,7 @@
 #include "InputManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Game.h"
+#include "SceneManager.h"
 #include <chrono>
 #include "structs.h"
 
@@ -78,12 +78,11 @@ dae::Engine::~Engine()
 	SDL_Quit();
 }
 
-void dae::Engine::Run(const std::function<Game*()>& loadGame)
+void dae::Engine::Run()
 {
-	// The '()' will invoke the lambda function
-	Game* pGame = loadGame();
-
 	auto& input = InputManager::GetInstance();
+	auto& renderer = Renderer::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
 
 	bool doContinue = true;
 
@@ -100,13 +99,12 @@ void dae::Engine::Run(const std::function<Game*()>& loadGame)
 		
 		doContinue = input.ProcessInput(deltaTime);
 		
-		// TO DO : FixedUpdate to fix the CPU usage?
 		// Update Game
-		pGame->Update(deltaTime);
-		
+		sceneManager.Update(deltaTime);
+	
 		// Render Game
-		pGame->Render();
-		
+		renderer.Render();
+
 		const auto sleepTime = currentTime + milliseconds(TARGET_FRAME_TIME) - high_resolution_clock::now();
 		if (sleepTime.count() > 0)
 		{
@@ -116,5 +114,4 @@ void dae::Engine::Run(const std::function<Game*()>& loadGame)
 			
 	}
 
-	delete pGame;
 }

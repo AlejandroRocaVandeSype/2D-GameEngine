@@ -17,25 +17,23 @@ using namespace dae;
 Game::Game(const Window& window)
 	: m_Window { window }
 {
+	Initialize();	
+}
 
-	m_pRenderer = &Renderer::GetInstance();
-	m_pSceneManager = &SceneManager::GetInstance();
-
-	if (m_pSceneManager != nullptr)
-	{
-		m_pScene = &m_pSceneManager->CreateScene("Demo");
-	}
+void Game::Initialize()
+{
+	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 	
 	// Background 
-	auto go_Background = std::make_shared<GameObject>(nullptr, glm::vec3{0.f, 0.f, 0.f});
+	auto go_Background = std::make_shared<GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
 	go_Background->AddComponent<RenderComponent>(go_Background.get(), "background.tga");
 	go_Background->AddComponent<TransformComponent>(go_Background.get());
-	m_pScene->Add(go_Background);
+	scene.Add(go_Background);
 
 	// LOGO
 	GameObject* go_Logo = new GameObject(go_Background.get(), glm::vec3{ 216, 180, 0 });
 	go_Logo->AddComponent<RenderComponent>(go_Logo, "logo.tga");
-	//m_pScene->Add(go_Logo);
+	//scene.Add(go_Logo);
 
 	// TEXT TITLE TEXTURE
 	GameObject* go_Title = new GameObject(go_Logo, glm::vec3{ 80, 20, 0 });
@@ -43,9 +41,9 @@ Game::Game(const Window& window)
 	go_Title->AddComponent<RenderComponent>(go_Title);
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 30);
 	go_Title->AddComponent<TextComponent>(go_Title, "Press 'K' or 'button Y' to kill player ", font);
-	//m_pScene->Add(go_Title);
+	//scene.Add(go_Title);
 	//go_Title->SetParent(go_Logo);
-	
+
 
 	// FPS TEXT 
 	//auto go_FPS = std::make_shared<GameObject>(glm::vec3{ 10, 20, 0 });
@@ -54,48 +52,42 @@ Game::Game(const Window& window)
 	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 	go_FPS->AddComponent<TextComponent>(go_FPS, "Calculating FPS ...", font, SDL_Color{ 0, 255, 0 });
 	go_FPS->AddComponent<FPSComponent>(go_FPS);
-	//m_pScene->Add(go_FPS);
+	//scene.Add(go_FPS);
 
 	//go_FPS->SetParent(go_Logo);
-	
+
 
 	// CONTROLLABLE PLAYER GAMEOBJECT
-	glm::vec3 startPos{ window.width / 2.f, window.height / 1.5f, 0.f };
+	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.5f, 0.f };
 	auto go_Player = std::make_shared<GameObject>(nullptr, startPos, glm::vec2{ 1.5f, 1.5f });
 	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
 	go_Player->AddComponent<HealthComponent>(go_Player.get(), 3);
 	go_Player->AddComponent<MoveComponent>(go_Player.get(), 100.f);
-	
-	m_pScene->Add(go_Player);
+
+	scene.Add(go_Player);
 
 	// CONTROLLABLE PLAYER 2 GAMEOBJECT
-	glm::vec3 startPos2{ window.width / 2.f, window.height / 2, 0.f };
+	glm::vec3 startPos2{ m_Window.width / 2.f, m_Window.height / 2, 0.f };
 	auto go_Player2 = std::make_shared<GameObject>(nullptr, startPos2, glm::vec2{ 1.5f, 1.5f });
 	go_Player2->AddComponent<RenderComponent>(go_Player2.get(), "Enemy.png");
 	go_Player2->AddComponent<HealthComponent>(go_Player2.get(), 3);
 	go_Player2->AddComponent<MoveComponent>(go_Player2.get(), 200.f, 0);
 
-	m_pScene->Add(go_Player2);
+	scene.Add(go_Player2);
 
 
 	// UI
 	auto go_Player1UI = std::make_shared<GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
-	go_Player1UI->AddComponent<LivesUIComponent>(go_Player1UI.get(), "Player.png", glm::vec2{ 10.f, window.height - 50.f }, 3);
+	go_Player1UI->AddComponent<LivesUIComponent>(go_Player1UI.get(), "Player.png", glm::vec2{ 10.f, m_Window.height - 50.f }, 3);
 	go_Player->GetComponent<HealthComponent>()->AddObserver(go_Player1UI->GetComponent<LivesUIComponent>());
-	m_pScene->Add(go_Player1UI);
+	scene.Add(go_Player1UI);
 
 	//go_Player1UI->MarkAsDead();
-	
+
 	auto go_Player2UI = std::make_shared<GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
-	go_Player2UI->AddComponent<LivesUIComponent>(go_Player2UI.get(), "Enemy.png", glm::vec2{ window.width - 90.f, window.height - 50.f }, 3);
+	go_Player2UI->AddComponent<LivesUIComponent>(go_Player2UI.get(), "Enemy.png", glm::vec2{ m_Window.width - 90.f, m_Window.height - 50.f }, 3);
 	go_Player2->GetComponent<HealthComponent>()->AddObserver(go_Player2UI->GetComponent<LivesUIComponent>());
-	m_pScene->Add(go_Player2UI);
-
-
-
-
-
-
+	scene.Add(go_Player2UI);
 
 
 	// UI 
@@ -107,7 +99,7 @@ Game::Game(const Window& window)
 	go_UILives->AddComponent<HealthComponent>(go_UILives.get(), 3);
 	go_UILives->AddComponent<LivesUIComponent>(go_UILives.get());
 	//go_UILives->GetComponent<RenderComponent>().
-	m_pScene->Add(go_UILives);
+	scene.Add(go_UILives);
 	*/
 
 	/*
@@ -118,38 +110,23 @@ Game::Game(const Window& window)
 	go_Player->AddComponent<MoveComponent>(go_Player.get(), 100.f);
 	//go_Player->AddComponent<RotatorComponent>(go_Player.get(), 50.f, 3.f);
 	//go_Player->AddComponent<TestComponent>(go_Player.get());
-	m_pScene->Add(go_Player);
+	scene.Add(go_Player);
 
 	// Enemy ship sprite
 	auto go_Enemy = std::make_shared<GameObject>(nullptr, glm::vec3{ 330, 300, 0 }, glm::vec2{ 1.5f, 1.5f });
-	
+
 	//GameObject* go_Enemy = new GameObject(go_Player.get(), glm::vec3{330, 300, 0}, glm::vec2{1.5f, 1.5f});
 	go_Enemy->AddComponent<RenderComponent>(go_Enemy.get(), "Enemy.png");
 	go_Enemy->AddComponent<MoveComponent>(go_Enemy.get(), 200.f, 0);
-	m_pScene->Add(go_Enemy);
+	scene.Add(go_Enemy);
 	//go_Enemy->AddComponent<RotatorComponent>(go_Enemy, 30.f, 1.f);
 	//m_pScene->Add(go_Enemy);
 
 	//go_Enemy->MarkAsDead();
 	*/
 }
-
 Game::~Game()
 {
 	std::cout << "Game destructor" << std::endl;
-}
-
-void Game::Update(const float deltaTime)
-{
-	// Update all gameObjects from the scenes
-	m_pSceneManager->Update(deltaTime);
-
-}
-
-
-void Game::Render() const
-{
-	// Render all the scenes
-	m_pRenderer->Render();
 }
 

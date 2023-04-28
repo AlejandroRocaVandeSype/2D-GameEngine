@@ -5,16 +5,17 @@
 #include <functional>
 
 struct Window;
+class IGame;
 namespace dae
 {
-	class Game;
+	
 	class Engine
 	{
 	public:
 		// Indicate where the data is and the window properties
 		explicit Engine(const std::string& dataPath, const Window& window);  
 		~Engine();
-		void Run(const std::function<Game*()>& loadGame);
+		void Run();
 
 		Engine(const Engine& other) = delete;
 		Engine(Engine&& other) = delete;

@@ -19,17 +19,11 @@
     <Filter Include="Engine Files\imgui">
       <UniqueIdentifier>{86b87fb8-774e-4668-bc2f-d6a4e43ab422}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Components">
-      <UniqueIdentifier>{a2e55be8-552e-499a-b9b0-d5ee0e5ce3b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine Files\Components">
       <UniqueIdentifier>{c38eef23-bf5c-4b0e-ade1-bf2e08d89422}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine Files\Input">
       <UniqueIdentifier>{dc3fe815-8820-4b42-8289-44a1e5231c98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Commands">
-      <UniqueIdentifier>{1032f041-14cf-4623-a717-29b0c37a9047}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,26 +45,11 @@
     <ClInclude Include="Engine.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Engine Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Engine Files\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RotatorComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TestComponent.h">
-      <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui\imconfig.h">
       <Filter>Engine Files\imgui</Filter>
@@ -114,9 +93,6 @@
     <ClInclude Include="Component.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="MoveComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Engine Files\Input</Filter>
     </ClInclude>
@@ -125,9 +101,6 @@
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Engine Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Game Files\Commands</Filter>
     </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Engine Files</Filter>
@@ -138,20 +111,8 @@
     <ClInclude Include="Subject.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="KillCommand.h">
-      <Filter>Game Files\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesUIComponent.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
@@ -172,18 +133,6 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Engine Files\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TestComponent.cpp">
-      <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui\imgui_tables.cpp">
       <Filter>Engine Files\imgui</Filter>
@@ -224,9 +173,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="MoveComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Engine Files\Input</Filter>
     </ClCompile>
@@ -236,23 +182,11 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Engine Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Game Files\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Engine Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="KillCommand.cpp">
-      <Filter>Game Files\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesUIComponent.cpp">
-      <Filter>Game Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
