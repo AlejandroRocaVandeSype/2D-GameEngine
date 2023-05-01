@@ -3,7 +3,7 @@
 #include "HealthComponent.h"
 #include <iostream>
 
-KillCommand::KillCommand(dae::GameObject* actor)
+KillCommand::KillCommand(engine::GameObject* actor)
 	: Command()
 	, m_Actor{ actor }
 {

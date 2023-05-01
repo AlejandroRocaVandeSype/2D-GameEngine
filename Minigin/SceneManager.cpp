@@ -3,11 +3,11 @@
 #include "GameObject.h"
 #include <iostream>
 
-dae::SceneManager::SceneManager()
+engine::SceneManager::SceneManager()
 	: m_ActiveScene { -1 }
 {}
 
-void dae::SceneManager::Update(const float deltaTime)
+void engine::SceneManager::Update(const float deltaTime)
 {
 	for(auto& scene : m_scenes)
 	{
@@ -15,7 +15,7 @@ void dae::SceneManager::Update(const float deltaTime)
 	}
 }
 
-void dae::SceneManager::Render()
+void engine::SceneManager::Render()
 {
 	for (const auto& scene : m_scenes)
 	{
@@ -23,7 +23,7 @@ void dae::SceneManager::Render()
 	}
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+engine::Scene& engine::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
 	m_scenes.push_back(scene);
@@ -37,7 +37,7 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 	return *scene;
 }
 
-void dae::SceneManager::AddToActiveScene(GameObject* gameObject)
+void engine::SceneManager::AddToActiveScene(GameObject* gameObject)
 {
 	if (!gameObject->getParent())
 	{

@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include <iostream>
 
-using namespace dae;
+using namespace engine;
 
 GameObject::GameObject(GameObject* pParent, glm::vec3 startPosition, glm::vec2 scale)
 	: m_pParent { nullptr }
@@ -193,7 +193,7 @@ void GameObject::SendMessage(const std::string& message, const std::string& valu
 // -----------------------------------------------------------------------------
 void GameObject::DeleteDeadChildren()
 {
-	&dae::SceneManager::GetInstance();
+	&SceneManager::GetInstance();
 	for (auto itr { m_vChildren.begin()}; itr != m_vChildren.end();)
 	{
 		auto child = itr->get();

@@ -6,7 +6,7 @@
 
 struct Window;
 class IGame;
-namespace dae
+namespace engine
 {
 	
 	class Engine

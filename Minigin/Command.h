@@ -1,7 +1,7 @@
 #ifndef GAME_ENGINE_COMMAND
 #define GAME_ENGINE_COMMAND
 
-namespace dae
+namespace engine
 {
 	class GameObject;
 }

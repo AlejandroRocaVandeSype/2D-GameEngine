@@ -6,9 +6,7 @@
 #include "GameObject.h"
 #include <iostream>
 
-using namespace dae;
-
-TextComponent::TextComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
+TextComponent::TextComponent(engine::GameObject* pOwner, const std::string& text, std::shared_ptr<engine::Font> font, const SDL_Color& color)
 	: Component("TextCP", pOwner)
 	, m_text{ text }
 	, m_font { font }
@@ -18,7 +16,7 @@ TextComponent::TextComponent(GameObject* pOwner, const std::string& text, std::s
 {
 	if (pOwner != nullptr)
 	{
-		m_pRenderCP = pOwner->GetComponent<RenderComponent>();
+		m_pRenderCP = pOwner->GetComponent<engine::RenderComponent>();
 	}
 	else
 	{
@@ -59,14 +57,14 @@ void TextComponent::CreateTextureFromText()
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
 
-	auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
+	auto texture = SDL_CreateTextureFromSurface(engine::Renderer::GetInstance().GetSDLRenderer(), surf);
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surf);
 
-	m_pRenderCP->SetTexture(std::make_shared<dae::Texture2D>(texture));
+	m_pRenderCP->SetTexture(std::make_shared<engine::Texture2D>(texture));
 	m_needsUpdate = false;
 
 }

@@ -7,7 +7,7 @@
 #include "Singleton.h"
 #include <cassert>
 
-namespace dae
+namespace engine
 {
 	class Scene;
 	class GameObject;

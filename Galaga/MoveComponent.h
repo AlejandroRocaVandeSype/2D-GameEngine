@@ -7,12 +7,12 @@
 
 /*  THIS COMPONENT CONTAINS ALL THE NECESSARY FUNCIONALITY TO MAKE A
 	GAMEOBJECT MOVE USING THE KEYBOARD */
-class MoveComponent final : public Component
+class MoveComponent final : public engine::Component
 {
 public:
 
-	MoveComponent(dae::GameObject* pOwner, float speed);							// Using keyboard
-	MoveComponent(dae::GameObject* pOwner, float speed, unsigned controllerIdx);	// Using controller
+	MoveComponent(engine::GameObject* pOwner, float speed);							// Using keyboard
+	MoveComponent(engine::GameObject* pOwner, float speed, unsigned controllerIdx);	// Using controller
 	virtual ~MoveComponent() override;
 
 	virtual void Update(const float deltaTime) override;

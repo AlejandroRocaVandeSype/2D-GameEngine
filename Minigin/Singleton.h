@@ -1,7 +1,7 @@
 #ifndef GAME_ENGINE_SINGLETON
 #define GAME_ENGINE_SINGLETON
 
-namespace dae
+namespace engine
 {
 	template <typename T>
 	class Singleton

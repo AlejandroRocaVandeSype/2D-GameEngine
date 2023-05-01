@@ -3,7 +3,7 @@
 #include <vector>
 #include "Subject.h"
 
-namespace dae
+namespace engine
 {
 	class GameObject;
 }
@@ -14,7 +14,7 @@ class Observer
 public:
 	Observer() = default;
 	virtual ~Observer() { UnRegisterAllSubjects(); };  // Observers will unregister itself from the subjects that are observing
-	virtual void OnNotify(dae::GameObject* gameObject, const Event& event) = 0;
+	virtual void OnNotify(engine::GameObject* gameObject, const Event& event) = 0;
 
 	void RegisterSubject(Subject* subject) { m_Subjects.push_back(subject); };
 	void UnRegisterAllSubjects() 

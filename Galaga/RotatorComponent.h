@@ -3,11 +3,14 @@
 #include "Component.h"
 #include <glm/glm.hpp>
 
-class TransformComponent;
-class RotatorComponent final: public Component
+namespace engine {
+	class TransformComponent;
+}
+
+class RotatorComponent final: public engine::Component
 {
 public:
-	RotatorComponent(dae::GameObject* pOwner, float radius, float rotationTime);
+	RotatorComponent(engine::GameObject* pOwner, float radius, float rotationTime);
 	~RotatorComponent() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
@@ -20,7 +23,7 @@ private:
 	float m_Angle;
 	glm::vec3 m_CirclePos;
 
-	TransformComponent* m_pTransformCP{};
+	engine::TransformComponent* m_pTransformCP{};
 };
 
 #endif

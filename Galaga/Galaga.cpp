@@ -13,9 +13,9 @@
 int main(int, char* [])
 {
 	Window window{ "Galaga", 640.f , 480.f };
-	dae::Engine engine("../Data/", window);
+	engine::Engine engine("../Data/", window);
 
-	std::unique_ptr<dae::Game> game = std::make_unique<dae::Game>(window);
+	std::unique_ptr<Game> game = std::make_unique<Game>(window);
 	engine.Run();
 
 	return 0;

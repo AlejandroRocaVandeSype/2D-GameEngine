@@ -7,10 +7,10 @@
 #include <memory>
 
 class Observer;
-class HealthComponent final: public Component
+class HealthComponent final: public engine::Component
 {
 public:
-	HealthComponent(dae::GameObject* pOwner, unsigned int lives);
+	HealthComponent(engine::GameObject* pOwner, unsigned int lives);
 	~HealthComponent() override;
 
 	virtual void Update(const float deltaTime) override;

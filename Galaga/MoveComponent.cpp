@@ -5,11 +5,11 @@
 #include "GameObject.h"
 #include "Controller.h"
 
-MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed)
+MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed)
 	: Component("MoveCP", pOwner)
 {
 
-	auto& input = dae::InputManager::GetInstance();
+	auto& input = engine::InputManager::GetInstance();
 	
 	SDL_KeyCode keyA{ SDLK_a };
 	SDL_KeyCode keyD{ SDLK_d };
@@ -23,16 +23,16 @@ MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed)
 	//std::unique_ptr<Command> moveDownCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, 1, 0 }, speed);
 
 	// Bind all commands with their corresponding keys
-	input.BindCommand(std::move(moveLeftCommand), keyA, dae::InputType::Pressed);
-	input.BindCommand(std::move(moveRightCommand), keyD, dae::InputType::Pressed);
-	input.BindCommand(std::move(killCommand), keyK, dae::InputType::Down);
+	input.BindCommand(std::move(moveLeftCommand), keyA, engine::InputType::Pressed);
+	input.BindCommand(std::move(moveRightCommand), keyD, engine::InputType::Pressed);
+	input.BindCommand(std::move(killCommand), keyK, engine::InputType::Down);
 
 
 	
 }
 
 
-MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed, unsigned controllerIdx)
+MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed, unsigned controllerIdx)
 	: Component("MoveCP", pOwner)
 {
 
@@ -43,11 +43,11 @@ MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed, unsigned cont
 	//std::unique_ptr<Command> moveUpCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, -1, 0 }, speed);
 	//std::unique_ptr<Command> moveDownCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, 1, 0 }, speed);
 
-	auto& input = dae::InputManager::GetInstance();
+	auto& input = engine::InputManager::GetInstance();
 
-	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadLeft, dae::InputType::Pressed, std::move(moveLeftCommand));
-	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadRigth, dae::InputType::Pressed, std::move(moveRightCommand));
-	input.BindCommand(controllerIdx, Controller::XboxControllerButton::ButtonY, dae::InputType::Up, std::move(killCommand));
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadLeft, engine::InputType::Pressed, std::move(moveLeftCommand));
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadRigth, engine::InputType::Pressed, std::move(moveRightCommand));
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::ButtonY, engine::InputType::Up, std::move(killCommand));
 
 	//input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadUp, std::move(moveUpCommand));
 	//input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadDown, std::move(moveDownCommand));
@@ -69,7 +69,7 @@ MoveComponent::~MoveComponent()
 {
 	/*
 	// Make sure we dont try to move 
-	auto& input = dae::InputManager::GetInstance();
+	auto& input = engine::InputManager::GetInstance();
 
 	for (const auto& key : m_Keys)
 	{

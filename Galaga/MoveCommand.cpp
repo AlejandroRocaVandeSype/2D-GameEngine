@@ -4,7 +4,7 @@
 
 
 
-MoveCommand::MoveCommand(dae::GameObject* actor, glm::vec3 direction, float speed)
+MoveCommand::MoveCommand(engine::GameObject* actor, glm::vec3 direction, float speed)
 	: Command()
 	, m_Actor(actor)
 	, m_Speed{ speed }	
@@ -14,7 +14,7 @@ MoveCommand::MoveCommand(dae::GameObject* actor, glm::vec3 direction, float spee
 
 void MoveCommand::Execute(float deltaTime)
 {
-	auto transformCP = m_Actor->GetComponent<TransformComponent>();
+	auto transformCP = m_Actor->GetComponent<engine::TransformComponent>();
 	
 	if (transformCP)
 	{

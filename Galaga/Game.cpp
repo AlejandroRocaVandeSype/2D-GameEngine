@@ -12,8 +12,6 @@
 #include "InputManager.h"
 #include <iostream>
 
-using namespace dae;
-
 Game::Game(const Window& window)
 	: m_Window { window }
 {
@@ -22,34 +20,35 @@ Game::Game(const Window& window)
 
 void Game::Initialize()
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = engine::SceneManager::GetInstance().CreateScene("Demo");
 	
 	// Background 
-	auto go_Background = std::make_shared<GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
-	go_Background->AddComponent<RenderComponent>(go_Background.get(), "background.tga");
-	go_Background->AddComponent<TransformComponent>(go_Background.get());
+	auto go_Background = std::make_shared<engine::GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
+	go_Background->AddComponent<engine::RenderComponent>(go_Background.get(), "background.tga");
+	go_Background->AddComponent<engine::TransformComponent>(go_Background.get());
 	scene.Add(go_Background);
 
 	// LOGO
-	GameObject* go_Logo = new GameObject(go_Background.get(), glm::vec3{ 216, 180, 0 });
-	go_Logo->AddComponent<RenderComponent>(go_Logo, "logo.tga");
+	engine::GameObject* go_Logo = new engine::GameObject(go_Background.get(), glm::vec3{ 216, 180, 0 });
+	go_Logo->AddComponent<engine::RenderComponent>(go_Logo, "logo.tga");
 	//scene.Add(go_Logo);
 
+
 	// TEXT TITLE TEXTURE
-	GameObject* go_Title = new GameObject(go_Logo, glm::vec3{ 80, 20, 0 });
+	engine::GameObject* go_Title = new engine::GameObject(go_Logo, glm::vec3{ 80, 20, 0 });
 	//auto go_Title = std::make_shared<GameObject>(glm::vec3{ 80, 20, 0 });
-	go_Title->AddComponent<RenderComponent>(go_Title);
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 30);
+	go_Title->AddComponent<engine::RenderComponent>(go_Title);
+	auto font = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 30);
 	go_Title->AddComponent<TextComponent>(go_Title, "Press 'K' or 'button Y' to kill player ", font);
 	//scene.Add(go_Title);
 	//go_Title->SetParent(go_Logo);
-
+	go_Title->MarkAsDead();
 
 	// FPS TEXT 
 	//auto go_FPS = std::make_shared<GameObject>(glm::vec3{ 10, 20, 0 });
-	GameObject* go_FPS = new GameObject(go_Logo, glm::vec3{ 10, 20, 0 });
-	go_FPS->AddComponent<RenderComponent>(go_FPS);
-	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	engine::GameObject* go_FPS = new engine::GameObject(go_Logo, glm::vec3{ 10, 20, 0 });
+	go_FPS->AddComponent<engine::RenderComponent>(go_FPS);
+	font = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 	go_FPS->AddComponent<TextComponent>(go_FPS, "Calculating FPS ...", font, SDL_Color{ 0, 255, 0 });
 	go_FPS->AddComponent<FPSComponent>(go_FPS);
 	//scene.Add(go_FPS);
@@ -59,8 +58,8 @@ void Game::Initialize()
 
 	// CONTROLLABLE PLAYER GAMEOBJECT
 	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.5f, 0.f };
-	auto go_Player = std::make_shared<GameObject>(nullptr, startPos, glm::vec2{ 1.5f, 1.5f });
-	go_Player->AddComponent<RenderComponent>(go_Player.get(), "Player.png");
+	auto go_Player = std::make_shared<engine::GameObject>(nullptr, startPos, glm::vec2{ 1.5f, 1.5f });
+	go_Player->AddComponent<engine::RenderComponent>(go_Player.get(), "Player.png");
 	go_Player->AddComponent<HealthComponent>(go_Player.get(), 3);
 	go_Player->AddComponent<MoveComponent>(go_Player.get(), 100.f);
 
@@ -68,8 +67,8 @@ void Game::Initialize()
 
 	// CONTROLLABLE PLAYER 2 GAMEOBJECT
 	glm::vec3 startPos2{ m_Window.width / 2.f, m_Window.height / 2, 0.f };
-	auto go_Player2 = std::make_shared<GameObject>(nullptr, startPos2, glm::vec2{ 1.5f, 1.5f });
-	go_Player2->AddComponent<RenderComponent>(go_Player2.get(), "Enemy.png");
+	auto go_Player2 = std::make_shared<engine::GameObject>(nullptr, startPos2, glm::vec2{ 1.5f, 1.5f });
+	go_Player2->AddComponent<engine::RenderComponent>(go_Player2.get(), "Enemy.png");
 	go_Player2->AddComponent<HealthComponent>(go_Player2.get(), 3);
 	go_Player2->AddComponent<MoveComponent>(go_Player2.get(), 200.f, 0);
 
@@ -77,14 +76,14 @@ void Game::Initialize()
 
 
 	// UI
-	auto go_Player1UI = std::make_shared<GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
+	auto go_Player1UI = std::make_shared<engine::GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
 	go_Player1UI->AddComponent<LivesUIComponent>(go_Player1UI.get(), "Player.png", glm::vec2{ 10.f, m_Window.height - 50.f }, 3);
 	go_Player->GetComponent<HealthComponent>()->AddObserver(go_Player1UI->GetComponent<LivesUIComponent>());
 	scene.Add(go_Player1UI);
 
 	//go_Player1UI->MarkAsDead();
 
-	auto go_Player2UI = std::make_shared<GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
+	auto go_Player2UI = std::make_shared<engine::GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f });
 	go_Player2UI->AddComponent<LivesUIComponent>(go_Player2UI.get(), "Enemy.png", glm::vec2{ m_Window.width - 90.f, m_Window.height - 50.f }, 3);
 	go_Player2->GetComponent<HealthComponent>()->AddObserver(go_Player2UI->GetComponent<LivesUIComponent>());
 	scene.Add(go_Player2UI);

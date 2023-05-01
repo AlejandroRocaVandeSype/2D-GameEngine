@@ -3,7 +3,7 @@
 #include <iostream>
 
 // If false means we want to close the game
-bool dae::InputManager::ProcessInput(float deltaTime)
+bool engine::InputManager::ProcessInput(float deltaTime)
 {
 	// Handle keyboard Input
 	bool keepGameRunning = ProcessKeyboardInput(deltaTime);
@@ -35,7 +35,7 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 // SDL_GetKeyboardState -> is used to check if a key is being pressed continuously 
 // between frames.
 // -----------------------------------------------------------------------------
-bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
+bool engine::InputManager::ProcessKeyboardInput(float deltaTime)
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -49,7 +49,7 @@ bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
 		if (e.type == SDL_KEYDOWN)
 		{
 			auto keyDown{ e.key.keysym.sym };
-			KeyTypeKeyPair keyPair{ std::make_pair(keyDown, dae::InputType::Down) };
+			KeyTypeKeyPair keyPair{ std::make_pair(keyDown, engine::InputType::Down) };
 
 			auto commandItr = m_KeyBoardCommands.find(keyPair);
 			if (commandItr != m_KeyBoardCommands.end())
@@ -62,7 +62,7 @@ bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
 		if (e.type == SDL_KEYUP)
 		{
 			auto keyUp{ e.key.keysym.sym };
-			KeyTypeKeyPair keyPair{ std::make_pair(keyUp, dae::InputType::Up) };
+			KeyTypeKeyPair keyPair{ std::make_pair(keyUp, engine::InputType::Up) };
 
 			auto commandItr = m_KeyBoardCommands.find(keyPair);
 			if (commandItr != m_KeyBoardCommands.end())
@@ -79,7 +79,7 @@ bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
 	for (const auto& keyBoardCommand : m_KeyBoardCommands)
 	{
 		auto inputType = keyBoardCommand.first.second;
-		if (inputType == dae::InputType::Pressed)
+		if (inputType == engine::InputType::Pressed)
 		{
 			// keyInput == Pressed -> Check if the key is being pressed
 			if (state[SDL_GetScancodeFromKey(keyBoardCommand.first.first)])
@@ -98,7 +98,7 @@ bool dae::InputManager::ProcessKeyboardInput(float deltaTime)
 // game. Once a controller is added, we use the isConnected parameter from the 
 // controller object itselt to check if it disconnects or reconnect
 // -----------------------------------------------------------------------------
-void dae::InputManager::CheckControllerConnected()
+void engine::InputManager::CheckControllerConnected()
 {
 	// We can still add more controllers to the Game
 	unsigned int controllerIdx{ unsigned(m_Controllers.size()) };
@@ -111,7 +111,7 @@ void dae::InputManager::CheckControllerConnected()
 }
 
 // Process Input from all conected controllers
-bool dae::InputManager::ProcessControllersInput(float deltaTime)
+bool engine::InputManager::ProcessControllersInput(float deltaTime)
 {
 	for (const auto& controller : m_Controllers)
 	{
@@ -168,7 +168,7 @@ bool dae::InputManager::ProcessControllersInput(float deltaTime)
 
 // BIND COMMAND TO A KEY
 // If key already exits in the map it will simply swap the command associated with the key
-void dae::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keycode key, dae::InputType type)
+void engine::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keycode key, engine::InputType type)
 {
 	if (type == InputType::Default)
 	{
@@ -180,7 +180,7 @@ void dae::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keyco
 }
 
 // BIND COMMAND TO AN EXISTING CONTROLLER
-void  dae::InputManager::BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
+void  engine::InputManager::BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
 										InputType type, std::unique_ptr<Command> command)
 {
 	ControllerButton buttonType{ std::make_pair(button, type) };
@@ -192,7 +192,7 @@ void  dae::InputManager::BindCommand(unsigned int controllerIdx, const Controlle
 
 // Unbind the command associated to the key passed through parameter
 // This will delete the element from the command map
-void  dae::InputManager::UnbindCommand(SDL_Keycode key, dae::InputType type)
+void  engine::InputManager::UnbindCommand(SDL_Keycode key, engine::InputType type)
 {
 	if (type == InputType::Default)
 	{
@@ -208,7 +208,7 @@ void  dae::InputManager::UnbindCommand(SDL_Keycode key, dae::InputType type)
 	
 }
 
-void dae::InputManager::UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
+void engine::InputManager::UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
 										InputType type)
 {
 	ControllerButton buttonType{ std::make_pair(button, type) };
@@ -221,7 +221,7 @@ void dae::InputManager::UnbindCommand(unsigned int controllerIdx, const Controll
 	
 }
 
-void dae::InputManager::UnbindAllCommands()
+void engine::InputManager::UnbindAllCommands()
 {
 	for (auto commandItr{ m_KeyBoardCommands.begin() }; commandItr != m_KeyBoardCommands.end();)
 	{

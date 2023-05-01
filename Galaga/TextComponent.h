@@ -3,16 +3,16 @@
 #include "RenderComponent.h"
 #include <SDL_ttf.h>
 
-namespace dae 
+namespace engine
 {
-
 	class Font;
+}
 	
-	class TextComponent final : public Component
-	{
+class TextComponent final : public engine::Component
+{
 	public:
 
-		TextComponent(GameObject* pOwner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255 });
+		TextComponent(engine::GameObject* pOwner, const std::string& text, std::shared_ptr<engine::Font> font, const SDL_Color& color = { 255, 255, 255 });
 		~TextComponent() override;
 		void Update(const float deltaTime) override;
 		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
@@ -23,12 +23,10 @@ namespace dae
 	private:
 
 		std::string m_text;
-		std::shared_ptr<Font> m_font;
-		RenderComponent* m_pRenderCP;
+		std::shared_ptr<engine::Font> m_font;
+		engine::RenderComponent* m_pRenderCP;
 		SDL_Color m_Color;
 		bool m_needsUpdate;
-	};
-
-}
+};
 
 #endif

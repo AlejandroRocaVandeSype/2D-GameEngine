@@ -5,7 +5,7 @@
 #include "Singleton.h"
 
 class TrashTheCache;
-namespace dae
+namespace engine
 {
 	class Texture2D;
 	/**

@@ -9,7 +9,7 @@
 #include "Controller.h"
 #include "SDL.h"
 
-namespace dae
+namespace engine
 {
 	enum class InputType {
 		Pressed,		
@@ -24,7 +24,7 @@ namespace dae
 		bool ProcessInput(float deltaTime);
 
 		// Binding/Unbinding commands
-		void BindCommand(std::unique_ptr<Command> command, SDL_Keycode key, dae::InputType type = InputType::Default);
+		void BindCommand(std::unique_ptr<Command> command, SDL_Keycode key, engine::InputType type = InputType::Default);
 		void BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, InputType type, std::unique_ptr<Command> command);
 		void UnbindCommand(SDL_Keycode key, InputType type = InputType::Default);
 		void UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, InputType type);

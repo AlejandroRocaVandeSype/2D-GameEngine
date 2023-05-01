@@ -4,18 +4,22 @@
 #include "Component.h"
 #include <glm/glm.hpp>
 
-class TransformComponent;
-class TestComponent : public Component
+namespace engine
+{
+	class TransformComponent;
+}
+
+class TestComponent : public engine::Component
 {
 public:
-	TestComponent(dae::GameObject* pOwner);
+	TestComponent(engine::GameObject* pOwner);
 	~TestComponent() override;
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 private:
 
-	TransformComponent* m_pTransformCP{};
+	engine::TransformComponent* m_pTransformCP{};
 	bool m_IsDone{ false };
 
 };

@@ -3,12 +3,12 @@
 #include "GameObject.h"
 #include <iostream>
 
-TestComponent::TestComponent(dae::GameObject* pOwner)
+TestComponent::TestComponent(engine::GameObject* pOwner)
 	:Component("TestCP", pOwner)
 {
 	if (pOwner != nullptr)
 	{
-		m_pTransformCP = pOwner->GetComponent<TransformComponent>();
+		m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 	}
 }
 

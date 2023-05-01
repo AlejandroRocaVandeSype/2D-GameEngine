@@ -5,7 +5,7 @@
 
 // *** Class that contains all the observers observing the corresponding object *** 
 
-namespace dae
+namespace engine
 {
 	class GameObject;
 }
@@ -19,7 +19,7 @@ public:
 	~Subject();
 	void AddObserver(Observer* observer);
 	void RemoveObserver(Observer* observer);
-	void NotifyObservers(dae::GameObject* gameObject, const Event& event);
+	void NotifyObservers(engine::GameObject* gameObject, const Event& event);
 
 
 private:

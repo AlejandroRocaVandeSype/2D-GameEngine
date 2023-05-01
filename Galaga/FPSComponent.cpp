@@ -3,9 +3,7 @@
 #include "GameObject.h"
 #include <iostream>
 
-using namespace dae;
-
-FPSComponent::FPSComponent(GameObject* pOwner)
+FPSComponent::FPSComponent(engine::GameObject* pOwner)
 	: Component("FPSCP", pOwner)
 	, m_FpsTimer { 0 }
 	, m_FrameCount { 0 }

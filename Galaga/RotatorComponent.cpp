@@ -4,7 +4,7 @@
 #include <glm/gtc/constants.hpp>
 
 /* Makes the object move in a circle around its parent if it has one. Otherwise, it does it around its own center */
-RotatorComponent::RotatorComponent(dae::GameObject* pOwner, float radius, float rotationTime)
+RotatorComponent::RotatorComponent(engine::GameObject* pOwner, float radius, float rotationTime)
 	:Component("RotatorCP", pOwner)
 	, RADIUS { radius }
 	, ROTATION_TIME { rotationTime }
@@ -15,7 +15,7 @@ RotatorComponent::RotatorComponent(dae::GameObject* pOwner, float radius, float 
 	
 	if (pOwner != nullptr)
 	{
-		m_pTransformCP = pOwner->GetComponent<TransformComponent>();
+		m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 	}
 	
 }
@@ -29,7 +29,7 @@ void RotatorComponent::Update(const float deltaTime)
 {
 	if (m_pTransformCP != nullptr)
 	{
-		dae::GameObject* pOwner{ GetOwner() };
+		engine::GameObject* pOwner{ GetOwner() };
 		if (pOwner != nullptr)
 		{
 			// The less is the rotation time the faster the angle will be incremented 

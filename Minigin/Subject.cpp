@@ -27,7 +27,7 @@ void Subject::RemoveObserver(Observer* observer)
 	}
 }
 
-void Subject::NotifyObservers(dae::GameObject* gameObject, const Event& event)
+void Subject::NotifyObservers(engine::GameObject* gameObject, const Event& event)
 {
 	for (const auto& observer : m_Observers)
 	{

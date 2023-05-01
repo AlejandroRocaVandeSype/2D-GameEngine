@@ -5,7 +5,7 @@
 #include "Observer.h"
 #include <iostream>
 
-HealthComponent::HealthComponent(dae::GameObject* pOwner, unsigned int lives)
+HealthComponent::HealthComponent(engine::GameObject* pOwner, unsigned int lives)
 	: Component("HealthCP", pOwner)
 	, m_Lives { lives }
 {

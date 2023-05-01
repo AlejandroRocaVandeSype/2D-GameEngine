@@ -3,7 +3,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <iostream>
 
-TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 position, glm::vec2 scale)
+engine::TransformComponent::TransformComponent(engine::GameObject* pOwner, glm::vec3 position, glm::vec2 scale)
 	: Component("TransformCP", pOwner)
 	, m_WorldPosition { glm::vec3{ 0,0,0 } }
 	, m_LocalPosition{ glm::vec3{ 0,0,0 } }
@@ -18,19 +18,19 @@ TransformComponent::TransformComponent(dae::GameObject* pOwner, glm::vec3 positi
 
 // Changing the position will always be the localPosition
 // Next time worldPosition is asked, it will be updated with the local before returning
-void TransformComponent::SetLocalPosition(const glm::vec3& position)
+void engine::TransformComponent::SetLocalPosition(const glm::vec3& position)
 {
 	m_LocalPosition = position;
 	m_IsPositionDirty = true;  // Everytime localPosition is changed, the worldPosition also needs to be updated
 }
 
-const glm::vec3 TransformComponent::GetLocalPosition() const
+const glm::vec3 engine::TransformComponent::GetLocalPosition() const
 {
 	return m_LocalPosition;
 }
 
 // Always check if the localPosition has changed before returning
-const glm::vec3 TransformComponent::GetWorldPosition()
+const glm::vec3 engine::TransformComponent::GetWorldPosition()
 {
 	if (m_IsPositionDirty)
 	{
@@ -41,7 +41,7 @@ const glm::vec3 TransformComponent::GetWorldPosition()
 	return m_WorldPosition;
 }
 
-void TransformComponent::UpdateWorldPosition()
+void engine::TransformComponent::UpdateWorldPosition()
 {
 	if (m_IsPositionDirty)
 	{
@@ -71,44 +71,44 @@ void TransformComponent::UpdateWorldPosition()
 	m_IsPositionDirty = false;
 }
 
-void TransformComponent::Update([[maybe_unused]] const float deltaTime)
+void engine::TransformComponent::Update([[maybe_unused]] const float deltaTime)
 {
 	// Update position using physics (Velocity etc)
 
 }
 
 
-void TransformComponent::SetScale(const glm::vec2& scale)
+void engine::TransformComponent::SetScale(const glm::vec2& scale)
 {
 	m_Scale = scale;
 
 }
 
 // WorldPosition needs to be updated
-void TransformComponent::SetPositionDirty()
+void engine::TransformComponent::SetPositionDirty()
 {
 	m_IsPositionDirty = true;
 
 }
 
-void TransformComponent::SetCenterOffset(const glm::vec3& centerOffset)
+void engine::TransformComponent::SetCenterOffset(const glm::vec3& centerOffset)
 {
 	m_CenterOffset = centerOffset;
 	m_IsPositionDirty = true;
 }
 
 
-const glm::vec2 TransformComponent::GetScale() const
+const glm::vec2 engine::TransformComponent::GetScale() const
 {
 	return m_Scale;
 }
 
-void TransformComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void engine::TransformComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
 {
 
 }
 
-TransformComponent::~TransformComponent()
+engine::TransformComponent::~TransformComponent()
 {
 	std::cout << "TransformComponent destructor" << std::endl;
 }
