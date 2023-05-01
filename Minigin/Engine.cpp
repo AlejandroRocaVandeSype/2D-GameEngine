@@ -42,7 +42,7 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-engine::Engine::Engine(const std::string &dataPath, const Window& window)
+engine::Engine::Engine(const std::string &dataPath, const engine::Window& window)
 {
 	PrintSDLVersion();
 	

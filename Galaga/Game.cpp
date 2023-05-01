@@ -12,7 +12,7 @@
 #include "InputManager.h"
 #include <iostream>
 
-Game::Game(const Window& window)
+Game::Game(const engine::Window& window)
 	: m_Window { window }
 {
 	Initialize();	

@@ -13,7 +13,7 @@ class Game final
 {
 	public:
 
-		Game(const Window& window);
+		Game(const engine::Window& window);
 		~Game();
 		Game(const Game& other) = delete;
 		Game(Game&& other) = delete;
@@ -24,7 +24,7 @@ class Game final
 
 		void Initialize();			// Initialize everything needed for the Game
 
-		const Window m_Window;
+		const engine::Window m_Window;
 
 };
 

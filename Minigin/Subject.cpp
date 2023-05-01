@@ -2,7 +2,7 @@
 #include "Observer.h"
 #include "Event.h"
 
-Subject::~Subject()
+engine::Subject::~Subject()
 {
 	
 	for (const auto& observer : m_Observers)
@@ -12,13 +12,13 @@ Subject::~Subject()
 
 }
 
-void Subject::AddObserver(Observer* observer)
+void engine::Subject::AddObserver(Observer* observer)
 {
 	m_Observers.push_back(observer);
 	observer->RegisterSubject(this);
 }
 
-void Subject::RemoveObserver(Observer* observer)
+void engine::Subject::RemoveObserver(engine::Observer* observer)
 {
 	auto observerItr{ std::find(m_Observers.begin(), m_Observers.end(), observer) };
 	if (observerItr != m_Observers.end())
@@ -27,7 +27,7 @@ void Subject::RemoveObserver(Observer* observer)
 	}
 }
 
-void Subject::NotifyObservers(engine::GameObject* gameObject, const Event& event)
+void engine::Subject::NotifyObservers(engine::GameObject* gameObject, const engine::Event& event)
 {
 	for (const auto& observer : m_Observers)
 	{

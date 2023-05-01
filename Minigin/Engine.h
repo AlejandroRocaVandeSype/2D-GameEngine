@@ -4,16 +4,14 @@
 #include <string>
 #include <functional>
 
-struct Window;
-class IGame;
 namespace engine
 {
-	
+	struct Window;
 	class Engine
 	{
 	public:
 		// Indicate where the data is and the window properties
-		explicit Engine(const std::string& dataPath, const Window& window);  
+		explicit Engine(const std::string& dataPath, const engine::Window& window);  
 		~Engine();
 		void Run();
 

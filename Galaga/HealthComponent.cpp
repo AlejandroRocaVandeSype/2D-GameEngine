@@ -18,11 +18,11 @@ HealthComponent::~HealthComponent()
 }
 
 // Add an observer to "Observe" the HealthComponent
-void HealthComponent::AddObserver(Observer* pObserver)
+void HealthComponent::AddObserver(engine::Observer* pObserver)
 {
 	if (m_ActorDiedEvent == nullptr)
 	{
-		m_ActorDiedEvent = std::make_unique<Subject>();
+		m_ActorDiedEvent = std::make_unique<engine::Subject>();
 	}
 	
 	m_ActorDiedEvent->AddObserver(pObserver);
@@ -49,7 +49,7 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 
 		if (m_ActorDiedEvent != nullptr)
 		{
-			Event HealthDecEvent{ "HealthDecremented" };
+			engine::Event HealthDecEvent{ "HealthDecremented" };
 			m_ActorDiedEvent->NotifyObservers(GetOwner(), HealthDecEvent);
 		}
 		

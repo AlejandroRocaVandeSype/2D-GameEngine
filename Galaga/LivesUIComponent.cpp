@@ -50,7 +50,7 @@ void LivesUIComponent::ReceiveMessage([[maybe_unused]] const std::string& messag
 
 }
 
-void LivesUIComponent::OnNotify([[maybe_unused]] engine::GameObject* gameObject, const Event& event)
+void LivesUIComponent::OnNotify([[maybe_unused]] engine::GameObject* gameObject, const engine::Event& event)
 {
 	if (event.IsSameEvent("HealthDecremented"))
 	{

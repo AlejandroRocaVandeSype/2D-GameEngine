@@ -3,16 +3,19 @@
 
 #include <string>
 
-struct Window
+namespace engine
 {
-	explicit Window(const std::string& title = "Title", float width = 320.0f,
-		float height = 180.0f);
+	struct Window
+	{
+		explicit Window(const std::string& title = "Title", float width = 320.0f,
+			float height = 180.0f);
 
-	std::string title;
-	float width;
-	float height;
+		std::string title;
+		float width;
+		float height;
 
-};
+	};
+}
 
 
 #endif

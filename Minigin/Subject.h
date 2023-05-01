@@ -8,22 +8,21 @@
 namespace engine
 {
 	class GameObject;
+	class Observer;
+	class Event;
+	class Subject final
+	{
+
+	public:
+		~Subject();
+		void AddObserver(engine::Observer* observer);
+		void RemoveObserver(engine::Observer* observer);
+		void NotifyObservers(engine::GameObject* gameObject, const engine::Event& event);
+
+
+	private:
+		std::vector<engine::Observer*> m_Observers{};
+
+	};
 }
-
-class Observer;
-class Event;
-class Subject final
-{
-
-public:
-	~Subject();
-	void AddObserver(Observer* observer);
-	void RemoveObserver(Observer* observer);
-	void NotifyObservers(engine::GameObject* gameObject, const Event& event);
-
-
-private:
-	std::vector<Observer*> m_Observers{};
-
-};
 #endif

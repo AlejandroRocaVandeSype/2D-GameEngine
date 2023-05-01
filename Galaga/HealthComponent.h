@@ -6,7 +6,11 @@
 #include "Subject.h"
 #include <memory>
 
-class Observer;
+namespace engine
+{
+	class Observer;
+}
+
 class HealthComponent final: public engine::Component
 {
 public:
@@ -17,14 +21,14 @@ public:
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	void DecrementHealth(unsigned int amount);
-	void AddObserver(Observer* pObserver);
+	void AddObserver(engine::Observer* pObserver);
 
 	const unsigned int GetLives() const;
 
 
 private:
 	unsigned int m_Lives;			// Amount of lives the GameObject has
-	std::unique_ptr<Subject> m_ActorDiedEvent;
+	std::unique_ptr<engine::Subject> m_ActorDiedEvent;
 };
 
 #endif
