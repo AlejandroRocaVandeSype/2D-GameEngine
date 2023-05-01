@@ -1,6 +1,7 @@
 #include "KillCommand.h"
 #include "GameObject.h"
 #include "HealthComponent.h"
+#include <iostream>
 
 KillCommand::KillCommand(dae::GameObject* actor)
 	: Command()
@@ -11,7 +12,7 @@ KillCommand::KillCommand(dae::GameObject* actor)
 
 KillCommand::~KillCommand()
 {
-
+	std::cout << "Kill Command destructor\n";
 }
 
 void KillCommand::Execute([[maybe_unused]] float deltaTime)

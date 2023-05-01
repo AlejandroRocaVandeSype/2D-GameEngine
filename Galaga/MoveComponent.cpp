@@ -47,7 +47,7 @@ MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed, unsigned cont
 
 	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadLeft, dae::InputType::Pressed, std::move(moveLeftCommand));
 	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadRigth, dae::InputType::Pressed, std::move(moveRightCommand));
-	input.BindCommand(controllerIdx, Controller::XboxControllerButton::ButtonY, dae::InputType::Down, std::move(killCommand));
+	input.BindCommand(controllerIdx, Controller::XboxControllerButton::ButtonY, dae::InputType::Up, std::move(killCommand));
 
 	//input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadUp, std::move(moveUpCommand));
 	//input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadDown, std::move(moveDownCommand));

@@ -44,10 +44,15 @@ public:
 	bool IsPressed(unsigned int button) const { return m_CurrentState.Gamepad.wButtons & button; } 
 
 
-	// Check if the controller is still connected or not. Returning true if connected
+	// -----------------------------------------------------------------------------
+	//			*Check if the controller is still connected or not*
+	// This function is only called when a Controller has been conected to the game
+	// Once it is connected, it is called every frame to check if the controller gets
+	// connected or disconected. 
+	// -----------------------------------------------------------------------------
 	bool IsConnected() 
 	{
-		// Instead of showing a text in the console the connected/disconnnected should be done with Imgui
+		// TODO: Instead of showing a text in the console the connected/disconnnected should be done with Imgui
 		XINPUT_STATE state;
 		DWORD result = XInputGetState(m_ControllerIndex, &state);
 		if (result == ERROR_SUCCESS)
@@ -75,7 +80,13 @@ public:
 		
 	}
 
-	// Checks if a new Controller has been added to the Game
+	// 
+
+	// -----------------------------------------------------------------------------
+	//			*Checks if a new Controller has been added to the Game*
+	// Only called once. The first time a controller is connected.
+	// After that, IsConnected function is used for the controller.
+	// -----------------------------------------------------------------------------
 	static bool IsNewControllerAdded(const unsigned controllerIdx)
 	{
 		// Get the state of this controller to check if it is connected

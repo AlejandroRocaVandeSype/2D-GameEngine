@@ -176,9 +176,6 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Engine Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Engine Files\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Engine Files\Input</Filter>
     </ClCompile>

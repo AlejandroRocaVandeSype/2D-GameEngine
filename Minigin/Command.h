@@ -6,7 +6,7 @@ namespace dae
 	class GameObject;
 }
 
-// COMMAND PATTERN FOR INPUT MANAGEMENT
+// COMMAND PATTERN INTERFACE
 class Command
 {
 public :

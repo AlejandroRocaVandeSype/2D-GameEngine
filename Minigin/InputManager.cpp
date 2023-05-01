@@ -15,12 +15,13 @@ bool dae::InputManager::ProcessInput(float deltaTime)
 
 	if (int(m_Controllers.size()) < MAX_CONTROLLERS)
 	{
+		// There is still room to add more controllers to the game
 		CheckControllerConnected();
 	}
-
-	// Process controllers input if there are any controllers
+	
 	if (!m_Controllers.empty())
 	{
+		// THere is at least one controller conected -> Process Controller Input
 		return ProcessControllersInput(deltaTime);
 	}
 
@@ -113,24 +114,25 @@ bool dae::InputManager::ProcessControllersInput(float deltaTime)
 	{
 		if (controller->IsConnected())
 		{
-			//std::cout << "Update controller " << controller->GetControllerIdx() << "\n";	
 			controller->Update();
 
 			// Loop through all the available commands
 			for (const auto& controllerCommand : m_ControllerCommands)
 			{
+				// To which controller is the command associate 
 				unsigned controllerIdx{ controllerCommand.first.first };
 				if (controller->GetControllerIdx() == controllerIdx)
 				{
-					// Check if the button of this controller is pressed
+					// Command found for this Controller ->
+					// Check if any button was pressed/released etc
 					auto button{ controllerCommand.first.second };
 					
 					if (button.second == InputType::Pressed)
 					{
 						if (controller->IsPressed(button.first))
 						{
-							controllerCommand.second->Execute(deltaTime);
-							return true;
+							controllerCommand.second->Execute(deltaTime);		
+							continue;  // Check next command
 						}
 					}
 
@@ -138,8 +140,8 @@ bool dae::InputManager::ProcessControllersInput(float deltaTime)
 					{
 						if (controller->IsUp(button.first))
 						{
-							controllerCommand.second->Execute(deltaTime);
-							return true;
+							controllerCommand.second->Execute(deltaTime);	
+							continue;
 						}
 					}
 
@@ -148,20 +150,20 @@ bool dae::InputManager::ProcessControllersInput(float deltaTime)
 						if (controller->IsDown(button.first))
 						{
 							controllerCommand.second->Execute(deltaTime);
-							return true;
+							continue;
 						}
 					}
 										
 				}
-			}
+			} // End FOR loop commands
 		
-		}
+		} // End IF Controller
 	}
 
 	return true;
 }
 
-// Bind Commands to keys.
+// BIND COMMAND TO A KEY
 // If key already exits in the map it will simply swap the command associated with the key
 void dae::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keycode key, dae::InputType type)
 {
@@ -174,7 +176,7 @@ void dae::InputManager::BindCommand( std::unique_ptr<Command> command, SDL_Keyco
 	m_KeyBoardCommands[keyPair] = std::move(command);
 }
 
-// Bind commands to a existing Controller
+// BIND COMMAND TO AN EXISTING CONTROLLER
 void  dae::InputManager::BindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button,
 										InputType type, std::unique_ptr<Command> command)
 {
