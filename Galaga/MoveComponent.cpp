@@ -24,8 +24,8 @@ MoveComponent::MoveComponent(dae::GameObject* pOwner, float speed)
 
 	// Bind all commands with their corresponding keys
 	input.BindCommand(std::move(moveLeftCommand), keyA, dae::InputType::Pressed);
-	input.BindCommand(std::move(moveRightCommand), keyD);
-	input.BindCommand(std::move(killCommand), keyK, dae::InputType::Up);
+	input.BindCommand(std::move(moveRightCommand), keyD, dae::InputType::Pressed);
+	input.BindCommand(std::move(killCommand), keyK, dae::InputType::Down);
 
 
 	

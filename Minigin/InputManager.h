@@ -12,7 +12,7 @@
 namespace dae
 {
 	enum class InputType {
-		Pressed,
+		Pressed,		
 		Up,
 		Down,
 		Default			// = Pressed
@@ -41,9 +41,6 @@ namespace dae
 		// All registered Commands for the Keyboard	
 		using KeyBoardCommandsMap = std::map<KeyTypeKeyPair, std::unique_ptr<Command>>;
 		KeyBoardCommandsMap m_KeyBoardCommands;
-		SDL_Keycode m_LastKeyPressed{ SDLK_UNKNOWN };
-		bool m_Pressed{ false };
-		KeyBoardCommandsMap::iterator m_KeyboardCommandItr{ m_KeyBoardCommands.end() };
 
 		// *** CONTROLLERS ***
 		// All available controllers to be used 
