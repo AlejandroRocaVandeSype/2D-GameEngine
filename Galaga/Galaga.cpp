@@ -12,7 +12,7 @@
 
 int main(int, char* [])
 {
-	engine::Window window{ "Galaga", 640.f , 480.f };
+	engine::Window window{ "Galaga", 560.f , 640.f };
 	engine::Engine engine("../Data/", window);
 
 	std::unique_ptr<Game> game = std::make_unique<Game>(window);

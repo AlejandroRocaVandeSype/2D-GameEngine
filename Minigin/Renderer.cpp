@@ -29,7 +29,8 @@ void engine::Renderer::Init(SDL_Window* window)
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
 
-	SDL_Color color{ 62, 90, 111 };
+	SDL_Color color{ 0, 0, 22 };	
+	//SDL_Color color{ 62, 90, 111 };
 	SetBackgroundColor(color);
 
 	IMGUI_CHECKVERSION();
