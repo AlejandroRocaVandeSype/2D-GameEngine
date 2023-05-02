@@ -1,58 +1,47 @@
 #include "MoveComponent.h"
-#include "InputManager.h"
-#include "MoveCommand.h"
-#include "KillCommand.h"
 #include "GameObject.h"
-#include "Controller.h"
 
-MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed)
+MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed, const Boundaries& boundaries)
 	: Component("MoveCP", pOwner)
+	, m_Speed{ speed }
+	, m_Boundaries { boundaries }
+	, m_GObjectSize{ }
 {
+	 auto renderCP = pOwner->GetComponent<engine::RenderComponent>();
 
-	auto& input = engine::InputManager::GetInstance();
-	
-	SDL_KeyCode keyA{ SDLK_a };
-	SDL_KeyCode keyD{ SDLK_d };
-
-	SDL_KeyCode keyK{ SDLK_k };
-
-	std::unique_ptr<Command> moveLeftCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ -1, 0, 0 }, speed);
-	std::unique_ptr<Command> moveRightCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 1, 0, 0 }, speed);
-	std::unique_ptr<Command> killCommand = std::make_unique<KillCommand>(pOwner);
-	//std::unique_ptr<Command> moveUpCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, -1, 0 }, speed);
-	//std::unique_ptr<Command> moveDownCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, 1, 0 }, speed);
-
-	// Bind all commands with their corresponding keys
-	input.BindCommand(std::move(moveLeftCommand), keyA, engine::InputType::Pressed);
-	input.BindCommand(std::move(moveRightCommand), keyD, engine::InputType::Pressed);
-	input.BindCommand(std::move(killCommand), keyK, engine::InputType::Down);
-
-
-	
+	 if (renderCP != nullptr)
+	 {
+		 m_GObjectSize = renderCP->GetTextureSize();
+	 }
+	 
 }
 
-
-MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed, unsigned controllerIdx)
-	: Component("MoveCP", pOwner)
+// Moves in the direction specified respecting the boundaries
+void MoveComponent::Move(float deltaTime, glm::vec3& direction)
 {
+	auto transformCP = GetOwner()->GetComponent<engine::TransformComponent>();
 
-	std::unique_ptr<Command> moveLeftCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ -1, 0, 0 }, speed);
-	std::unique_ptr<Command> moveRightCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 1, 0, 0 }, speed);
-	std::unique_ptr<Command> killCommand = std::make_unique<KillCommand>(pOwner);
+	if (transformCP)
+	{
+		glm::vec3 pos = transformCP->GetLocalPosition();
 
-	//std::unique_ptr<Command> moveUpCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, -1, 0 }, speed);
-	//std::unique_ptr<Command> moveDownCommand = std::make_unique<MoveCommand>(pOwner, glm::vec3{ 0, 1, 0 }, speed);
+		pos += direction * m_Speed * deltaTime;
 
-	auto& input = engine::InputManager::GetInstance();
-
-	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadLeft, engine::InputType::Pressed, std::move(moveLeftCommand));
-	input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadRigth, engine::InputType::Pressed, std::move(moveRightCommand));
-	input.BindCommand(controllerIdx, Controller::XboxControllerButton::ButtonY, engine::InputType::Up, std::move(killCommand));
-
-	//input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadUp, std::move(moveUpCommand));
-	//input.BindCommand(controllerIdx, Controller::XboxControllerButton::DPadDown, std::move(moveDownCommand));
+		// Check if GameObject inside boundaries
+		if (pos.x > m_Boundaries.leftLimit && pos.x + m_GObjectSize.x
+			<= m_Boundaries.rightLimit)
+		{
+			// Inside x limit
+			if (pos.y > m_Boundaries.topLimit && pos.y + m_GObjectSize.y
+				<= m_Boundaries.botLimit)
+			{
+				// Inside boundaries
+				transformCP->SetLocalPosition(pos);
+			}
+		}
+	
+	}
 }
-
 
 void MoveComponent::Update([[maybe_unused]] const float deltaTime)
 {
@@ -62,7 +51,7 @@ void MoveComponent::Update([[maybe_unused]] const float deltaTime)
 
 void MoveComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
 {
-
+	
 }
 
 MoveComponent::~MoveComponent()

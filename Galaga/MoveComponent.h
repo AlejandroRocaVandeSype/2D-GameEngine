@@ -3,23 +3,37 @@
 
 #include "Component.h"
 #include <vector>
-#include "SDL.h"
+#include <glm/glm.hpp>
 
-/*  THIS COMPONENT CONTAINS ALL THE NECESSARY FUNCIONALITY TO MAKE A
-	GAMEOBJECT MOVE USING THE KEYBOARD */
 class MoveComponent final : public engine::Component
 {
 public:
 
-	MoveComponent(engine::GameObject* pOwner, float speed);							// Using keyboard
-	MoveComponent(engine::GameObject* pOwner, float speed, unsigned controllerIdx);	// Using controller
+	// Simple struct to specify the boundaries for the movement
+	struct Boundaries
+	{
+		Boundaries(float left, float right, float bot, float top)
+			: leftLimit{ left }, rightLimit{ right }, botLimit{ bot }, topLimit{ top }
+			{};
+
+		float leftLimit;
+		float rightLimit;
+		float botLimit;
+		float topLimit;
+	};
+
+	MoveComponent(engine::GameObject* pOwner, float speed, const Boundaries& boundaries);
 	virtual ~MoveComponent() override;
 
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
+	void Move(float deltaTime, glm::vec3& direction);
+
 private :
-	//std::vector<SDL_Keycode> m_Keys;
+	const float m_Speed;
+	const Boundaries m_Boundaries;
+	glm::vec2 m_GObjectSize;
 };
 
 #endif

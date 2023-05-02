@@ -12,12 +12,11 @@ class MoveCommand final : public Command
 {
 public:
 
-	explicit MoveCommand(engine::GameObject* actor, glm::vec3 direction, float speed);
+	explicit MoveCommand(engine::GameObject* actor, glm::vec3 direction);
 	virtual ~MoveCommand() override;
 	void Execute(float deltaTime) override;
 
 private :
-	float m_Speed;
 	glm::vec3 m_Direction;		// Normalized vector that indicates the direction of the movement
 	engine::GameObject* m_Actor;
 };

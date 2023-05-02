@@ -4,6 +4,8 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "ParallaxScrollingCP.h"
+#include "PlayerInputCP.h"
+#include "MoveComponent.h"
 #include <iostream>
 
 Game::Game(const engine::Window& window)
@@ -17,6 +19,18 @@ void Game::Initialize()
 {
 	auto& scene = engine::SceneManager::GetInstance().CreateScene("FirstStage");	
 	SetupBackground();
+
+	// PLAYER 1
+	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.15f, 0.f };
+	auto go_Player = std::make_shared<engine::GameObject>(nullptr, startPos, glm::vec2{ 2.f, 2.f });
+	go_Player->AddComponent<engine::RenderComponent>(go_Player.get(), "Player.png");
+	go_Player->AddComponent<PlayerInputCP>(go_Player.get());
+	go_Player->GetComponent<PlayerInputCP>()->AddControllerMovement(0);
+	MoveComponent::Boundaries boundaries{ 0.f, m_Window.width, m_Window.height, 0.f };
+	go_Player->AddComponent<MoveComponent>(go_Player.get(), 150.f, boundaries);
+	
+
+	m_vSceneGObjects.push_back(go_Player);
 
 	// Add all the gameObjects to the scene
 	for (auto& gameObject : m_vSceneGObjects)

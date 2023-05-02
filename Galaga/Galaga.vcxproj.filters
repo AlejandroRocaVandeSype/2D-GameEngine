@@ -56,6 +56,9 @@
     <ClCompile Include="ParallaxScrollingCP.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerInputCP.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveCommand.h">
@@ -92,6 +95,9 @@
       <Filter>General files</Filter>
     </ClInclude>
     <ClInclude Include="ParallaxScrollingCP.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInputCP.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

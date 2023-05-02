@@ -161,6 +161,7 @@
     <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="PlayerInputCP.cpp" />
     <ClCompile Include="KillCommand.cpp" />
     <ClCompile Include="LivesUIComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="PlayerInputCP.h" />
     <ClInclude Include="KillCommand.h" />
     <ClInclude Include="LivesUIComponent.h" />
     <ClInclude Include="MoveCommand.h" />
