@@ -6,6 +6,9 @@ MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed, const Boun
 	, m_Speed{ speed }
 	, m_Boundaries { boundaries }
 	, m_GObjectSize{ }
+	, m_AutoMovement{ false }
+	, m_Direction{}				// This direction wont be use for this GO
+	, m_IsInsideBoundaries { true }
 {
 	 auto renderCP = pOwner->GetComponent<engine::RenderComponent>();
 
@@ -16,8 +19,15 @@ MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed, const Boun
 	 
 }
 
-// Moves in the direction specified respecting the boundaries
-void MoveComponent::Move(float deltaTime, glm::vec3& direction)
+MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed, const Boundaries& boundaries, const glm::vec3& direction)
+	:MoveComponent(pOwner, speed, boundaries)
+{
+	m_AutoMovement = true;
+	m_Direction = glm::normalize(direction);   // Normalized vector with the same direction but with lenght = 1
+}
+
+// Moves in the direction specified respecting the boundaries if movement is restricted
+void MoveComponent::Move(float deltaTime, const glm::vec3& direction)
 {
 	auto transformCP = GetOwner()->GetComponent<engine::TransformComponent>();
 
@@ -36,17 +46,40 @@ void MoveComponent::Move(float deltaTime, glm::vec3& direction)
 				<= m_Boundaries.botLimit)
 			{
 				// Inside boundaries
+				m_IsInsideBoundaries = true;
+			}
+			else
+			{
+				m_IsInsideBoundaries = false;
+			}
+		}
+		else
+		{
+			m_IsInsideBoundaries = false;
+		}
+
+		if (m_Boundaries.isMoveRestricted == true)
+		{
+			if (m_IsInsideBoundaries == true)
+			{
 				transformCP->SetLocalPosition(pos);
 			}
+		}
+		else
+		{
+			// There is no movement restriction
+			transformCP->SetLocalPosition(pos);
 		}
 	
 	}
 }
 
-void MoveComponent::Update([[maybe_unused]] const float deltaTime)
+void MoveComponent::Update(const float deltaTime)
 {
-
-
+	if (m_AutoMovement)
+	{
+		Move(deltaTime, m_Direction);
+	}
 }
 
 void MoveComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
@@ -54,15 +87,12 @@ void MoveComponent::ReceiveMessage([[maybe_unused]] const std::string& message, 
 	
 }
 
+bool MoveComponent::InsideBoundaries() const
+{
+	return m_IsInsideBoundaries;
+}
+
 MoveComponent::~MoveComponent()
 {
-	/*
-	// Make sure we dont try to move 
-	auto& input = engine::InputManager::GetInstance();
-
-	for (const auto& key : m_Keys)
-	{
-		input.UnbindCommand(key);
-	}
-	*/
+	
 }

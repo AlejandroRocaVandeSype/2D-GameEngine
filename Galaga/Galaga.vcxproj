@@ -161,6 +161,7 @@
     <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="MissileBehaviourCP.cpp" />
     <ClCompile Include="PlayerInputCP.cpp" />
     <ClCompile Include="KillCommand.cpp" />
     <ClCompile Include="LivesUIComponent.cpp" />
@@ -168,14 +169,15 @@
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="ParallaxScrollingCP.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
-    <ClCompile Include="TestComponent.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TrashTheCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameIncludes.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="MissileBehaviourCP.h" />
     <ClInclude Include="PlayerInputCP.h" />
     <ClInclude Include="KillCommand.h" />
     <ClInclude Include="LivesUIComponent.h" />
@@ -183,7 +185,6 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="ParallaxScrollingCP.h" />
     <ClInclude Include="RotatorComponent.h" />
-    <ClInclude Include="TestComponent.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TrashTheCache.h" />
   </ItemGroup>

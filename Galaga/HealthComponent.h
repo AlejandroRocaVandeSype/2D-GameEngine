@@ -21,13 +21,14 @@ public:
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	void DecrementHealth(unsigned int amount);
+	void Kill();											// Removes all lives 
 	void AddObserver(engine::Observer* pObserver);
 
 	const unsigned int GetLives() const;
 
 
 private:
-	unsigned int m_Lives;			// Amount of lives the GameObject has
+	unsigned int m_Lives;									// Amount of lives the GameObject has
 	std::unique_ptr<engine::Subject> m_ActorDiedEvent;
 };
 
