@@ -269,6 +269,11 @@ void GameObject::SetIsActive(const bool isActive)
 	m_IsActive = isActive;
 }
 
+bool GameObject::IsActive() const
+{
+	return m_IsActive;
+}
+
 // -----------------------------------------------------------------------------
 //				*Mark the GameObject as "dead"*
 // It will delete the GameObject from the scene (Including all his children if any)

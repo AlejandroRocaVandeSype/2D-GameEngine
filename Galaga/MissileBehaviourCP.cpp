@@ -21,8 +21,8 @@ void MissileBehaviourCP::Update([[maybe_unused]] const float deltaTime)
 	{
 		if (!m_pMoveComponent->InsideBoundaries())
 		{
-			// Bullet outside boundaries -> Destroy it
-			GetOwner()->GetComponent<HealthComponent>()->Kill();
+			// Bullet outside boundaries -> Deactivate it
+			GetOwner()->SetIsActive(false);
 		}
 	}
 }

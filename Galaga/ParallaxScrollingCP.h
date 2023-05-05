@@ -22,7 +22,7 @@ public:
 private:
 	engine::TransformComponent* m_pTransformCP;
 	glm::vec2 m_TextureSize;
-	const float m_Speed;
+	const float SPEED;
 	const glm::vec3 m_Direction;   // Parallax movement direction
 };
 

@@ -55,3 +55,14 @@ void engine::SceneManager::AddToActiveScene(GameObject* gameObject)
 	}
 	
 }
+
+void engine::SceneManager::AddToActiveScene(std::shared_ptr<GameObject> object)
+{
+	
+	if (m_ActiveScene >= 0 && m_ActiveScene < (int)m_scenes.size())
+	{
+		// There is an active scene --> Add the gameObject to it
+		m_scenes.at(m_ActiveScene)->Add(object);
+	}
+	
+}

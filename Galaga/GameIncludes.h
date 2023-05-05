@@ -10,5 +10,6 @@
 #include "MoveComponent.h"
 #include "HealthComponent.h"
 #include "MissileBehaviourCP.h"
+#include "MissileManagerCP.h"
 
 #endif

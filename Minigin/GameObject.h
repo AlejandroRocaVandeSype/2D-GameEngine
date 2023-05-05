@@ -49,6 +49,7 @@ namespace engine
 		const bool IsMarkedAsDead() const;
 
 		void SetIsActive(const bool isActive);
+		bool IsActive() const;
 		void MarkAsDead();
 
 	private:

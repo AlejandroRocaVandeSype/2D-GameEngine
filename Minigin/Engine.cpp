@@ -59,12 +59,13 @@ engine::Engine::Engine(const std::string &dataPath, const engine::Window& window
 		int(window.height),
 		SDL_WINDOW_OPENGL
 	);
-
+	
+	
 	if (g_window == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
+	
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);

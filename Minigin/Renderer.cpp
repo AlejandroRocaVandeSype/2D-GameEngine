@@ -23,6 +23,7 @@ int GetOpenGLDriverIndex()
 void engine::Renderer::Init(SDL_Window* window)
 {
 	m_window = window;
+	
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
 	if (m_renderer == nullptr) 
 	{
@@ -92,3 +93,5 @@ void engine::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 }
 
 inline SDL_Renderer* engine::Renderer::GetSDLRenderer() const { return m_renderer; }
+
+inline SDL_Window* engine::Renderer::GetSDLWindow() const { return m_window; }

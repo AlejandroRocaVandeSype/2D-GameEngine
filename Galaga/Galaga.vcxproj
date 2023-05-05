@@ -157,11 +157,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="MissileBehaviourCP.cpp" />
+    <ClCompile Include="MissileManagerCP.cpp" />
     <ClCompile Include="PlayerInputCP.cpp" />
     <ClCompile Include="KillCommand.cpp" />
     <ClCompile Include="LivesUIComponent.cpp" />
@@ -173,11 +175,13 @@
     <ClCompile Include="TrashTheCache.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FireCommand.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameIncludes.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="MissileBehaviourCP.h" />
+    <ClInclude Include="MissileManagerCP.h" />
     <ClInclude Include="PlayerInputCP.h" />
     <ClInclude Include="KillCommand.h" />
     <ClInclude Include="LivesUIComponent.h" />

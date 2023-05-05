@@ -5,7 +5,7 @@
 ParallaxScrollingCP::ParallaxScrollingCP(engine::GameObject* pOwner)
 	:Component("parallaxScrollingCP", pOwner)
 	, m_TextureSize{ 0.f, 0.f}
-	, m_Speed{ 250.f}
+	, SPEED{ 250.f}
 	, m_Direction { 0.f, 1.f, 0.f}
 {
 	m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
@@ -35,7 +35,7 @@ void ParallaxScrollingCP::Update(const float deltaTime)
 		}
 		else
 		{
-			position += m_Direction * m_Speed * deltaTime;
+			position += m_Direction * SPEED * deltaTime;
 		}
 		m_pTransformCP->SetLocalPosition(position);
 	}

@@ -33,11 +33,12 @@ public:
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	void Move(float deltaTime, const glm::vec3& direction);
+	void ChangeDirection(const glm::vec3& newDirection);			// Only for auto Movement
 
 	bool InsideBoundaries() const;
 
 private :
-	const float m_Speed;
+	const float SPEED;
 	const Boundaries m_Boundaries;
 	glm::vec2 m_GObjectSize;
 	glm::vec3 m_Direction;			// Only for auto movement

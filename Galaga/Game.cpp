@@ -12,8 +12,13 @@ Game::Game(const engine::Window& window)
 void Game::Initialize()
 {
 	auto& scene = engine::SceneManager::GetInstance().CreateScene("FirstStage");	
+	
 	SetupBackground();
-
+	// Add all the gameObjects to the scene
+	for (auto& gameObject : m_vSceneGObjects)
+	{
+		scene.Add(gameObject);
+	}
 	// PLAYER 1
 	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.15f, 0.f };
 	auto go_Player = std::make_shared<engine::GameObject>(nullptr, startPos, glm::vec2{ 2.f, 2.f });
@@ -22,9 +27,13 @@ void Game::Initialize()
 	go_Player->GetComponent<PlayerInputCP>()->AddControllerMovement(0);
 	MoveComponent::Boundaries playerBoundaries{ 0.f, m_Window.width, m_Window.height, 0.f, true };
 	go_Player->AddComponent<MoveComponent>(go_Player.get(), 150.f, playerBoundaries);
-	
+	go_Player->AddComponent<MissileManagerCP>(go_Player.get(), 2, 300.f);
+
+	scene.Add(go_Player);
 
 	m_vSceneGObjects.push_back(go_Player);
+
+	/*
 	MoveComponent::Boundaries missileBoundaries{ 0.f, m_Window.width, m_Window.height, 0.f, false };
 	auto go_Missile = std::make_shared<engine::GameObject>(nullptr, startPos, glm::vec2{ 2.f, 2.f });
 	go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "PlayerBullet.png");
@@ -33,13 +42,13 @@ void Game::Initialize()
 	go_Missile->AddComponent<MissileBehaviourCP>(go_Missile.get());
 
 	m_vSceneGObjects.push_back(go_Missile);
-
+	*/
 	// Add all the gameObjects to the scene
-	for (auto& gameObject : m_vSceneGObjects)
+	/*for (auto& gameObject : m_vSceneGObjects)
 	{
 		scene.Add(gameObject);
 	}
-
+	*/
 	// The scene will own the gameObjects
 	m_vSceneGObjects.clear();
 	
