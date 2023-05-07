@@ -22,42 +22,33 @@ void Game::Initialize()
 	// PLAYER 1
 	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.15f, 0.f };
 	auto go_Player = std::make_shared<engine::GameObject>(nullptr, "Player", startPos, glm::vec2{2.f, 2.f});
-	go_Player->AddComponent<engine::RenderComponent>(go_Player.get(), "Player.png");
-	go_Player->AddComponent<PlayerInputCP>(go_Player.get());
-	go_Player->GetComponent<PlayerInputCP>()->AddControllerMovement(0);
-	MoveComponent::Boundaries playerBoundaries{ 0.f, m_Window.width, m_Window.height, 0.f, true };
-	go_Player->AddComponent<MoveComponent>(go_Player.get(), 150.f, playerBoundaries);
-	go_Player->AddComponent<MissileManagerCP>(go_Player.get(), 2, 300.f);
-
+	go_Player->AddComponent<PlayerCP>(go_Player.get(), 4, glm::vec2{m_Window.width, m_Window.height});
 	scene.Add(go_Player);
 
 	m_vSceneGObjects.push_back(go_Player);
 
 	// ENEMY
-	glm::vec3 startPos2{ m_Window.width / 2.f, 200.f, 0.f };
+	glm::vec3 startPos2{ m_Window.width / 3.f, 550.f, 0.f };
 	auto go_Enemy = std::make_shared<engine::GameObject>(nullptr, "Enemy", startPos2, glm::vec2{ 2.f, 2.f });
 	go_Enemy->AddComponent<EnemyCP>(go_Enemy.get(), 1);
 	scene.Add(go_Enemy);
 
 	m_vSceneGObjects.push_back(go_Enemy);
 
+	glm::vec3 startPos3{ m_Window.width / 1.5f, 550.f, 0.f };
+	auto go_Enemy2 = std::make_shared<engine::GameObject>(nullptr, "Enemy", startPos3, glm::vec2{ 2.f, 2.f });
+	go_Enemy2->AddComponent<EnemyCP>(go_Enemy2.get(), 1);
+	scene.Add(go_Enemy2);
 
-	/*
-	MoveComponent::Boundaries missileBoundaries{ 0.f, m_Window.width, m_Window.height, 0.f, false };
-	auto go_Missile = std::make_shared<engine::GameObject>(nullptr, startPos, glm::vec2{ 2.f, 2.f });
-	go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "PlayerBullet.png");
-	go_Missile->AddComponent<MoveComponent>(go_Missile.get(), 300.f, missileBoundaries, glm::vec3{ 0.f, -1.f, 0.f });
-	go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
-	go_Missile->AddComponent<MissileBehaviourCP>(go_Missile.get());
+	m_vSceneGObjects.push_back(go_Enemy2);
 
-	m_vSceneGObjects.push_back(go_Missile);
-	*/
-	// Add all the gameObjects to the scene
-	/*for (auto& gameObject : m_vSceneGObjects)
-	{
-		scene.Add(gameObject);
-	}
-	*/
+	glm::vec3 startPos4{ m_Window.width / 1.1f, 550.f, 0.f };
+	auto go_Enemy3 = std::make_shared<engine::GameObject>(nullptr, "Enemy", startPos4, glm::vec2{ 2.f, 2.f });
+	go_Enemy3->AddComponent<EnemyCP>(go_Enemy3.get(), 1);
+	scene.Add(go_Enemy3);
+
+	m_vSceneGObjects.push_back(go_Enemy3);
+
 	// The scene will own the gameObjects
 	m_vSceneGObjects.clear();
 	

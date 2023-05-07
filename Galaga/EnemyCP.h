@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GALAGA_ENEMYCP
+#define GALAGA_ENEMYCP
 #include <Component.h>
 #include "Observer.h"
 
@@ -14,4 +15,6 @@ class EnemyCP final: public engine::Component, public engine::Observer
 		void OnNotify(engine::GameObject* gameObject, const engine::Event& event) override;
 
 };
+
+#endif
 

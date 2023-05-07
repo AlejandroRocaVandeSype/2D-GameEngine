@@ -8,13 +8,12 @@ class PlayerInputCP final : public engine::Component
 {
 public:
 	PlayerInputCP(engine::GameObject* pOwner);							// Using keyboard
-	PlayerInputCP(engine::GameObject* pOwner, unsigned controllerIdx);	// Using controller
 	virtual ~PlayerInputCP() override;
 
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
-	void AddControllerMovement(unsigned controllerIdx);
+	void AddControllerMovement();
 
 };
 

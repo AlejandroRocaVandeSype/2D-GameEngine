@@ -233,3 +233,20 @@ void engine::InputManager::UnbindAllCommands()
 		commandItr = m_ControllerCommands.erase(commandItr);
 	}
 }
+
+int engine::InputManager::GetFreeController() const
+{
+	if (int(m_Controllers.size()) == MAX_CONTROLLERS)
+	{
+		// No more available controllers to use
+		return -1;
+	}
+
+	return int(m_Controllers.size());
+}
+
+bool engine::InputManager::IsPlayer1Connected() const
+{
+	// If there are commands bind to the keyboard means player 1 is connected
+	return !m_KeyBoardCommands.empty();
+}

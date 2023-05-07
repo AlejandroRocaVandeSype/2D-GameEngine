@@ -44,20 +44,27 @@ void Scene::Update(const float deltaTime)
 	// Check collisions between the gameObjects that have collisionCP
 	for (size_t objectIdx1{ 0 }; objectIdx1 < m_objects.size(); ++objectIdx1)
 	{
-		auto object = m_objects.at(objectIdx1);
-		if (object->IsActive())
+		auto object1 = m_objects.at(objectIdx1);
+		if (object1->IsActive())
 		{
-			auto collisionCP = m_objects.at(objectIdx1)->GetComponent<engine::CollisionComponent>();
+			auto collisionCP = object1->GetComponent<engine::CollisionComponent>();
 
 			if (collisionCP)
 			{
 				for (size_t objectIdx2{ 0 }; objectIdx2 < m_objects.size(); ++objectIdx2)
 				{
-					auto collisionCP2 = m_objects.at(objectIdx2)->GetComponent<engine::CollisionComponent>();
-					if (collisionCP2 && objectIdx2 != objectIdx1)
+					if (objectIdx2 != objectIdx1) // Dont check collisions with itself
 					{
-						collisionCP->CollisionWith(m_objects.at(objectIdx2).get(), collisionCP2);
-					}
+						auto object2 = m_objects.at(objectIdx2);
+						if (object2->IsActive())
+						{
+							auto collisionCP2 = object2->GetComponent<engine::CollisionComponent>();
+							if (collisionCP2)
+							{
+								collisionCP->CollisionWith(m_objects.at(objectIdx2).get(), collisionCP2);
+							}
+						}
+					}				
 				}
 			}
 		}

@@ -29,6 +29,9 @@ namespace engine
 		void UnbindCommand(SDL_Keycode key, InputType type = InputType::Default);
 		void UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, InputType type);
 		void UnbindAllCommands();
+
+		int GetFreeController() const;
+		bool IsPlayer1Connected() const;
 		
 	private :
 

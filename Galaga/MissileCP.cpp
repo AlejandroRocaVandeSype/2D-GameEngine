@@ -27,12 +27,13 @@ void MissileCP::Update([[maybe_unused]] const float deltaTime)
 	}
 }
 
-void MissileCP::OnNotify([[maybe_unused]] engine::GameObject* gameObject, const engine::Event& event)
+void MissileCP::OnNotify([[maybe_unused]]engine::GameObject* gameObject, const engine::Event& event)
 {
 	if (event.IsSameEvent("CollisionWith Enemy"))
 	{
 		// Missile collision with an enemy
-		GetOwner()->SetIsActive(false);
+		//GetOwner()->SetIsActive(false);
+		
 	}
 	
 }
