@@ -38,7 +38,7 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 {
 	if (m_Lives > 0)
 	{
-		if (amount > m_Lives)
+		if (amount >= m_Lives)
 		{
 			m_Lives = 0;
 			GetOwner()->MarkAsDead();

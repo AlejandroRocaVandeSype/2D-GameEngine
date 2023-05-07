@@ -10,11 +10,10 @@ namespace engine
 {
 	class Observer;
 	// Provides a simple collision handling to the GameObject
-	class CollisionComponent : public engine::Component
+	class CollisionComponent final : public engine::Component
 	{
 	public:
 		CollisionComponent(engine::GameObject* pOwner, const glm::vec2& gameObjectSize);
-		//CollisionComponent(engine::GameObject* pOwner, float left, float bottom, float width, float height);
 
 		virtual ~CollisionComponent() override;
 

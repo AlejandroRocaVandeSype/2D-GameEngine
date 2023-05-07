@@ -33,11 +33,10 @@ void Game::Initialize()
 
 	m_vSceneGObjects.push_back(go_Player);
 
+	// ENEMY
 	glm::vec3 startPos2{ m_Window.width / 2.f, 200.f, 0.f };
 	auto go_Enemy = std::make_shared<engine::GameObject>(nullptr, "Enemy", startPos2, glm::vec2{ 2.f, 2.f });
-	go_Enemy->AddComponent<engine::RenderComponent>(go_Enemy.get(), "Enemy.png");
-	go_Enemy->AddComponent<engine::CollisionComponent>(go_Enemy.get(), go_Enemy->GetComponent<engine::RenderComponent>()->GetTextureSize());
-
+	go_Enemy->AddComponent<EnemyCP>(go_Enemy.get(), 1);
 	scene.Add(go_Enemy);
 
 	m_vSceneGObjects.push_back(go_Enemy);

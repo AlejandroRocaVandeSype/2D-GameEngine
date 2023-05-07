@@ -1,7 +1,7 @@
 #include "MissileManagerCP.h"
 #include "RenderComponent.h"
 #include "HealthComponent.h"
-#include "MissileBehaviourCP.h"
+#include "MissileCP.h"
 #include "TransformComponent.h"
 #include "SceneManager.h"
 #include "MoveComponent.h"
@@ -28,9 +28,9 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 		go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "PlayerBullet.png");
 		go_Missile->AddComponent<MoveComponent>(go_Missile.get(), 300.f, missileBoundaries, glm::vec3{0.f, -1.f, 0.f});
 		go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
-		go_Missile->AddComponent<MissileBehaviourCP>(go_Missile.get());
+		go_Missile->AddComponent<MissileCP>(go_Missile.get());
 		go_Missile->AddComponent<engine::CollisionComponent>(go_Missile.get(), go_Missile->GetComponent<engine::RenderComponent>()->GetTextureSize());
-		go_Missile->GetComponent<engine::CollisionComponent>()->AddObserver(go_Missile->GetComponent<MissileBehaviourCP>());
+		go_Missile->GetComponent<engine::CollisionComponent>()->AddObserver(go_Missile->GetComponent<MissileCP>());
 
 		// Missiles wont show until they are fired
 		go_Missile->SetIsActive(false);			

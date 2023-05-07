@@ -2,11 +2,11 @@
 #define GAME_ENGINE_OBSERVER
 #include <vector>
 #include "Subject.h"
+#include "Event.h"
 
 namespace engine
 {
 	class GameObject;
-	class Event;
 	class Observer
 	{
 

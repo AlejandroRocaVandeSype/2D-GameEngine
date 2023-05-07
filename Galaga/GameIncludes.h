@@ -9,8 +9,9 @@
 #include "PlayerInputCP.h"
 #include "MoveComponent.h"
 #include "HealthComponent.h"
-#include "MissileBehaviourCP.h"
+#include "MissileCP.h"
 #include "MissileManagerCP.h"
 #include "CollisionComponent.h"
+#include "EnemyCP.h"
 
 #endif

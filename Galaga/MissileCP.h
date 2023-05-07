@@ -4,11 +4,11 @@
 #include "Observer.h"
 
 class MoveComponent;
-class MissileBehaviourCP final : public engine::Component, public engine::Observer
+class MissileCP final : public engine::Component, public engine::Observer
 {
 public:
-	MissileBehaviourCP(engine::GameObject* pOwner);							
-	virtual ~MissileBehaviourCP() override;
+	MissileCP(engine::GameObject* pOwner);							
+	virtual ~MissileCP() override;
 
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
