@@ -5,6 +5,7 @@
 #include "TransformComponent.h"
 #include "SceneManager.h"
 #include "MoveComponent.h"
+#include "CollisionComponent.h"
 #include <iostream>
 
 MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, float missileSpeed)
@@ -23,11 +24,14 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 	// Missiles will be activated/deactivated when fire instead of creating it them all the time
 	for (int missileIdx{ 0 }; missileIdx < maxMissiles; ++missileIdx)
 	{
-		auto go_Missile = std::make_shared<engine::GameObject>(nullptr, missileStartPos, glm::vec2{ 2.f, 2.f });
+		auto go_Missile = std::make_shared<engine::GameObject>(nullptr, "PlayerMissile", missileStartPos, glm::vec2{2.f, 2.f});
 		go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "PlayerBullet.png");
 		go_Missile->AddComponent<MoveComponent>(go_Missile.get(), 300.f, missileBoundaries, glm::vec3{0.f, -1.f, 0.f});
 		go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
 		go_Missile->AddComponent<MissileBehaviourCP>(go_Missile.get());
+		go_Missile->AddComponent<engine::CollisionComponent>(go_Missile.get(), go_Missile->GetComponent<engine::RenderComponent>()->GetTextureSize());
+		go_Missile->GetComponent<engine::CollisionComponent>()->AddObserver(go_Missile->GetComponent<MissileBehaviourCP>());
+
 		// Missiles wont show until they are fired
 		go_Missile->SetIsActive(false);			
 

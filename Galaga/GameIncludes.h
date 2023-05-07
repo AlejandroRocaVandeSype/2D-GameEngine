@@ -11,5 +11,6 @@
 #include "HealthComponent.h"
 #include "MissileBehaviourCP.h"
 #include "MissileManagerCP.h"
+#include "CollisionComponent.h"
 
 #endif

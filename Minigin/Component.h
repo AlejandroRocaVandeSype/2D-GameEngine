@@ -22,13 +22,13 @@ namespace engine
 		virtual void Update(const float deltaTime) = 0;
 		virtual void ReceiveMessage(const std::string& message, const std::string& value) = 0;
 
-		const std::string& GetName() const { return m_Name; };
+		const std::string& GetName() const { return m_Tag; };
 
 	private :
 		engine::GameObject* m_pOwner;
 
 	protected:
-		std::string m_Name;
+		std::string m_Tag;
 		engine::GameObject* GetOwner() const {	return m_pOwner; };
 
 	};

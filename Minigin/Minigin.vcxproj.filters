@@ -107,6 +107,9 @@
     <ClInclude Include="Subject.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -180,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

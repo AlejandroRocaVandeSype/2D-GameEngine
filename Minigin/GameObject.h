@@ -14,7 +14,7 @@ namespace engine
 		
 	public:
 		
-		GameObject(GameObject* pParent, glm::vec3 startPosition, glm::vec2 scale = { 1.f, 1.f});
+		GameObject(GameObject* pParent, const std::string& tag, glm::vec3 startPosition, glm::vec2 scale = { 1.f, 1.f});
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -52,6 +52,8 @@ namespace engine
 		bool IsActive() const;
 		void MarkAsDead();
 
+		std::string Tag() const;
+
 	private:
 
 		// SceneGraph 
@@ -71,6 +73,8 @@ namespace engine
 		bool m_IsActive;
 		bool m_IsDead;											// If the gameObject needs to be removed after updating all gameObjects
 		bool m_HasToRender;										// Does this gameObject have a render component?
+
+		std::string m_Tag;
 
 	};
 

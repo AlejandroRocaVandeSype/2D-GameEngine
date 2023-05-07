@@ -3620,7 +3620,7 @@ enum MyItemColumnID
 struct MyItem
 {
     int         ID;
-    const char* Name;
+    const char* Tag;
     int         Quantity;
 
     // We have a problem which is affecting _only this demo_ and should not affect your code:
@@ -3646,9 +3646,9 @@ struct MyItem
             switch (sort_spec->ColumnUserID)
             {
             case MyItemColumnID_ID:             delta = (a->ID - b->ID);                break;
-            case MyItemColumnID_Name:           delta = (strcmp(a->Name, b->Name));     break;
+            case MyItemColumnID_Name:           delta = (strcmp(a->Tag, b->Tag));     break;
             case MyItemColumnID_Quantity:       delta = (a->Quantity - b->Quantity);    break;
-            case MyItemColumnID_Description:    delta = (strcmp(a->Name, b->Name));     break;
+            case MyItemColumnID_Description:    delta = (strcmp(a->Tag, b->Tag));     break;
             default: IM_ASSERT(0); break;
             }
             if (delta > 0)
@@ -3681,7 +3681,7 @@ static void PopStyleCompact()
 // Show a combo box with a choice of sizing policies
 static void EditTableSizingFlags(ImGuiTableFlags* p_flags)
 {
-    struct EnumDesc { ImGuiTableFlags Value; const char* Name; const char* Tooltip; };
+    struct EnumDesc { ImGuiTableFlags Value; const char* Tag; const char* Tooltip; };
     static const EnumDesc policies[] =
     {
         { ImGuiTableFlags_None,               "Default",                            "Use default sizing policy:\n- ImGuiTableFlags_SizingFixedFit if ScrollX is on or if host window has ImGuiWindowFlags_AlwaysAutoResize.\n- ImGuiTableFlags_SizingStretchSame otherwise." },
@@ -3694,11 +3694,11 @@ static void EditTableSizingFlags(ImGuiTableFlags* p_flags)
     for (idx = 0; idx < IM_ARRAYSIZE(policies); idx++)
         if (policies[idx].Value == (*p_flags & ImGuiTableFlags_SizingMask_))
             break;
-    const char* preview_text = (idx < IM_ARRAYSIZE(policies)) ? policies[idx].Name + (idx > 0 ? strlen("ImGuiTableFlags") : 0) : "";
+    const char* preview_text = (idx < IM_ARRAYSIZE(policies)) ? policies[idx].Tag + (idx > 0 ? strlen("ImGuiTableFlags") : 0) : "";
     if (ImGui::BeginCombo("Sizing Policy", preview_text))
     {
         for (int n = 0; n < IM_ARRAYSIZE(policies); n++)
-            if (ImGui::Selectable(policies[n].Name, idx == n))
+            if (ImGui::Selectable(policies[n].Tag, idx == n))
                 *p_flags = (*p_flags & ~ImGuiTableFlags_SizingMask_) | policies[n].Value;
         ImGui::EndCombo();
     }
@@ -3711,7 +3711,7 @@ static void EditTableSizingFlags(ImGuiTableFlags* p_flags)
         for (int m = 0; m < IM_ARRAYSIZE(policies); m++)
         {
             ImGui::Separator();
-            ImGui::Text("%s:", policies[m].Name);
+            ImGui::Text("%s:", policies[m].Tag);
             ImGui::Separator();
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetStyle().IndentSpacing * 0.5f);
             ImGui::TextUnformatted(policies[m].Tooltip);
@@ -4785,7 +4785,7 @@ static void ShowDemoWindowTables()
             // Simple storage to output a dummy file-system.
             struct MyTreeNode
             {
-                const char*     Name;
+                const char*     Tag;
                 const char*     Type;
                 int             Size;
                 int             ChildIdx;
@@ -4797,7 +4797,7 @@ static void ShowDemoWindowTables()
                     const bool is_folder = (node->ChildCount > 0);
                     if (is_folder)
                     {
-                        bool open = ImGui::TreeNodeEx(node->Name, ImGuiTreeNodeFlags_SpanFullWidth);
+                        bool open = ImGui::TreeNodeEx(node->Tag, ImGuiTreeNodeFlags_SpanFullWidth);
                         ImGui::TableNextColumn();
                         ImGui::TextDisabled("--");
                         ImGui::TableNextColumn();
@@ -4811,7 +4811,7 @@ static void ShowDemoWindowTables()
                     }
                     else
                     {
-                        ImGui::TreeNodeEx(node->Name, ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanFullWidth);
+                        ImGui::TreeNodeEx(node->Tag, ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanFullWidth);
                         ImGui::TableNextColumn();
                         ImGui::Text("%d", node->Size);
                         ImGui::TableNextColumn();
@@ -5096,7 +5096,7 @@ static void ShowDemoWindowTables()
                 const int template_n = n % IM_ARRAYSIZE(template_items_names);
                 MyItem& item = items[n];
                 item.ID = n;
-                item.Name = template_items_names[template_n];
+                item.Tag = template_items_names[template_n];
                 item.Quantity = (n * n - n) % 20; // Assign default quantities
             }
         }
@@ -5153,7 +5153,7 @@ static void ShowDemoWindowTables()
                     ImGui::TableNextColumn();
                     ImGui::Text("%04d", item->ID);
                     ImGui::TableNextColumn();
-                    ImGui::TextUnformatted(item->Name);
+                    ImGui::TextUnformatted(item->Tag);
                     ImGui::TableNextColumn();
                     ImGui::SmallButton("None");
                     ImGui::TableNextColumn();
@@ -5319,7 +5319,7 @@ static void ShowDemoWindowTables()
                 const int template_n = n % IM_ARRAYSIZE(template_items_names);
                 MyItem& item = items[n];
                 item.ID = n;
-                item.Name = template_items_names[template_n];
+                item.Tag = template_items_names[template_n];
                 item.Quantity = (template_n == 3) ? 10 : (template_n == 4) ? 20 : 0; // Assign default quantities
             }
         }
@@ -5422,7 +5422,7 @@ static void ShowDemoWindowTables()
                     }
 
                     if (ImGui::TableSetColumnIndex(1))
-                        ImGui::TextUnformatted(item->Name);
+                        ImGui::TextUnformatted(item->Tag);
 
                     // Here we demonstrate marking our data set as needing to be sorted again if we modified a quantity,
                     // and we are currently sorting on the column showing the Quantity.
@@ -7717,7 +7717,7 @@ static void ShowExampleAppCustomRendering(bool* p_open)
 // Simplified structure to mimic a Document model
 struct MyDocument
 {
-    const char* Name;       // Document title
+    const char* Tag;       // Document title
     bool        Open;       // Set when open (we keep an array of all available documents to simplify demo code!)
     bool        OpenPrev;   // Copy of Open from last update.
     bool        Dirty;      // Set when the document has been modified
@@ -7726,7 +7726,7 @@ struct MyDocument
 
     MyDocument(const char* name, bool open = true, const ImVec4& color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f))
     {
-        Name = name;
+        Tag = name;
         Open = OpenPrev = open;
         Dirty = false;
         WantClose = false;
@@ -7741,7 +7741,7 @@ struct MyDocument
     static void DisplayContents(MyDocument* doc)
     {
         ImGui::PushID(doc);
-        ImGui::Text("Document \"%s\"", doc->Name);
+        ImGui::Text("Document \"%s\"", doc->Tag);
         ImGui::PushStyleColor(ImGuiCol_Text, doc->Color);
         ImGui::TextWrapped("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
         ImGui::PopStyleColor();
@@ -7761,7 +7761,7 @@ struct MyDocument
             return;
 
         char buf[256];
-        sprintf(buf, "Save %s", doc->Name);
+        sprintf(buf, "Save %s", doc->Tag);
         if (ImGui::MenuItem(buf, "CTRL+S", false, doc->Open))
             doc->DoSave();
         if (ImGui::MenuItem("Close", "CTRL+W", false, doc->Open))
@@ -7799,7 +7799,7 @@ static void NotifyOfDocumentsClosedElsewhere(ExampleAppDocuments& app)
     {
         MyDocument* doc = &app.Documents[doc_n];
         if (!doc->Open && doc->OpenPrev)
-            ImGui::SetTabItemClosed(doc->Name);
+            ImGui::SetTabItemClosed(doc->Tag);
         doc->OpenPrev = doc->Open;
     }
 }
@@ -7834,7 +7834,7 @@ void ShowExampleAppDocuments(bool* p_open)
                 {
                     MyDocument* doc = &app.Documents[doc_n];
                     if (!doc->Open)
-                        if (ImGui::MenuItem(doc->Name))
+                        if (ImGui::MenuItem(doc->Tag))
                             doc->DoOpen();
                 }
                 ImGui::EndMenu();
@@ -7856,7 +7856,7 @@ void ShowExampleAppDocuments(bool* p_open)
         if (doc_n > 0)
             ImGui::SameLine();
         ImGui::PushID(doc);
-        if (ImGui::Checkbox(doc->Name, &doc->Open))
+        if (ImGui::Checkbox(doc->Tag, &doc->Open))
             if (!doc->Open)
                 doc->DoForceClose();
         ImGui::PopID();
@@ -7894,7 +7894,7 @@ void ShowExampleAppDocuments(bool* p_open)
                     continue;
 
                 ImGuiTabItemFlags tab_flags = (doc->Dirty ? ImGuiTabItemFlags_UnsavedDocument : 0);
-                bool visible = ImGui::BeginTabItem(doc->Name, &doc->Open, tab_flags);
+                bool visible = ImGui::BeginTabItem(doc->Tag, &doc->Open, tab_flags);
 
                 // Cancel attempt to close when unsaved add to save queue so we can display a popup.
                 if (!doc->Open && doc->Dirty)
@@ -7958,7 +7958,7 @@ void ShowExampleAppDocuments(bool* p_open)
                 {
                     for (int n = 0; n < close_queue.Size; n++)
                         if (close_queue[n]->Dirty)
-                            ImGui::Text("%s", close_queue[n]->Name);
+                            ImGui::Text("%s", close_queue[n]->Tag);
                     ImGui::EndChildFrame();
                 }
 

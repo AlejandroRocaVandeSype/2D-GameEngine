@@ -21,7 +21,7 @@ void Game::Initialize()
 	}
 	// PLAYER 1
 	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.15f, 0.f };
-	auto go_Player = std::make_shared<engine::GameObject>(nullptr, startPos, glm::vec2{ 2.f, 2.f });
+	auto go_Player = std::make_shared<engine::GameObject>(nullptr, "Player", startPos, glm::vec2{2.f, 2.f});
 	go_Player->AddComponent<engine::RenderComponent>(go_Player.get(), "Player.png");
 	go_Player->AddComponent<PlayerInputCP>(go_Player.get());
 	go_Player->GetComponent<PlayerInputCP>()->AddControllerMovement(0);
@@ -32,6 +32,16 @@ void Game::Initialize()
 	scene.Add(go_Player);
 
 	m_vSceneGObjects.push_back(go_Player);
+
+	glm::vec3 startPos2{ m_Window.width / 2.f, 200.f, 0.f };
+	auto go_Enemy = std::make_shared<engine::GameObject>(nullptr, "Enemy", startPos2, glm::vec2{ 2.f, 2.f });
+	go_Enemy->AddComponent<engine::RenderComponent>(go_Enemy.get(), "Enemy.png");
+	go_Enemy->AddComponent<engine::CollisionComponent>(go_Enemy.get(), go_Enemy->GetComponent<engine::RenderComponent>()->GetTextureSize());
+
+	scene.Add(go_Enemy);
+
+	m_vSceneGObjects.push_back(go_Enemy);
+
 
 	/*
 	MoveComponent::Boundaries missileBoundaries{ 0.f, m_Window.width, m_Window.height, 0.f, false };
@@ -59,7 +69,7 @@ void Game::SetupBackground()
 {
 	glm::vec2 backgroundScale{ 0.3f, 0.32f };
 	// Background 1
-	auto go_Background1 = std::make_shared<engine::GameObject>(nullptr, glm::vec3{ 0.f, 0.f, 0.f },
+	auto go_Background1 = std::make_shared<engine::GameObject>(nullptr, "Background", glm::vec3{0.f, 0.f, 0.f},
 		backgroundScale);
 	go_Background1->AddComponent<engine::RenderComponent>(go_Background1.get(), "background.png");
 	go_Background1->AddComponent<ParallaxScrollingCP>(go_Background1.get());
@@ -69,7 +79,7 @@ void Game::SetupBackground()
 	auto backSize = go_Background1->GetComponent<engine::RenderComponent>()->GetTextureSize();
 	glm::vec3 background2StartPos{ go_Background1->GetWorldPosition() - glm::vec3{0, backSize.y, 0.f} };
 
-	auto go_Background2 = std::make_shared<engine::GameObject>(nullptr, background2StartPos,
+	auto go_Background2 = std::make_shared<engine::GameObject>(nullptr, "Background", background2StartPos,
 		backgroundScale);
 	go_Background2->AddComponent<engine::RenderComponent>(go_Background2.get(), "background.png");
 	go_Background2->AddComponent<ParallaxScrollingCP>(go_Background2.get());

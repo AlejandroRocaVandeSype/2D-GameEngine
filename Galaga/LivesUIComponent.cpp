@@ -12,7 +12,7 @@ LivesUIComponent::LivesUIComponent(engine::GameObject* pOwner, const std::string
 		// CREATE THE UI LIVES GAMEOBJECTS
 
 		// THe pOwner will own this gameObjects not the Component
-		engine::GameObject* pUILive1 = new engine::GameObject(pOwner, glm::vec3{ livesPos.x, livesPos.y, 0.f }, glm::vec2{ 1.5f, 1.5f });
+		engine::GameObject* pUILive1 = new engine::GameObject(pOwner, std::string{ "UI" }, glm::vec3{ livesPos.x, livesPos.y, 0.f }, glm::vec2{ 1.5f, 1.5f });
 		pUILive1->AddComponent<engine::RenderComponent>(pUILive1, spriteFileName);
 		m_vUILives.push_back(pUILive1);
 
@@ -25,7 +25,7 @@ LivesUIComponent::LivesUIComponent(engine::GameObject* pOwner, const std::string
 		{
 			livesPos.x += textureSize.x + 5.f;
 
-			engine::GameObject* pUILive = new engine::GameObject(pOwner, glm::vec3{ livesPos.x, livesPos.y, 0.f }, glm::vec2{ 1.5f, 1.5f });
+			engine::GameObject* pUILive = new engine::GameObject(pOwner, std::string{ "UI" }, glm::vec3{livesPos.x, livesPos.y, 0.f}, glm::vec2{1.5f, 1.5f});
 			pUILive->AddComponent<engine::RenderComponent>(pUILive, spriteFileName);
 			m_vUILives.push_back(pUILive);
 

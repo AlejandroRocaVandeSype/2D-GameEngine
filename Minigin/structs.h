@@ -15,6 +15,18 @@ namespace engine
 		float height;
 
 	};
+
+	struct Rectf
+	{
+		Rectf();
+		explicit Rectf(float left, float bottom, float width, float height);
+
+		float left;
+		float bottom;
+		float width;
+		float height;
+
+	};
 }
 
 

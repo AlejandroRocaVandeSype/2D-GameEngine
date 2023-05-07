@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 namespace engine
 {
+	class CollisionComponent;
 	class TransformComponent final : public Component
 	{
 
@@ -28,6 +29,8 @@ namespace engine
 		void SetPositionDirty();
 		void SetScale(const glm::vec2& scale);
 
+		void AddCollisionCP(engine::CollisionComponent* pComponent);
+
 	private:
 		glm::vec3 m_WorldPosition;		// Global position relative with the world space
 		glm::vec3 m_LocalPosition;		// Position relative to the parent (local space) If no parent localPos = worldPos
@@ -36,7 +39,7 @@ namespace engine
 		//float m_Rotation;				// In radians
 
 		bool m_IsPositionDirty;
-
+		engine::CollisionComponent* m_pCollisionCP;
 	};
 }
 #endif

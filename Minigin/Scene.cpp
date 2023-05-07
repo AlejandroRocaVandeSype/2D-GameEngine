@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include "CollisionComponent.h"
 #include <iostream>
 
 using namespace engine;
@@ -33,9 +34,34 @@ void Scene::Render() const
 
 void Scene::Update(const float deltaTime)
 {
+	
 	for(auto& object : m_objects)
 	{
 		object->Update(deltaTime);
+	}
+
+	// First check Collisions between gameObjects
+	for (size_t objectIdx1{ 0 }; objectIdx1 < m_objects.size(); ++objectIdx1)
+	{
+		auto object = m_objects.at(objectIdx1);
+
+		if (object->IsActive())
+		{
+			auto collisionCP = m_objects.at(objectIdx1)->GetComponent<engine::CollisionComponent>();
+
+			if (collisionCP)
+			{
+				for (size_t objectIdx2{ 0 }; objectIdx2 < m_objects.size(); ++objectIdx2)
+				{
+					auto collisionCP2 = m_objects.at(objectIdx2)->GetComponent<engine::CollisionComponent>();
+					if (collisionCP2 && objectIdx2 != objectIdx1)
+					{
+						collisionCP->CollisionWith(m_objects.at(objectIdx2).get(), collisionCP2);
+					}
+				}
+			}
+		}
+
 	}
 	
 	// Loop again to remove dead gameObjects if any

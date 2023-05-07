@@ -969,7 +969,7 @@ struct ImGuiDataTypeTempStorage
 struct ImGuiDataTypeInfo
 {
     size_t      Size;           // Size in bytes
-    const char* Name;           // Short descriptive name for the type, for debugging
+    const char* Tag;           // Short descriptive name for the type, for debugging
     const char* PrintFmt;       // Default printf format for the type
     const char* ScanFmt;        // Default scanf format for the type
 };
@@ -2234,7 +2234,7 @@ struct IMGUI_API ImGuiWindowTempData
 // Storage for one window
 struct IMGUI_API ImGuiWindow
 {
-    char*                   Name;                               // Window name, owned by the window.
+    char*                   Tag;                               // Window name, owned by the window.
     ImGuiID                 ID;                                 // == ImHashStr(Name)
     ImGuiWindowFlags        Flags;                              // See enum ImGuiWindowFlags_
     ImGuiViewportP*         Viewport;                           // Always set in Begin(). Inactive windows may have a NULL value here if their viewport was discarded.
