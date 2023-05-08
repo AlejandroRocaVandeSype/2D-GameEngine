@@ -14,12 +14,18 @@ MoveCommand::MoveCommand(engine::GameObject* actor, glm::vec3 direction)
 
 void MoveCommand::Execute(float deltaTime)
 {
-	auto moveCP = m_Actor->GetComponent<MoveComponent>();
-
-	if (moveCP != nullptr)
+	
+	if (m_Actor->IsActive())
 	{
-		moveCP->Move(deltaTime, m_Direction);
+		auto moveCP = m_Actor->GetComponent<MoveComponent>();
+
+		if (moveCP != nullptr)
+		{
+			moveCP->Move(deltaTime, m_Direction);
+		}
+
 	}
+	
 }
 
 

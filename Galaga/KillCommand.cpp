@@ -17,12 +17,14 @@ KillCommand::~KillCommand()
 
 void KillCommand::Execute([[maybe_unused]] float deltaTime)
 {
-	HealthComponent* healthCP{ m_Actor->GetComponent<HealthComponent>() };
-	if (healthCP != nullptr)
+	if (m_Actor->IsActive())
 	{
-		healthCP->DecrementHealth(1);
-	}
-	
+		HealthComponent* healthCP{ m_Actor->GetComponent<HealthComponent>() };
+		if (healthCP != nullptr)
+		{
+			healthCP->DecrementHealth(1);
+		}
+	}	
 }
 
 

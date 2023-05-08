@@ -64,5 +64,12 @@ void PlayerCP::OnNotify([[maybe_unused]] engine::GameObject* gameObject, const e
 		{
 			healthCP->DecrementHealth(1);
 		}
+
+		auto playerInputCP = GetOwner()->GetComponent<PlayerInputCP>();
+		if (playerInputCP != nullptr)
+		{
+			// Indicate the player died to ensure we unbind all the commands associated 
+			playerInputCP->SetPlayerDied();
+		}
 	}
 }

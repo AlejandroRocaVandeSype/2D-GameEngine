@@ -7,6 +7,8 @@
 
 PlayerInputCP::PlayerInputCP(engine::GameObject* pOwner)
 	: Component("PlayerInputCP", pOwner)
+	, m_PlayerDied{ false }
+	, m_ControllerIdx { -1 }
 {
 	auto& input = engine::InputManager::GetInstance();
 
@@ -40,6 +42,7 @@ void PlayerInputCP::AddControllerMovement()
 	int controllerIdx = input.GetFreeController();
 	if (controllerIdx != -1)
 	{
+		m_ControllerIdx = controllerIdx;
 		std::unique_ptr<Command> moveLeftCommand = std::make_unique<MoveCommand>(GetOwner(), glm::vec3{ -1, 0, 0 });
 		std::unique_ptr<Command> moveRightCommand = std::make_unique<MoveCommand>(GetOwner(), glm::vec3{ 1, 0, 0 });
 		std::unique_ptr<Command> fireCommand = std::make_unique<FireCommand>(GetOwner(), glm::vec3{ 0, -1, 0 });
@@ -63,7 +66,21 @@ void PlayerInputCP::ReceiveMessage([[maybe_unused]] const std::string& message, 
 
 }
 
+void  PlayerInputCP::SetPlayerDied()
+{
+	m_PlayerDied = true;
+}
+
 PlayerInputCP::~PlayerInputCP()
 {
+	// Make sure all commands are unbind if the player dies during gameplay (not when closing game)
+	if (m_PlayerDied)
+	{
+		auto& input = engine::InputManager::GetInstance();
+
+		input.UnbindAllCommands(m_ControllerIdx);
+
+		m_PlayerDied = false;
+	}
 	
 }

@@ -32,7 +32,7 @@ void Game::Initialize()
 	// PLAYER 1
 	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.15f, 0.f };
 	auto go_Player = std::make_shared<engine::GameObject>(nullptr, PLAYER_TAG, startPos, glm::vec2{2.f, 2.f});
-	go_Player->AddComponent<PlayerCP>(go_Player.get(), 4, glm::vec2{m_Window.width, m_Window.height});
+	go_Player->AddComponent<PlayerCP>(go_Player.get(), 1, glm::vec2{m_Window.width, m_Window.height});
 	scene.Add(go_Player);
 
 	// ENEMY
@@ -50,6 +50,9 @@ void Game::Initialize()
 	auto go_Enemy3 = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos4, glm::vec2{ 2.f, 2.f });
 	go_Enemy3->AddComponent<EnemyCP>(go_Enemy3.get(), 1);
 	scene.Add(go_Enemy3);
+
+	//go_Player->SetIsActive(false);
+	
 	
 }
 

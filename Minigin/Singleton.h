@@ -21,6 +21,7 @@ namespace engine
 
 	protected:
 		Singleton() = default;
+
 	};
 }
 

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "MissileManagerCP.h"
 
+
 FireCommand::FireCommand(engine::GameObject* actor, glm::vec3 direction)
 	: Command()
 	, m_Actor(actor)
@@ -16,10 +17,13 @@ FireCommand::~FireCommand()
 
 void FireCommand::Execute([[maybe_unused]] float deltaTime)
 {
-	auto missileManagerCP = m_Actor->GetComponent<MissileManagerCP>();
-
-	if (missileManagerCP != nullptr)
+	if (m_Actor->IsActive())
 	{
-		missileManagerCP->Fire(m_Direction);
-	}
+		auto missileManagerCP = m_Actor->GetComponent<MissileManagerCP>();
+
+		if (missileManagerCP != nullptr)
+		{
+			missileManagerCP->Fire(m_Direction);
+		}
+	}	
 }

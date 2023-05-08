@@ -15,6 +15,13 @@ public:
 
 	void AddControllerMovement();
 
+	void SetPlayerDied();
+
+private:
+	bool m_PlayerDied;			// This is to ensure we unbind commands associated to the gameObject when it dies and not 
+								// when program closes
+	int m_ControllerIdx;		// Controller being used
+
 };
 
 #endif

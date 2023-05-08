@@ -8,6 +8,7 @@
 #include "Command.h"	//  inc Header -> unique_ptr needs to know the size of the class in order to manage memory for it.
 #include "Controller.h"
 #include "SDL.h"
+#include <iostream>
 
 namespace engine
 {
@@ -21,6 +22,7 @@ namespace engine
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+
 		bool ProcessInput(float deltaTime);
 
 		// Binding/Unbinding commands
@@ -29,6 +31,8 @@ namespace engine
 		void UnbindCommand(SDL_Keycode key, InputType type = InputType::Default);
 		void UnbindCommand(unsigned int controllerIdx, const Controller::XboxControllerButton& button, InputType type);
 		void UnbindAllCommands();
+		void UnbindAllCommands(unsigned int controllerIdx);
+
 
 		int GetFreeController() const;
 		bool IsPlayer1Connected() const;

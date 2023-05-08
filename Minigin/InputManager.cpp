@@ -234,6 +234,23 @@ void engine::InputManager::UnbindAllCommands()
 	}
 }
 
+void engine::InputManager::UnbindAllCommands(unsigned int controllerIdx)
+{
+	for (auto commandItr{ m_KeyBoardCommands.begin() }; commandItr != m_KeyBoardCommands.end();)
+	{
+		commandItr = m_KeyBoardCommands.erase(commandItr);
+	}
+
+	for (auto commandItr{ m_ControllerCommands.begin() }; commandItr != m_ControllerCommands.end();)
+	{
+		if ((*commandItr).first.first == controllerIdx)
+		{
+			commandItr = m_ControllerCommands.erase(commandItr);
+		}
+	}
+
+}
+
 int engine::InputManager::GetFreeController() const
 {
 	if (int(m_Controllers.size()) == MAX_CONTROLLERS)
