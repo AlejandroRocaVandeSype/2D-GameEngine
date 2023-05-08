@@ -208,6 +208,8 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="Servicealocator.h" />
+    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Component.h" />
@@ -236,6 +238,7 @@
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="Servicealocator.cpp" />
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Component.cpp" />

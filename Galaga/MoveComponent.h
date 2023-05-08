@@ -16,10 +16,18 @@ public:
 			: leftLimit{ left }, rightLimit{ right }, botLimit{ bot }, topLimit{ top }, isMoveRestricted { restrictMovement}
 			{};
 
-		const float leftLimit;
-		const float rightLimit;
-		const float botLimit;
-		const float topLimit;
+		float LeftLimit() { return leftLimit; };
+		float RightLimit() { return rightLimit; };
+		float BotLimit() { return botLimit; };
+		float TopLimit() { return topLimit; };
+
+		bool IsMoveRestricted() { return isMoveRestricted; };
+
+	private:
+		float leftLimit;
+		float rightLimit;
+		float botLimit;
+		float topLimit;
 		bool isMoveRestricted;
 	};
 
@@ -39,7 +47,7 @@ public:
 
 private :
 	const float SPEED;
-	const Boundaries m_Boundaries;
+	Boundaries m_Boundaries;
 	glm::vec2 m_GObjectSize;
 	glm::vec3 m_Direction;			// Only for auto movement
 	bool m_IsInsideBoundaries;

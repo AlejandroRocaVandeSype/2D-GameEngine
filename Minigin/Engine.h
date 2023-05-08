@@ -7,7 +7,7 @@
 namespace engine
 {
 	struct Window;
-	class Engine
+	class Engine final
 	{
 	public:
 		// Indicate where the data is and the window properties

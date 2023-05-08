@@ -38,12 +38,12 @@ void MoveComponent::Move(float deltaTime, const glm::vec3& direction)
 		pos += direction * SPEED * deltaTime;
 
 		// Check if GameObject inside boundaries
-		if (pos.x > m_Boundaries.leftLimit && pos.x + m_GObjectSize.x
-			<= m_Boundaries.rightLimit)
+		if (pos.x > m_Boundaries.LeftLimit() && pos.x + m_GObjectSize.x
+			<= m_Boundaries.RightLimit())
 		{
 			// Inside x limit
-			if (pos.y > m_Boundaries.topLimit && pos.y + m_GObjectSize.y
-				<= m_Boundaries.botLimit)
+			if (pos.y > m_Boundaries.TopLimit() && pos.y + m_GObjectSize.y
+				<= m_Boundaries.BotLimit())
 			{
 				// Inside boundaries
 				m_IsInsideBoundaries = true;
@@ -60,7 +60,7 @@ void MoveComponent::Move(float deltaTime, const glm::vec3& direction)
 			m_IsInsideBoundaries = false;
 		}
 
-		if (m_Boundaries.isMoveRestricted == false)
+		if (m_Boundaries.IsMoveRestricted() == false)
 		{
 			// There is no movement restriction
 			transformCP->SetLocalPosition(pos);

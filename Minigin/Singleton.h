@@ -9,6 +9,7 @@ namespace engine
 	public:
 		static T& GetInstance()
 		{
+			// This is thread safe (no need of mutex)
 			static T instance{};
 			return instance;
 		}
@@ -20,7 +21,7 @@ namespace engine
 		Singleton& operator=(Singleton&& other) = delete;
 
 	protected:
-		Singleton() = default;
+		Singleton() = default; // Ensure no one can create another instance of the object
 
 	};
 }

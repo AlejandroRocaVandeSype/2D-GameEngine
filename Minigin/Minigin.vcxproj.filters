@@ -21,6 +21,9 @@
     <Filter Include="Engine Files\Input">
       <UniqueIdentifier>{dc3fe815-8820-4b42-8289-44a1e5231c98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Services">
+      <UniqueIdentifier>{b57b8bb2-2004-4855-ba52-673cf6ec9f0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -110,6 +113,12 @@
     <ClInclude Include="CollisionComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Servicealocator.h">
+      <Filter>Services</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -186,6 +195,9 @@
     </ClCompile>
     <ClCompile Include="CollisionComponent.cpp">
       <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Servicealocator.cpp">
+      <Filter>Services</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
