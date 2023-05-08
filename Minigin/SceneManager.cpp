@@ -4,23 +4,36 @@
 #include <iostream>
 
 engine::SceneManager::SceneManager()
-	: m_ActiveScene { -1 }
+	: INVALID_SCENE { -1 }
+	, m_ActiveScene { INVALID_SCENE }
 {}
 
 void engine::SceneManager::Update(const float deltaTime)
 {
+	if (!m_scenes.empty() && m_ActiveScene != -1)
+	{
+		m_scenes.at(m_ActiveScene)->Update(deltaTime);
+	}
+	/*
 	for(auto& scene : m_scenes)
 	{
 		scene->Update(deltaTime);
 	}
+	*/
 }
 
 void engine::SceneManager::Render()
 {
+	if (!m_scenes.empty() && m_ActiveScene != -1)
+	{
+		m_scenes.at(m_ActiveScene)->Render();
+	}
+	/*
 	for (const auto& scene : m_scenes)
 	{
 		scene->Render();
 	}
+	*/
 }
 
 engine::Scene& engine::SceneManager::CreateScene(const std::string& name)
@@ -64,5 +77,42 @@ void engine::SceneManager::AddToActiveScene(std::shared_ptr<GameObject> object)
 		// There is an active scene --> Add the gameObject to it
 		m_scenes.at(m_ActiveScene)->Add(object);
 	}
+	
+}
+
+void engine::SceneManager::AddToScene(const std::string& sceneName, std::shared_ptr<GameObject> object)
+{
+	for (auto& scene : m_scenes)
+	{
+		if (scene->Name() == sceneName)
+		{
+			scene->Add(object);
+			break;
+		}
+	}
+
+}
+
+void engine::SceneManager::SetActiveScene(const std::string& sceneName)
+{
+	for (size_t sceneIdx{ 0 }; sceneIdx < m_scenes.size(); ++sceneIdx)
+	{
+		if (m_scenes.at(sceneIdx)->Name() == sceneName)
+		{
+			m_ActiveScene = int(sceneIdx);
+			break;
+		}
+	}
+}
+
+engine::Scene& engine::SceneManager::GetActiveScene()
+{
+	if (!m_scenes.empty() && m_ActiveScene != -1)
+	{
+		return *m_scenes.at(m_ActiveScene);
+	}
+
+	// If no scene yet --> Create a default one
+	return CreateScene("defaultScene");
 	
 }

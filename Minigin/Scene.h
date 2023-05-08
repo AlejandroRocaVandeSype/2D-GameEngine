@@ -18,6 +18,8 @@ namespace engine
 		void Update(const float deltaTime);
 		void Render() const;
 
+		const std::string& Name() const;
+
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;

@@ -65,13 +65,5 @@ void PlayerInputCP::ReceiveMessage([[maybe_unused]] const std::string& message, 
 
 PlayerInputCP::~PlayerInputCP()
 {
-	/*
-	// Make sure we dont try to move
-	auto& input = engine::InputManager::GetInstance();
-
-	for (const auto& key : m_Keys)
-	{
-		input.UnbindCommand(key);
-	}
-	*/
+	
 }
