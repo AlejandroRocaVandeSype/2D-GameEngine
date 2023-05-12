@@ -9,6 +9,7 @@
 #include "Controller.h"
 #include "SDL.h"
 #include <iostream>
+#include <SDL_mixer.h>
 
 namespace engine
 {
@@ -59,6 +60,8 @@ namespace engine
 		// A command will be binded to the indicated controller with the indicated button
 		using ControllerCommandsMap = std::map<ControllerKey, std::unique_ptr<Command>>;	
 		ControllerCommandsMap m_ControllerCommands;
+
+		
 
 	};
 

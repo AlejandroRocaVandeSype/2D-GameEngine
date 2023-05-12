@@ -70,7 +70,7 @@ bool engine::InputManager::ProcessKeyboardInput(float deltaTime)
 				commandItr->second->Execute(deltaTime);
 			}
 		}
-
+		
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
