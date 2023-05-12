@@ -7,6 +7,9 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "Servicealocator.h"
+#include "SDL_SoundSystem.h"
+#include "Logging_Sound_System.h"
 #include <chrono>
 #include "structs.h"
 
@@ -69,6 +72,14 @@ engine::Engine::Engine(const std::string &dataPath, const engine::Window& window
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
+
+	// INIT SOUND SYSTEM
+	#if _DEBUG
+		// If debug mode use the log version
+		Servicealocator::Register_sound_system(new Logging_Sound_System(new SDL_SoundSystem()));
+	#else
+		Servicealocator::Register_sound_system(new SDL_SoundSystem());
+	#endif
 }
 
 engine::Engine::~Engine()

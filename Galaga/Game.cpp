@@ -52,6 +52,10 @@ void Game::Initialize()
 	scene.Add(go_Enemy3);
 
 	//go_Player->SetIsActive(false);
+
+	auto& soundSystem = engine::Servicealocator::Get_Sound_System();
+
+	soundSystem.PlaySound(10, 70);
 	
 	
 }

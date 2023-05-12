@@ -210,6 +210,7 @@
     <ClInclude Include="Logging_Sound_System.h" />
     <ClInclude Include="Null_Sound_System.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="SDL_SoundSystem.h" />
     <ClInclude Include="Servicealocator.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="structs.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Logging_Sound_System.cpp" />
+    <ClCompile Include="SDL_SoundSystem.cpp" />
     <ClCompile Include="Servicealocator.cpp" />
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="Subject.cpp" />

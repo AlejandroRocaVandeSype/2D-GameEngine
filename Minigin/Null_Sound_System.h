@@ -11,7 +11,7 @@ namespace engine
 	class Null_Sound_System final : public engine::SoundSystem
 	{
 	public:
-		void PlaySound([[maybe_unused]] const sound_id, [[maybe_unused]] const float volume) override {};
+		void PlaySound([[maybe_unused]] const sound_id, [[maybe_unused]] const int volume) override {};
 	};
 
 }

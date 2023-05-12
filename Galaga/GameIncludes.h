@@ -10,5 +10,6 @@
 #include "CollisionComponent.h"
 #include "EnemyCP.h"
 #include "PlayerCP.h"
+#include "Servicealocator.h"
 
 #endif

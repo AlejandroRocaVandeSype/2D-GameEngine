@@ -123,7 +123,10 @@
       <Filter>Engine Files\Services</Filter>
     </ClInclude>
     <ClInclude Include="Logging_Sound_System.h">
-      <Filter>Engine Files</Filter>
+      <Filter>Engine Files\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_SoundSystem.h">
+      <Filter>Engine Files\Services</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +208,11 @@
     <ClCompile Include="Servicealocator.cpp">
       <Filter>Engine Files\Services</Filter>
     </ClCompile>
-    <ClCompile Include="Logging_Sound_System.cpp" />
+    <ClCompile Include="Logging_Sound_System.cpp">
+      <Filter>Engine Files\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_SoundSystem.cpp">
+      <Filter>Engine Files\Services</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
