@@ -14,12 +14,23 @@ namespace engine
 
 		// Wrap the real audio provider and use the same interface
 		Logging_Sound_System(engine::SoundSystem* ss) : _real_ss(ss) {};
-		~Logging_Sound_System() { delete _real_ss;  }
+		~Logging_Sound_System() override
+		{ 
+			delete _real_ss;  
+		}
 
-		void PlaySound(const engine::sound_id id, const int volume) override
+		void PlaySound(const short id) override
 		{
-			_real_ss->PlaySound(id, volume);
-			std::cout << "Playing Sound " << id << " at volume " << volume << "\n";
+			_real_ss->PlaySound(id);
+			std::cout << "Playing Sound " << id << "\n";
+		}
+
+		void Update() override { _real_ss->Update(); }
+
+		void CreateSound(const short id, const std::string& soundPath, const int volume) override
+		{
+			_real_ss->CreateSound(id, soundPath, volume);
+			std::cout << "Sound created " << id << " with Path " << soundPath << "and volume " << volume << "\n";
 		}
 
 	private:

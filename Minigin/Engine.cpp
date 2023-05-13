@@ -85,6 +85,7 @@ engine::Engine::Engine(const std::string &dataPath, const engine::Window& window
 engine::Engine::~Engine()
 {
 	Renderer::GetInstance().Destroy();
+	Servicealocator::ShutDownSoundSystem();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 	SDL_Quit();

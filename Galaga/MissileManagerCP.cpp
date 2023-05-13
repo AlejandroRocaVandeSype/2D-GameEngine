@@ -6,6 +6,8 @@
 #include "SceneManager.h"
 #include "MoveComponent.h"
 #include "CollisionComponent.h"
+#include "Servicealocator.h"
+#include "SoundIDs.h"
 #include <iostream>
 
 MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, float missileSpeed)
@@ -62,6 +64,8 @@ void MissileManagerCP::Fire(const glm::vec3& direction)
 			missile->GetComponent<MoveComponent>()->ChangeDirection(direction);
 			missile->GetComponent<engine::TransformComponent>()->SetLocalPosition(GetOwner()->GetWorldPosition());
 			missile->SetIsActive(true);
+			auto& soundSystem = engine::Servicealocator::Get_Sound_System();
+			soundSystem.PlaySound(short(Sounds::playerFire));
 			break;
 		}
 	}

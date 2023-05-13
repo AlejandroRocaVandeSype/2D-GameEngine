@@ -29,7 +29,7 @@ public:
 
 private:
 	unsigned int m_Lives;									// Amount of lives the GameObject has
-	std::unique_ptr<engine::Subject> m_ActorDiedEvent;
+	std::unique_ptr<engine::Subject> m_HealthSubject;
 };
 
 #endif

@@ -121,6 +121,9 @@
     <ClInclude Include="PlayerCP.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="SoundIDs.h">
+      <Filter>General files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

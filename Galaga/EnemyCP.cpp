@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "CollisionComponent.h"
 #include "HealthComponent.h"
+#include "Servicealocator.h"
+#include "SoundIDs.h"
 #include <iostream>
 
 EnemyCP::EnemyCP(engine::GameObject* pOwner, unsigned int health)
@@ -13,6 +15,7 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, unsigned int health)
 		pOwner->AddComponent<HealthComponent>(pOwner, health);
 		pOwner->AddComponent<engine::CollisionComponent>(pOwner, pOwner->GetComponent<engine::RenderComponent>()->GetTextureSize());
 		pOwner->GetComponent<engine::CollisionComponent>()->AddObserver(this);
+		pOwner->GetComponent<HealthComponent>()->AddObserver(this);
 	}
 }
 
@@ -45,5 +48,11 @@ void EnemyCP::OnNotify([[maybe_unused]] engine::GameObject* gameObject, const en
 			// Deactivate the missile
 			gameObject->SetIsActive(false);
 		}
+	}
+
+	if (event.IsSameEvent("GameObjectDied"))
+	{
+		auto& soundSystem = engine::Servicealocator::Get_Sound_System();
+		soundSystem.PlaySound(short(Sounds::enemyDie));
 	}
 }

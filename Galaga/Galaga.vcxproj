@@ -191,6 +191,7 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="ParallaxScrollingCP.h" />
     <ClInclude Include="RotatorComponent.h" />
+    <ClInclude Include="SoundIDs.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TrashTheCache.h" />
   </ItemGroup>

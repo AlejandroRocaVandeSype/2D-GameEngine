@@ -20,12 +20,12 @@ HealthComponent::~HealthComponent()
 // Add an observer to "Observe" the HealthComponent
 void HealthComponent::AddObserver(engine::Observer* pObserver)
 {
-	if (m_ActorDiedEvent == nullptr)
+	if (m_HealthSubject == nullptr)
 	{
-		m_ActorDiedEvent = std::make_unique<engine::Subject>();
+		m_HealthSubject = std::make_unique<engine::Subject>();
 	}
-	
-	m_ActorDiedEvent->AddObserver(pObserver);
+
+	m_HealthSubject->AddObserver(pObserver);
 
 }
 
@@ -40,18 +40,17 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 	{
 		if (amount >= m_Lives)
 		{
-			m_Lives = 0;
-			GetOwner()->MarkAsDead();
+			Kill();			
 		}
 		else
 		{
 			m_Lives -= amount;
 		}
 
-		if (m_ActorDiedEvent != nullptr)
+		if (m_HealthSubject != nullptr)
 		{
 			engine::Event HealthDecEvent{ "HealthDecremented" };
-			m_ActorDiedEvent->NotifyObservers(GetOwner(), HealthDecEvent);
+			m_HealthSubject->NotifyObservers(GetOwner(), HealthDecEvent);
 		}
 		
 	}	
@@ -61,10 +60,10 @@ void HealthComponent::Kill()
 {
 	m_Lives = 0;
 
-	if (m_ActorDiedEvent != nullptr)
+	if (m_HealthSubject != nullptr)
 	{
 		engine::Event dieEvent{ "GameObjectDied" };
-		m_ActorDiedEvent->NotifyObservers(GetOwner(), dieEvent);
+		m_HealthSubject->NotifyObservers(GetOwner(), dieEvent);
 	}
 
 	GetOwner()->MarkAsDead();

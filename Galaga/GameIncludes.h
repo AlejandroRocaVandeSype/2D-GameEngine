@@ -11,5 +11,6 @@
 #include "EnemyCP.h"
 #include "PlayerCP.h"
 #include "Servicealocator.h"
+#include "SoundIDs.h"
 
 #endif

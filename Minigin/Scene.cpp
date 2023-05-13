@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "CollisionComponent.h"
+#include "Servicealocator.h"
 #include <iostream>
 
 using namespace engine;
@@ -70,6 +71,9 @@ void Scene::Update(const float deltaTime)
 		}
 
 	}
+
+	auto& soundSystem = Servicealocator::Get_Sound_System();
+	soundSystem.Update();
 	
 	// Loop again to remove dead gameObjects if any
 	RemoveDeadObjects();

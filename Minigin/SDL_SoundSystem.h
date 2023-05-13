@@ -10,8 +10,11 @@ namespace engine
 	{
 	public:
 		SDL_SoundSystem();
+		~SDL_SoundSystem() override;
 
-		void PlaySound(const engine::sound_id id, const int volume) override;
+		void PlaySound(const short id) override;
+		void Update() override;
+		void CreateSound(const short id, const std::string& soundPath, const int volume) override;
 
 	private:
 		class SDL_SoundSystem_Impl;
