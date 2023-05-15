@@ -154,4 +154,9 @@ void engine::SDL_SoundSystem::ProcessRequests()
 }
 
 
+/*
 
+- Unlock mutex when we finish using the queue, since the queue is the one 
+ we need to protect. So after pop we unlock the mutex
+- Only one thread per sound (dont use jthread for every sound)
+*/

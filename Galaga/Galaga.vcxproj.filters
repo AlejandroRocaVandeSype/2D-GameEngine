@@ -15,12 +15,18 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Components\Enemies">
+      <UniqueIdentifier>{2b2bee8d-a3ee-44fb-bc7d-973066bd878d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Player">
+      <UniqueIdentifier>{c9955edc-f989-4171-9f8a-e1aff25fac44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\General">
+      <UniqueIdentifier>{38669690-7024-4c02-878e-16e30b2bfaff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Galaga.cpp">
-      <Filter>General files</Filter>
-    </ClCompile>
-    <ClCompile Include="TrashTheCache.cpp">
       <Filter>General files</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -35,22 +41,13 @@
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="LivesUIComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="MoveComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ParallaxScrollingCP.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerInputCP.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="MissileCP.cpp">
@@ -63,10 +60,28 @@
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="EnemyCP.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="PlayerCP.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInputCP.cpp">
+      <Filter>Components\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesUIComponent.cpp">
+      <Filter>Components\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="FormationCP.cpp">
+      <Filter>Components\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="FormationJSONReader.cpp">
+      <Filter>General files</Filter>
+    </ClCompile>
+    <ClCompile Include="AI_BeeCP.cpp">
+      <Filter>Components\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,28 +94,16 @@
     <ClInclude Include="HealthComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="LivesUIComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="MoveComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="RotatorComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>General files</Filter>
     </ClInclude>
-    <ClInclude Include="TrashTheCache.h">
-      <Filter>General files</Filter>
-    </ClInclude>
     <ClInclude Include="ParallaxScrollingCP.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerInputCP.h">
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="MissileCP.h">
@@ -115,14 +118,32 @@
     <ClInclude Include="FireCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyCP.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCP.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="SoundIDs.h">
       <Filter>General files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCP.h">
+      <Filter>Components\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCP.h">
+      <Filter>Components\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInputCP.h">
+      <Filter>Components\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesUIComponent.h">
+      <Filter>Components\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="FormationCP.h">
+      <Filter>Components\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="FormationJSONReader.h">
+      <Filter>General files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_BeeCP.h">
+      <Filter>Components\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

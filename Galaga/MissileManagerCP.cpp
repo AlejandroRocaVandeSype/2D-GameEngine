@@ -27,7 +27,7 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 	for (int missileIdx{ 0 }; missileIdx < maxMissiles; ++missileIdx)
 	{
 		auto go_Missile = std::make_shared<engine::GameObject>(nullptr, "PlayerMissile", missileStartPos, glm::vec2{2.f, 2.f});
-		go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "PlayerBullet.png");
+		go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "Sprites/PlayerBullet.png");
 		go_Missile->AddComponent<MoveComponent>(go_Missile.get(), 300.f, missileBoundaries, glm::vec3{0.f, -1.f, 0.f});
 		go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
 		go_Missile->AddComponent<MissileCP>(go_Missile.get());

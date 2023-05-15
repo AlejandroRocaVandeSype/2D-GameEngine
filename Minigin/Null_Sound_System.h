@@ -11,9 +11,9 @@ namespace engine
 	class Null_Sound_System final : public engine::SoundSystem
 	{
 	public:
-		void PlaySound([[maybe_unused]] const short id) override {};
+		void PlaySound( const short) override {};
 		void ProcessRequests() override {};
-		void RegisterSoundID([[maybe_unused]] const short id, [[maybe_unused]] const std::string& soundPath, [[maybe_unused]] const int volume) override {};
+		void RegisterSoundID( const short,  const std::string&,  const int) override {};
 	};
 
 }

@@ -29,6 +29,8 @@ void Game::Initialize()
 
 	SetupSounds();
 	SetupBackground();
+	SetupEnemies();
+
 
 	// PLAYER 1
 	glm::vec3 startPos{ m_Window.width / 2.f, m_Window.height / 1.15f, 0.f };
@@ -37,38 +39,8 @@ void Game::Initialize()
 	scene.Add(go_Player);
 
 	// ENEMIES
-	glm::vec3 startPos2{ 300.f, 200.f, 0.f };
-	auto go_Enemy = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos2, glm::vec2{ 2.f, 2.f });
-	go_Enemy->AddComponent<EnemyCP>(go_Enemy.get(), 1);
-	scene.Add(go_Enemy);
-
-	glm::vec3 startPos3{ 250.f, 200.f, 0.f };
-	auto go_Enemy2 = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos3, glm::vec2{ 2.f, 2.f });
-	go_Enemy2->AddComponent<EnemyCP>(go_Enemy2.get(), 1);
-	scene.Add(go_Enemy2);
-
-	glm::vec3 startPos4{ 150.f, 200.f, 0.f };
-	auto go_Enemy3 = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos4, glm::vec2{ 2.f, 2.f });
-	go_Enemy3->AddComponent<EnemyCP>(go_Enemy3.get(), 1);
-	scene.Add(go_Enemy3);
-
-	glm::vec3 startPos5{ 100.f, 200.f, 0.f };
-	auto go_Enemy4 = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos5, glm::vec2{ 2.f, 2.f });
-	go_Enemy4->AddComponent<EnemyCP>(go_Enemy4.get(), 1);
-	scene.Add(go_Enemy4);
-
-	glm::vec3 startPos6{ 350.f, 200.f, 0.f };
-	auto go_Enemy5 = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos6, glm::vec2{ 2.f, 2.f });
-	go_Enemy5->AddComponent<EnemyCP>(go_Enemy5.get(), 1);
-	scene.Add(go_Enemy5);
-
-	// How to play text
-	auto go_HowToPlayText = std::make_shared<engine::GameObject>(nullptr, UI_TAG, glm::vec3{ 40, 20, 0 });
-	go_HowToPlayText->AddComponent<engine::RenderComponent>(go_HowToPlayText.get());
-	auto font = engine::ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
-	go_HowToPlayText->AddComponent<TextComponent>(go_HowToPlayText.get(), "Press Space to shoot and A/D keys to move ", font);
 	
-	scene.Add(go_HowToPlayText);
+
 	
 }
 
@@ -81,7 +53,7 @@ void Game::SetupBackground()
 	// Background 1
 	auto go_Background1 = std::make_shared<engine::GameObject>(nullptr, LEVEL_TAG, glm::vec3{0.f, 0.f, 0.f},
 		backgroundScale);
-	go_Background1->AddComponent<engine::RenderComponent>(go_Background1.get(), "background.png");
+	go_Background1->AddComponent<engine::RenderComponent>(go_Background1.get(), "Sprites/background.png");
 	go_Background1->AddComponent<ParallaxScrollingCP>(go_Background1.get());
 
 	scene.Add(go_Background1);
@@ -92,7 +64,7 @@ void Game::SetupBackground()
 
 	auto go_Background2 = std::make_shared<engine::GameObject>(nullptr, LEVEL_TAG, background2StartPos,
 		backgroundScale);
-	go_Background2->AddComponent<engine::RenderComponent>(go_Background2.get(), "background.png");
+	go_Background2->AddComponent<engine::RenderComponent>(go_Background2.get(), "Sprites/background.png");
 	go_Background2->AddComponent<ParallaxScrollingCP>(go_Background2.get());
 
 	scene.Add(go_Background2);
@@ -103,10 +75,29 @@ void Game::SetupSounds()
 	auto& soundSystem = engine::Servicealocator::Get_Sound_System();
 
 	// Register sounds ID with its path (dont load them yet)
-	soundSystem.RegisterSoundID(short(Sounds::startSound), "../Data/Start.wav", 50);
-	soundSystem.RegisterSoundID(short(Sounds::playerFire), "../Data/PlayerShoot.wav", 50);
-	soundSystem.RegisterSoundID(short(Sounds::enemyDie), "../Data/EnemyDies.wav", 70);
+	soundSystem.RegisterSoundID(short(Sounds::startSound), "../Data/Sounds/Start.wav", 50);
+	soundSystem.RegisterSoundID(short(Sounds::playerFire), "../Data/Sounds/PlayerShoot.wav", 50);
+	soundSystem.RegisterSoundID(short(Sounds::enemyDie), "../Data/Sounds/EnemyDies.wav", 70);
 
+}
+
+void Game::SetupEnemies()
+{
+	auto& scene = engine::SceneManager::GetInstance().GetActiveScene();
+
+	// FORMATION FOR ALL ENEMIES
+	auto go_Formation = std::make_shared<engine::GameObject>(nullptr, LEVEL_TAG, glm::vec3{ 0.f, 0.f, 0.f });
+	go_Formation->AddComponent<FormationCP>(go_Formation.get(), "../Data/Formations/Formation1.json");
+	scene.Add(go_Formation);
+
+	auto v = go_Formation->GetComponent<FormationCP>()->GetFormation("bees");
+
+	// ENEMIES
+	glm::vec3 startPos2{ 50.f, 200.f, 0.f };
+	auto go_Enemy = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos2, glm::vec2{ 2.f, 2.f });
+	go_Enemy->AddComponent<EnemyCP>(go_Enemy.get(), v[0], 1);
+	go_Enemy->AddComponent<AI_BeeCP>(go_Enemy.get());
+	scene.Add(go_Enemy);
 }
 
 Game::~Game()

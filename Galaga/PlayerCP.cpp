@@ -13,7 +13,7 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const glm::v
 {
 	if (pOwner != nullptr)
 	{
-		std::string sprFileName{ "Player.png" };
+		std::string sprFileName{ "Sprites/Player.png" };
 		pOwner->AddComponent<engine::RenderComponent>(pOwner, sprFileName);
 		pOwner->AddComponent<HealthComponent>(pOwner, health);
 

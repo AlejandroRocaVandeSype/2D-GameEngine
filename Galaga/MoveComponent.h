@@ -12,6 +12,7 @@ public:
 	// Simple struct to specify the boundaries for the movement
 	struct Boundaries
 	{
+		Boundaries() : leftLimit{ 0 }, rightLimit{ 0 }, botLimit{ 0 }, topLimit{ 0 }, isMoveRestricted{ false } {};
 		Boundaries(float left, float right, float bot, float top, bool restrictMovement = false)
 			: leftLimit{ left }, rightLimit{ right }, botLimit{ bot }, topLimit{ top }, isMoveRestricted { restrictMovement}
 			{};
