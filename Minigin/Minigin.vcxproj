@@ -241,7 +241,6 @@
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Event.cpp" />
-    <ClCompile Include="Logging_Sound_System.cpp" />
     <ClCompile Include="SDL_SoundSystem.cpp" />
     <ClCompile Include="Servicealocator.cpp" />
     <ClCompile Include="structs.cpp" />

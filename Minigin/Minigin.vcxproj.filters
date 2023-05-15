@@ -208,9 +208,6 @@
     <ClCompile Include="Servicealocator.cpp">
       <Filter>Engine Files\Services</Filter>
     </ClCompile>
-    <ClCompile Include="Logging_Sound_System.cpp">
-      <Filter>Engine Files\Services</Filter>
-    </ClCompile>
     <ClCompile Include="SDL_SoundSystem.cpp">
       <Filter>Engine Files\Services</Filter>
     </ClCompile>

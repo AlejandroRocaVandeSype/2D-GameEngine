@@ -21,7 +21,7 @@ public:
 	}
 
 	// Updates the state of the Controller being connected and check button changes
-	void Update()
+	void ProcessRequests()
 	{
 		// Save the state in order to be able to compare and detect which buttons have been 
 		// pressed or released since last frame
@@ -130,9 +130,9 @@ Controller::~Controller()
 	std::cout << "Controller destructor \n";
 }
 
-void Controller::Update()
+void Controller::ProcessRequests()
 {
-	pImpl->Update();
+	pImpl->ProcessRequests();
 }
 
 bool Controller::IsDown(XboxControllerButton button) const

@@ -12,8 +12,8 @@ namespace engine
 	{
 	public:
 		void PlaySound([[maybe_unused]] const short id) override {};
-		void Update() override {};
-		void CreateSound([[maybe_unused]] const short id, [[maybe_unused]] const std::string& soundPath, [[maybe_unused]] const int volume) override {};
+		void ProcessRequests() override {};
+		void RegisterSoundID([[maybe_unused]] const short id, [[maybe_unused]] const std::string& soundPath, [[maybe_unused]] const int volume) override {};
 	};
 
 }

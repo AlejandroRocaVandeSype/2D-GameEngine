@@ -12,5 +12,6 @@
 #include "PlayerCP.h"
 #include "Servicealocator.h"
 #include "SoundIDs.h"
+#include "TextComponent.h"
 
 #endif

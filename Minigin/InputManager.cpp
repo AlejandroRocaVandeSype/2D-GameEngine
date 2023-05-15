@@ -117,7 +117,7 @@ bool engine::InputManager::ProcessControllersInput(float deltaTime)
 	{
 		if (controller->IsConnected())
 		{
-			controller->Update();
+			controller->ProcessRequests();
 
 			// Loop through all the available commands
 			for (const auto& controllerCommand : m_ControllerCommands)

@@ -62,7 +62,6 @@ namespace engine
 		ControllerCommandsMap m_ControllerCommands;
 
 		
-
 	};
 
 }

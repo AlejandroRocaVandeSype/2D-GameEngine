@@ -16,6 +16,7 @@ namespace engine
 		Logging_Sound_System(engine::SoundSystem* ss) : _real_ss(ss) {};
 		~Logging_Sound_System() override
 		{ 
+			std::cout << "Deleting sound system..." << std::endl;
 			delete _real_ss;  
 		}
 
@@ -25,11 +26,11 @@ namespace engine
 			std::cout << "Playing Sound " << id << "\n";
 		}
 
-		void Update() override { _real_ss->Update(); }
+		void ProcessRequests() override { _real_ss->ProcessRequests(); }
 
-		void CreateSound(const short id, const std::string& soundPath, const int volume) override
+		void RegisterSoundID(const short id, const std::string& soundPath, const int volume) override
 		{
-			_real_ss->CreateSound(id, soundPath, volume);
+			_real_ss->RegisterSoundID(id, soundPath, volume);
 			std::cout << "Sound created " << id << " with Path " << soundPath << "and volume " << volume << "\n";
 		}
 

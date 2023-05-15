@@ -10,8 +10,8 @@ namespace engine
 	public:
 		virtual ~SoundSystem() = default;
 		virtual void PlaySound(const short id) = 0;
-		virtual void Update() = 0;
-		virtual void CreateSound(const short id, const std::string& soundPath, const int volume) = 0;
+		virtual void ProcessRequests() = 0;
+		virtual void RegisterSoundID(const short id, const std::string& soundPath, const int volume) = 0;
 	};
 }
 

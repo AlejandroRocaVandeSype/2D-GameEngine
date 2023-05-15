@@ -27,7 +27,7 @@ public:
 	explicit Controller(unsigned controllerIdx);
 	~Controller();
 
-	void Update();
+	void ProcessRequests();
 
 	bool IsDown(XboxControllerButton button) const;
 	bool IsUp(XboxControllerButton button) const;

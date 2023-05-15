@@ -10,11 +10,7 @@ namespace engine
 	{		
 	public:
 
-		// SOUND SYSTEM SERVICE
-		/*static void InitializeSoundSystem()
-		{
-			_ss_instance = &_default_ss;
-		}*/
+		// **** SOUND SYSTEM SERVICE ***
 		static engine::SoundSystem& Get_Sound_System() { return *_ss_instance; }
 		static void Register_sound_system(engine::SoundSystem* ss) 
 		{ 
