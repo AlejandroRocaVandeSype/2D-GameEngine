@@ -27,6 +27,9 @@ namespace engine
 
 		void SetActiveScene(const std::string& sceneName);
 		Scene& GetActiveScene();
+
+		void SetSceneWindow(const engine::Window& window);
+		const engine::Window& GetSceneWindow() const;
 		
 	private:
 		friend class Singleton<SceneManager>;
@@ -35,7 +38,8 @@ namespace engine
 		std::vector<std::shared_ptr<Scene>> m_scenes;
 		const int INVALID_SCENE;
 		int m_ActiveScene;
-		const engine::Window* m_Window;
+		
+		engine::Window m_Window;
 	};
 }
 

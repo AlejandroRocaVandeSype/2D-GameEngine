@@ -2,26 +2,38 @@
 #define GALAGA_FORMATIONCP
 #include <Component.h>
 #include <vector>
-#include <glm/vec3.hpp>
+#include <memory>
+#include "glm/vec3.hpp"
+#include "Observer.h"
 
-// Component that represents all positions in the formation for the enemies
-class FormationCP final : public engine::Component
+// Component that will contain all enemies from the current level and will
+// init them with correct info and add them to the scene
+class FormationCP final : public engine::Component, public engine::Observer
 {
 public:
-	FormationCP(engine::GameObject* pOwner, const std::string& formationJsonPath);
+	FormationCP(engine::GameObject* pOwner, const std::string& JSONPath);
 	~FormationCP() override;
 
 	void Update(const float deltaTime) override;
-	void ReceiveMessage(const std::string& message, const std::string& value) override;
+	void ReceiveMessage(const std::string&, const std::string&) override;
 
-	void ReadFormationFromJSON(const std::string& formationJsonPath);
+	void OnNotify(engine::GameObject* gameObject, const engine::Event& event) override;
 
-	std::vector<glm::vec3> GetFormation(const std::string& enemyType) const;
+	void ReadFormationFromJSON(const std::string& JSONPath);
+
 
 private:
-	std::vector<glm::vec3> m_vBeesPos;
-	std::vector<glm::vec3> m_vButterfliesPos;
-	std::vector<glm::vec3> m_vGalagasPos;
+
+	void SetStartingPos(const std::string& commingFrom, glm::vec3& startPos);
+	void SearchForDeadEnemy();
+
+	// Scene and the FormationCP will share ownership of the enemies
+	std::vector< std::shared_ptr<engine::GameObject> > m_vBees;
+	std::vector< std::shared_ptr<engine::GameObject>> m_vButterflies;
+	std::vector< std::shared_ptr<engine::GameObject>> m_vGalagas;
+
+	int beesPos = 0;
+	float timeBees = 1.f;
 
 };
 

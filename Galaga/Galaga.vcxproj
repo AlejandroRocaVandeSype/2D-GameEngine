@@ -158,10 +158,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AI_BeeCP.cpp" />
+    <ClCompile Include="AI_FormationCP.cpp" />
     <ClCompile Include="EnemyCP.cpp" />
     <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="FormationCP.cpp" />
-    <ClCompile Include="FormationJSONReader.cpp" />
+    <ClCompile Include="FormationReaderCP.cpp" />
     <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
@@ -179,10 +180,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI_BeeCP.h" />
+    <ClInclude Include="AI_FormationCP.h" />
     <ClInclude Include="EnemyCP.h" />
     <ClInclude Include="FireCommand.h" />
     <ClInclude Include="FormationCP.h" />
-    <ClInclude Include="FormationJSONReader.h" />
+    <ClInclude Include="FormationReaderCP.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameIncludes.h" />
     <ClInclude Include="HealthComponent.h" />

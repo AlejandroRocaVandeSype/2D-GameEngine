@@ -59,6 +59,7 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 void HealthComponent::Kill()
 {
 	m_Lives = 0;
+	GetOwner()->MarkAsDead();
 
 	if (m_HealthSubject != nullptr)
 	{
@@ -66,7 +67,7 @@ void HealthComponent::Kill()
 		m_HealthSubject->NotifyObservers(GetOwner(), dieEvent);
 	}
 
-	GetOwner()->MarkAsDead();
+	
 }
 
 void HealthComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)

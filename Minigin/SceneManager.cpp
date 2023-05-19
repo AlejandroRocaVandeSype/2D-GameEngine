@@ -6,7 +6,9 @@
 engine::SceneManager::SceneManager()
 	: INVALID_SCENE { -1 }
 	, m_ActiveScene { INVALID_SCENE }
-{}
+{
+	m_Window = engine::Window{ "DefaultWindow", 100.f , 100.f };
+}
 
 void engine::SceneManager::Update(const float deltaTime)
 {
@@ -103,6 +105,16 @@ void engine::SceneManager::SetActiveScene(const std::string& sceneName)
 			break;
 		}
 	}
+}
+
+void engine::SceneManager::SetSceneWindow(const engine::Window& window)
+{
+	m_Window = window;
+}
+
+const engine::Window& engine::SceneManager::GetSceneWindow() const
+{
+	return m_Window;
 }
 
 engine::Scene& engine::SceneManager::GetActiveScene()

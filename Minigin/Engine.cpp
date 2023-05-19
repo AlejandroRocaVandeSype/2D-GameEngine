@@ -73,6 +73,8 @@ engine::Engine::Engine(const std::string &dataPath, const engine::Window& window
 
 	ResourceManager::GetInstance().Init(dataPath);
 
+	SceneManager::GetInstance().SetSceneWindow(window);
+
 	// INIT SOUND SYSTEM
 	#if _DEBUG
 		// If debug mode use the log version
@@ -121,7 +123,7 @@ void engine::Engine::Run()
 		const auto sleepTime = currentTime + milliseconds(TARGET_FRAME_TIME) - high_resolution_clock::now();
 		if (sleepTime.count() > 0)
 		{
-			// Sleep to avoid going too fast and max our fps to 60
+			// Sleep to avoid going too fast and cap our fps to 60
 			std::this_thread::sleep_for(sleepTime);
 		}
 			

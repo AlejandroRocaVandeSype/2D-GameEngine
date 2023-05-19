@@ -1,0 +1,21 @@
+{
+  "formation":"Formation1",
+  "units":
+  [
+    {
+      "type":"top1",
+      "enemies":
+	  [
+		  {
+			  "type": "bees",
+			  "amount": 4
+		  },
+		  {
+			  "type": "butterflies",
+			  "amount": 4
+		  }
+	  ]
+    }
+  ]
+  
+}

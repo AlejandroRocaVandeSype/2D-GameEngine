@@ -86,18 +86,10 @@ void Game::SetupEnemies()
 	auto& scene = engine::SceneManager::GetInstance().GetActiveScene();
 
 	// FORMATION FOR ALL ENEMIES
+	// Formation GO will be the one who creates all enemies with the correct info
 	auto go_Formation = std::make_shared<engine::GameObject>(nullptr, LEVEL_TAG, glm::vec3{ 0.f, 0.f, 0.f });
 	go_Formation->AddComponent<FormationCP>(go_Formation.get(), "../Data/Formations/Formation1.json");
 	scene.Add(go_Formation);
-
-	auto v = go_Formation->GetComponent<FormationCP>()->GetFormation("bees");
-
-	// ENEMIES
-	glm::vec3 startPos2{ 50.f, 200.f, 0.f };
-	auto go_Enemy = std::make_shared<engine::GameObject>(nullptr, ENEMY_TAG, startPos2, glm::vec2{ 2.f, 2.f });
-	go_Enemy->AddComponent<EnemyCP>(go_Enemy.get(), v[0], 1);
-	go_Enemy->AddComponent<AI_BeeCP>(go_Enemy.get());
-	scene.Add(go_Enemy);
 }
 
 Game::~Game()
