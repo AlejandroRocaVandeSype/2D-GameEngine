@@ -59,7 +59,7 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 void HealthComponent::Kill()
 {
 	m_Lives = 0;
-	GetOwner()->MarkAsDead();
+	GetOwner()->SetIsActive(false);
 
 	if (m_HealthSubject != nullptr)
 	{

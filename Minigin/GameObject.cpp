@@ -265,6 +265,17 @@ bool GameObject::HasParent() const
 	return false;
 }
 
+std::vector<engine::GameObject*> GameObject::GetChildren()
+{
+	std::vector<engine::GameObject*> children;
+	for (size_t idx{ 0 }; idx < m_vChildren.size(); ++idx)
+	{
+		children.emplace_back(m_vChildren.at(idx).get());
+	}
+
+	return children;
+}
+
 void GameObject::SetIsActive(const bool isActive)
 {
 	m_IsActive = isActive;

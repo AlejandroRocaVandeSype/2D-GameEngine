@@ -21,20 +21,23 @@ public:
 
 	void ReadFormationFromJSON(const std::string& JSONPath);
 
+	std::vector< std::shared_ptr<engine::GameObject>> GetEnemies(const std::string& type);
+
 
 private:
 
 	void SetStartingPos(const std::string& commingFrom, glm::vec3& startPos);
 	void SearchForDeadEnemy();
-
-	// Scene and the FormationCP will share ownership of the enemies
-	std::vector< std::shared_ptr<engine::GameObject> > m_vBees;
+	
+	std::vector< std::shared_ptr<engine::GameObject>> m_vBees;
 	std::vector< std::shared_ptr<engine::GameObject>> m_vButterflies;
 	std::vector< std::shared_ptr<engine::GameObject>> m_vGalagas;
 
 	int beesPos = 0;
 	float timeBees = 1.f;
-
+	
+	float m_LeftLimitFormation;
+	float m_RighttLimitFormation;
 };
 
 #endif

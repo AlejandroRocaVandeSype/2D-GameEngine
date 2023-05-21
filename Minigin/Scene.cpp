@@ -41,8 +41,7 @@ void Scene::Update(const float deltaTime)
 		object->Update(deltaTime);
 	}
 
-	// TODO: Use space partitioning
-	// Check collisions between the gameObjects that have collisionCP
+	// TODO: Use spatial partitioning
 	for (size_t objectIdx1{ 0 }; objectIdx1 < m_objects.size(); ++objectIdx1)
 	{
 		auto object1 = m_objects.at(objectIdx1);
@@ -52,22 +51,31 @@ void Scene::Update(const float deltaTime)
 
 			if (collisionCP)
 			{
-				for (size_t objectIdx2{ 0 }; objectIdx2 < m_objects.size(); ++objectIdx2)
+				CheckCollisions(objectIdx1, collisionCP);
+			}
+
+			// Check collisions with the children if any
+			if (object1->HasChildren())
+			{
+				auto children = std::move(object1->GetChildren());
+
+				int childIdx = 0;
+				for (auto& child : children)
 				{
-					if (objectIdx2 != objectIdx1) // Dont check collisions with itself
+					if (child->IsActive())
 					{
-						auto object2 = m_objects.at(objectIdx2);
-						if (object2->IsActive())
+						auto childCollisionCP = child->GetComponent<engine::CollisionComponent>();
+
+						if (childCollisionCP)
 						{
-							auto collisionCP2 = object2->GetComponent<engine::CollisionComponent>();
-							if (collisionCP2)
-							{
-								collisionCP->CollisionWith(m_objects.at(objectIdx2).get(), collisionCP2);
-							}
+							CheckCollisions(childIdx, childCollisionCP);
 						}
-					}				
+					}
+
+					childIdx++;
 				}
 			}
+
 		}
 
 	}
@@ -78,6 +86,26 @@ void Scene::Update(const float deltaTime)
 	// Loop again to remove dead gameObjects if any
 	RemoveDeadObjects();
 	
+}
+
+void Scene::CheckCollisions(size_t objectIdx1, engine::CollisionComponent* pCollisionCP)
+{
+	for (size_t objectIdx2{ 0 }; objectIdx2 < m_objects.size(); ++objectIdx2)
+	{
+		if (objectIdx2 != objectIdx1) // Dont check collisions with itself
+		{
+			auto object2 = m_objects.at(objectIdx2);
+			if (object2->IsActive())
+			{
+				auto collisionCP2 = object2->GetComponent<engine::CollisionComponent>();
+				if (collisionCP2)
+				{
+					pCollisionCP->CollisionWith(m_objects.at(objectIdx2).get(), collisionCP2);
+				}
+
+			}
+		}
+	}
 }
 
 // Remove all "dead" objects after update

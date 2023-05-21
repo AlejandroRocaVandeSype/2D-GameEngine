@@ -30,7 +30,7 @@ void AI_BeeCP::Update(const float deltaTime)
 		glm::vec3 direction{ glm::normalize(targetPos - currentPos) };
 
 		float distance{ glm::distance(targetPos, currentPos) };
-		if (distance > 1.f )
+		if (distance > 2.f )
 		{
 			m_pMoveCP->Move(deltaTime, direction);
 		}

@@ -18,5 +18,6 @@
 #include "SoundIDs.h"
 // Enemies
 #include "FormationCP.h"
+#include "AI_FormationCP.h"
 
 #endif

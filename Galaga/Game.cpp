@@ -89,6 +89,7 @@ void Game::SetupEnemies()
 	// Formation GO will be the one who creates all enemies with the correct info
 	auto go_Formation = std::make_shared<engine::GameObject>(nullptr, LEVEL_TAG, glm::vec3{ 0.f, 0.f, 0.f });
 	go_Formation->AddComponent<FormationCP>(go_Formation.get(), "../Data/Formations/Formation1.json");
+	go_Formation->AddComponent<AI_FormationCP>(go_Formation.get(), "../Data/Formations/Formation1-Order.json");
 	scene.Add(go_Formation);
 }
 

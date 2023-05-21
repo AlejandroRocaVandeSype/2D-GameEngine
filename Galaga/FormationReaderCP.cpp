@@ -37,7 +37,7 @@ void FormationReaderCP::OpenJSONFile(const std::string& jsonFilePath)
 }
 
 
-std::multimap<std::string, glm::vec3> FormationReaderCP::ReadFormation(const std::string& jsonFilePath, const std::string& enemyType)
+std::vector<std::pair<std::string, glm::vec3>> FormationReaderCP::ReadFormation(const std::string& jsonFilePath, const std::string& enemyType)
 {
 	if (!m_IsLoaded)
 	{
@@ -45,7 +45,7 @@ std::multimap<std::string, glm::vec3> FormationReaderCP::ReadFormation(const std
 		OpenJSONFile(jsonFilePath);
 	}
 	
-	std::multimap<std::string, glm::vec3> enemyInfo;
+	std::vector<std::pair<std::string, glm::vec3>> enemyInfo;
 
 	const rapidjson::Value& element = m_FormationJsonDoc;
 	if (m_FormationJsonDoc.HasMember("units"))
@@ -63,7 +63,7 @@ std::multimap<std::string, glm::vec3> FormationReaderCP::ReadFormation(const std
 				for (rapidjson::SizeType pos{ 0 }; pos < positions.Size(); ++pos)
 				{
 					const rapidjson::Value& value = positions[pos].GetArray();					
-					enemyInfo.insert(std::make_pair(startPos, glm::vec3{ value[0].GetFloat(), value[1].GetFloat(), 0 }));
+					enemyInfo.emplace_back(std::make_pair(startPos, glm::vec3{ value[0].GetFloat(), value[1].GetFloat(), 0 }));
 
 				}
 
@@ -72,6 +72,36 @@ std::multimap<std::string, glm::vec3> FormationReaderCP::ReadFormation(const std
 	}
 
 	return enemyInfo;
+}
+
+std::vector<std::pair<std::string, unsigned short>> FormationReaderCP::ReadOrder(const std::string& jsonFilePath)
+{
+	if (!m_IsLoaded)
+	{
+		// Try to open the jsonFile in order to read it
+		OpenJSONFile(jsonFilePath);
+	}
+
+	// It will contain the order in which enemies will spawn and the amount per batch
+	std::vector<std::pair<std::string, unsigned short>> orderInfo;
+
+	const rapidjson::Value& element = m_FormationJsonDoc;
+	if (m_FormationJsonDoc.HasMember("orderInfo"))
+	{
+		const rapidjson::Value& orders = element["orderInfo"].GetArray();
+		for (rapidjson::SizeType i{ 0 }; i < orders.Size(); ++i)
+		{
+			const rapidjson::Value& order = orders[i];
+			std::string type = order["type"].GetString();		// From top, left, right ....
+			unsigned short amount = static_cast<unsigned short>(order["amount"].GetInt());
+			
+			orderInfo.emplace_back(std::make_pair(type, amount));
+
+		}
+	}
+
+
+	return orderInfo;
 }
 
 void FormationReaderCP::ClearJSONFile()

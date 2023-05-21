@@ -1,0 +1,22 @@
+{
+  "orderInfo": [
+    {
+      "type": "top",
+      "amount": 4
+    },
+    {
+      "type": "left",
+      "amount": 4
+    },
+    {
+      "type": "right",
+      "amount": 8
+    },
+    {
+      "type": "top1",
+      "amount": 8
+    }
+
+  ]
+  
+}

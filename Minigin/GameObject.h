@@ -40,6 +40,7 @@ namespace engine
 		void DeleteDeadChildren();
 		bool HasChildren() const;
 		bool HasParent() const;
+		std::vector<engine::GameObject*> GetChildren();
 		const GameObject* getParent() const;
 		const glm::vec3 GetWorldPosition() const;
 		void SetPositionDirty();

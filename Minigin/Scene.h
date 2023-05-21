@@ -6,6 +6,7 @@
 namespace engine
 {
 	class GameObject;
+	class CollisionComponent;
 	class Scene final
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
@@ -17,6 +18,8 @@ namespace engine
 
 		void Update(const float deltaTime);
 		void Render() const;
+
+		void CheckCollisions(size_t objectIdx1, engine::CollisionComponent* pCollisionCP);
 
 		const std::string& Name() const;
 

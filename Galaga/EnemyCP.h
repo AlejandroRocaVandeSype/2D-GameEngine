@@ -7,7 +7,7 @@
 class EnemyCP final: public engine::Component, public engine::Observer
 {
 	public:
-		EnemyCP(engine::GameObject* pOwner, const glm::vec3 formationPos, unsigned int health);
+		EnemyCP(engine::GameObject* pOwner, const std::string& spriteFilePath, const glm::vec3 formationPos, unsigned int health);
 		virtual ~EnemyCP() override;
 
 		virtual void Update(const float deltaTime) override;
