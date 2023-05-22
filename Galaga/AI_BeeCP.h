@@ -21,6 +21,7 @@ private:
 	EnemyCP* m_pEnemyCP;
 	MoveComponent* m_pMoveCP;
 	engine::TransformComponent* m_pTransformCP;
+	bool m_InFormation;
 };
 
 #endif

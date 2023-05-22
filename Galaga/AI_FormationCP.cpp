@@ -54,13 +54,12 @@ void AI_FormationCP::GetEnemyData(const std::string& type, std::vector<engine::G
 	container.reserve(enemiesData.size());
 	for (const auto& enemy : enemiesData)
 	{
-		container.emplace_back(enemy.get());
+		container.emplace_back(enemy);
 	}
 }
 
 AI_FormationCP::~AI_FormationCP()
 {
-
 }
 
 void AI_FormationCP::Update(const float deltaTime)
@@ -156,7 +155,7 @@ void AI_FormationCP::MoveIntoFormation(const float deltaTime)
 
 }
 
-// Activate the corresponding enemy to move into the formation
+// Activate the corresponding enemy from the formation
 void AI_FormationCP::ActivateEnemy(std::vector<engine::GameObject*> enemies, unsigned short& currentActive)
 {
 	if (currentActive < int(enemies.size()))

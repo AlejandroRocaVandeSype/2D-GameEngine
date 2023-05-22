@@ -6,6 +6,11 @@
 #include "glm/vec3.hpp"
 #include "Observer.h"
 
+namespace engine
+{
+	class TransformComponent;
+}
+
 // Component that will contain all enemies from the current level and will
 // init them with correct info and add them to the scene
 class FormationCP final : public engine::Component, public engine::Observer
@@ -21,7 +26,7 @@ public:
 
 	void ReadFormationFromJSON(const std::string& JSONPath);
 
-	std::vector< std::shared_ptr<engine::GameObject>> GetEnemies(const std::string& type);
+	std::vector< engine::GameObject*> GetEnemies(const std::string& type);
 
 
 private:
@@ -29,15 +34,21 @@ private:
 	void SetStartingPos(const std::string& commingFrom, glm::vec3& startPos);
 	void SearchForDeadEnemy();
 	
-	std::vector< std::shared_ptr<engine::GameObject>> m_vBees;
-	std::vector< std::shared_ptr<engine::GameObject>> m_vButterflies;
-	std::vector< std::shared_ptr<engine::GameObject>> m_vGalagas;
+	std::vector< engine::GameObject*> m_vBees;
+	std::vector< engine::GameObject*> m_vButterflies;
+	std::vector< engine::GameObject*> m_vGalagas;
 
 	int beesPos = 0;
 	float timeBees = 1.f;
 	
+	// Formation movement
+	const float m_FormationSize;
+	const float m_FormationSpeed;
+	engine::TransformComponent* m_pTransformCP;
+	bool m_MovingRight;
 	float m_LeftLimitFormation;
 	float m_RighttLimitFormation;
+
 };
 
 #endif

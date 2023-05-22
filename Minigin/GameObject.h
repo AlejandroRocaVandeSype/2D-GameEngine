@@ -14,7 +14,8 @@ namespace engine
 		
 	public:
 		
-		GameObject(GameObject* pParent, const std::string& tag, glm::vec3 startPosition, glm::vec2 scale = { 1.f, 1.f});
+		GameObject(GameObject* pParent, const std::string& tag, glm::vec3 startPosition, glm::vec2 scale = { 1.f, 1.f},
+			bool keepWorldPosition = true);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -45,6 +46,7 @@ namespace engine
 		const glm::vec3 GetWorldPosition() const;
 		void SetPositionDirty();
 		void SavePreviousWorldPosition(const glm::vec3& prevWorldPos);
+		void SetChildrenPosDirty();
 
 		template <typename T> bool HasComponentAlready() const;
 		const bool IsMarkedAsDead() const;
@@ -69,6 +71,7 @@ namespace engine
 		std::vector<std::unique_ptr<engine::Component>> m_vComponents;  
 		RenderComponent* m_pRenderCP;
 		TransformComponent* m_pTransformCP{};
+		bool m_KeepWorldPosition;
 		glm::vec3 m_PreviousWorldPosition{};
 
 		bool m_IsActive;

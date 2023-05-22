@@ -47,6 +47,7 @@ void MoveComponent::Move(float deltaTime, const glm::vec3& direction)
 			{
 				// Inside boundaries
 				m_IsInsideBoundaries = true;
+
 				transformCP->SetLocalPosition(pos);
 				return;
 			}

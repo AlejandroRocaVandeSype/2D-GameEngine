@@ -104,7 +104,8 @@ void Scene::CheckCollisions(size_t objectIdx1, engine::CollisionComponent* pColl
 				}
 
 			}
-		}
+
+		}	
 	}
 }
 

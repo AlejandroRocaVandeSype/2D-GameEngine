@@ -4,18 +4,19 @@
 
 using namespace engine;
 
-GameObject::GameObject(GameObject* pParent, const std::string& tag, glm::vec3 startPosition, glm::vec2 scale)
+GameObject::GameObject(GameObject* pParent, const std::string& tag, glm::vec3 startPosition, glm::vec2 scale, bool keepWorldPosition)
 	: m_pParent { nullptr }
 	, m_IsActive{ true }
 	, m_IsDead { false }
 	, m_HasToRender { false }
 	, m_pRenderCP{ nullptr }
 	, m_Tag { tag }
+	, m_KeepWorldPosition { keepWorldPosition }
 {
 	// All gameObjects have a transform component attach when created
 	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition, scale);
 
-	SetParent(pParent);
+	SetParent(pParent, m_KeepWorldPosition);
 	
 }
 
@@ -26,6 +27,8 @@ GameObject::GameObject(GameObject* pParent, const std::string& tag, glm::vec3 st
 // -----------------------------------------------------------------------------
 void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 {
+	m_KeepWorldPosition = keepWorldPosition;	// Does the child want to keep its world position?
+
 	// FIRST UPDATE THE LOCAL POSITION OF THE GAMEOBJECT
 	// TODO : Update scale and rotation too
 	if (pNewParent == nullptr)
@@ -39,7 +42,7 @@ void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 	else
 	{
 		// Check if we want to move the gameObject to its parent worldPosition
-		if (keepWorldPosition)
+		if (m_KeepWorldPosition)
 		{
 			if (m_pTransformCP != nullptr)
 			{
@@ -304,9 +307,17 @@ void GameObject::MarkAsDead()
 
 void GameObject::SetPositionDirty()
 {
-	if (m_pTransformCP != nullptr)
+	if (m_pTransformCP != nullptr && !m_KeepWorldPosition)
 	{
 		m_pTransformCP->SetPositionDirty();
+	}
+}
+
+void GameObject::SetChildrenPosDirty()
+{
+	for (const auto& child : m_vChildren)
+	{
+		child->SetPositionDirty();
 	}
 }
 
