@@ -36,11 +36,17 @@ void HealthComponent::Update([[maybe_unused]] const float deltaTime)
 
 void HealthComponent::DecrementHealth(unsigned int amount)
 {
-	if (m_Lives > 0)
+	if (m_Lives > 0 && amount > 0)
 	{
 		if (amount >= m_Lives)
 		{
-			Kill();			
+			m_Lives = 0;
+
+			if (m_HealthSubject != nullptr)
+			{
+				engine::Event dieEvent{ "GameObjectDied" };
+				m_HealthSubject->NotifyObservers(GetOwner(), dieEvent);
+			}
 		}
 		else
 		{
@@ -56,19 +62,6 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 	}	
 }
 
-void HealthComponent::Kill()
-{
-	m_Lives = 0;
-	GetOwner()->SetIsActive(false);
-
-	if (m_HealthSubject != nullptr)
-	{
-		engine::Event dieEvent{ "GameObjectDied" };
-		m_HealthSubject->NotifyObservers(GetOwner(), dieEvent);
-	}
-
-	
-}
 
 void HealthComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
 {

@@ -69,11 +69,11 @@ void engine::CollisionComponent::SetBoundingBox(const glm::vec3& gameObjectPos)
 	m_BoundingBox.height = m_BoundingBox.bottom + m_Size.y;
 }
 
-void engine::CollisionComponent::Update([[maybe_unused]] const float deltaTime)
+void engine::CollisionComponent::Update( const float)
 {
 
 }
-void engine::CollisionComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void engine::CollisionComponent::ReceiveMessage( const std::string& ,  const std::string& )
 {
 
 }

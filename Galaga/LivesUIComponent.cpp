@@ -40,17 +40,17 @@ LivesUIComponent::~LivesUIComponent()
 	m_vUILives.clear();
 }
 
-void LivesUIComponent::Update([[maybe_unused]] const float deltaTime)
+void LivesUIComponent::Update( const float )
 {
 
 }
 
-void LivesUIComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void LivesUIComponent::ReceiveMessage( const std::string& ,  const std::string& )
 {
 
 }
 
-void LivesUIComponent::OnNotify([[maybe_unused]] engine::GameObject* gameObject, const engine::Event& event)
+void LivesUIComponent::OnNotify(engine::GameObject*, const engine::Event& event)
 {
 	if (event.IsSameEvent("HealthDecremented"))
 	{

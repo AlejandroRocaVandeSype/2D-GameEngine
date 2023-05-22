@@ -21,7 +21,6 @@ public:
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	void DecrementHealth(unsigned int amount);
-	void Kill();											// Removes all lives 
 	void AddObserver(engine::Observer* pObserver);
 
 	const unsigned int GetLives() const;

@@ -27,17 +27,17 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 	for (int missileIdx{ 0 }; missileIdx < maxMissiles; ++missileIdx)
 	{
 		auto go_Missile = std::make_shared<engine::GameObject>(nullptr, "PlayerMissile", missileStartPos, glm::vec2{2.f, 2.f});
-		go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "Sprites/PlayerBullet.png");
+		auto renderCP = go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "Sprites/PlayerBullet.png");
 		go_Missile->AddComponent<MoveComponent>(go_Missile.get(), 300.f, missileBoundaries, glm::vec3{0.f, -1.f, 0.f});
 		go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
-		go_Missile->AddComponent<MissileCP>(go_Missile.get());
-		go_Missile->AddComponent<engine::CollisionComponent>(go_Missile.get(), go_Missile->GetComponent<engine::RenderComponent>()->GetTextureSize());
-		go_Missile->GetComponent<engine::CollisionComponent>()->AddObserver(go_Missile->GetComponent<MissileCP>());
+		auto missileCP = go_Missile->AddComponent<MissileCP>(go_Missile.get());
+		auto collisionCP = go_Missile->AddComponent<engine::CollisionComponent>(go_Missile.get(), renderCP->GetTextureSize());
+		collisionCP->AddObserver(missileCP);
 
 		// Missiles wont show until they are fired
 		go_Missile->SetIsActive(false);			
 
-		// The scene and the Manager will share ownership of the missiles
+		// The scene and the Missile Manager will share ownership of the missiles
 		m_vMissiles.push_back(go_Missile);
 		SceneManager.AddToActiveScene(go_Missile);
 	}
@@ -72,12 +72,12 @@ void MissileManagerCP::Fire(const glm::vec3& direction)
 
 }
 
-void MissileManagerCP::Update([[maybe_unused]]const float deltaTime)
+void MissileManagerCP::Update(const float )
 {
 
 }
 
-void MissileManagerCP::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void MissileManagerCP::ReceiveMessage( const std::string& ,  const std::string& )
 {
 
 }

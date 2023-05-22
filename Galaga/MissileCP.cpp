@@ -15,7 +15,7 @@ MissileCP::~MissileCP()
 	std::cout << "MissileBehaviourCP destructor" << std::endl;
 }
 
-void MissileCP::Update([[maybe_unused]] const float deltaTime)
+void MissileCP::Update( const float )
 {
 	if (m_pMoveComponent != nullptr)
 	{
@@ -27,13 +27,18 @@ void MissileCP::Update([[maybe_unused]] const float deltaTime)
 	}
 }
 
-void MissileCP::OnNotify([[maybe_unused]]engine::GameObject* gameObject, const engine::Event& event)
+void MissileCP::OnNotify(engine::GameObject* gameObject, const engine::Event& event)
 {
 	if (event.IsSameEvent("CollisionWith Enemy"))
 	{
-		// Missile collision with an enemy
-		//GetOwner()->SetIsActive(false);
+		auto enemyHealthCP = gameObject->GetComponent<HealthComponent>();
+		if (enemyHealthCP != nullptr)
+		{
+			enemyHealthCP->DecrementHealth(1);
+		}
 		
+		// Deactivate the missile
+		GetOwner()->SetIsActive(false);
 	}
 	
 }

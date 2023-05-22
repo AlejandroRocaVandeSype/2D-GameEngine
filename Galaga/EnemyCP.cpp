@@ -13,13 +13,13 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& spriteFilePath, 
 {
 	if (pOwner != nullptr)
 	{
-		pOwner->AddComponent<engine::RenderComponent>(pOwner, spriteFilePath);
-		pOwner->AddComponent<HealthComponent>(pOwner, health);
+		auto renderCP = pOwner->AddComponent<engine::RenderComponent>(pOwner, spriteFilePath);
+		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
 		MoveComponent::Boundaries enemyBoundaries{};  // No boundaries restriction
 		pOwner->AddComponent<MoveComponent>(pOwner, 200.f, enemyBoundaries);
-		pOwner->AddComponent<engine::CollisionComponent>(pOwner, pOwner->GetComponent<engine::RenderComponent>()->GetTextureSize());
-		pOwner->GetComponent<engine::CollisionComponent>()->AddObserver(this);
-		pOwner->GetComponent<HealthComponent>()->AddObserver(this);
+		auto collisionCP = pOwner->AddComponent<engine::CollisionComponent>(pOwner, renderCP->GetTextureSize());
+		collisionCP->AddObserver(this);
+		healthCP->AddObserver(this);
 	
 	}
 }
@@ -42,23 +42,27 @@ void EnemyCP::ReceiveMessage( const std::string&, const std::string& )
 
 void EnemyCP::OnNotify(engine::GameObject* gameObject, const engine::Event& event)
 {
-	if (event.IsSameEvent("CollisionWith Player") || event.IsSameEvent("CollisionWith PlayerMissile"))
+	// Enemy crash into the player
+	if (event.IsSameEvent("CollisionWith Player"))
 	{
-		auto healthCP = GetOwner()->GetComponent<HealthComponent>();
-		if (healthCP != nullptr)
+		auto playerHealthCP = gameObject->GetComponent<HealthComponent>();
+		if (playerHealthCP != nullptr)
 		{
-			healthCP->DecrementHealth(1);
+			playerHealthCP->DecrementHealth(1);
 		}
 
-		if (event.IsSameEvent("CollisionWith PlayerMissile"))
+		// Enemy also loses a life
+		auto enemyHealthCP = GetOwner()->GetComponent<HealthComponent>();
+		if (enemyHealthCP != nullptr)
 		{
-			// Deactivate the missile
-			gameObject->SetIsActive(false);
+			enemyHealthCP->DecrementHealth(1);
 		}
 	}
 
 	if (event.IsSameEvent("GameObjectDied"))
-	{
+	{ 
+		// Enemies will become inactive when they die (do not destroy the gameObject)
+		GetOwner()->SetIsActive(false);
 		auto& soundSystem = engine::Servicealocator::Get_Sound_System();
 		soundSystem.PlaySound(short(Sounds::enemyDie));
 	}

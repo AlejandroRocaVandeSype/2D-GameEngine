@@ -14,12 +14,13 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const glm::v
 	if (pOwner != nullptr)
 	{
 		std::string sprFileName{ "Sprites/Player.png" };
-		pOwner->AddComponent<engine::RenderComponent>(pOwner, sprFileName);
-		pOwner->AddComponent<HealthComponent>(pOwner, health);
+		auto renderCP = pOwner->AddComponent<engine::RenderComponent>(pOwner, sprFileName);
+		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
+		healthCP->AddObserver(this);
 
 		// INPUT FOR PLAYER
-		pOwner->AddComponent<PlayerInputCP>(pOwner);
-		pOwner->GetComponent<PlayerInputCP>()->AddControllerMovement();
+		auto playerInputCP = pOwner->AddComponent<PlayerInputCP>(pOwner);
+		playerInputCP->AddControllerMovement();
 
 		// MOVEMENT
 		float playerSpeed{ 150.f };
@@ -32,12 +33,12 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const glm::v
 		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed);
 
 		// COLLISIONS ENABLED
-		pOwner->AddComponent<engine::CollisionComponent>(pOwner, pOwner->GetComponent<engine::RenderComponent>()->GetTextureSize());
-		pOwner->GetComponent<engine::CollisionComponent>()->AddObserver(this);
+		pOwner->AddComponent<engine::CollisionComponent>(pOwner, renderCP->GetTextureSize());
+		//collisionCP->AddObserver(this);
 
 		// UI
-		pOwner->AddComponent<LivesUIComponent>(pOwner, sprFileName, glm::vec2{ 10.f, windowLimits.y - 50.f}, health - 1);
-		pOwner->GetComponent<HealthComponent>()->AddObserver(pOwner->GetComponent<LivesUIComponent>());
+		auto livesUICP = pOwner->AddComponent<LivesUIComponent>(pOwner, sprFileName, glm::vec2{ 10.f, windowLimits.y - 50.f}, health - 1);
+		healthCP->AddObserver(livesUICP);
 	}
 }
 
@@ -46,30 +47,34 @@ PlayerCP::~PlayerCP()
 
 }
 
-void PlayerCP::Update([[maybe_unused]] const float deltaTime)
+void PlayerCP::Update(const float)
 {
 	
 }
-void PlayerCP::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void PlayerCP::ReceiveMessage(const std::string& , const std::string& )
 {
 
 }
 
-void PlayerCP::OnNotify([[maybe_unused]] engine::GameObject* gameObject, const engine::Event& event)
+void PlayerCP::OnNotify(engine::GameObject*, const engine::Event& event)
 {
-	if (event.IsSameEvent("CollisionWith Enemy"))
+	if (event.IsSameEvent("HealthDecremented"))
 	{
-		auto healthCP = GetOwner()->GetComponent<HealthComponent>();
-		if (healthCP != nullptr)
-		{
-			healthCP->DecrementHealth(1);
-		}
+		
+	}
 
+	if (event.IsSameEvent("GameObjectDied"))
+	{
+		GetOwner()->SetIsActive(false);
+
+		/*
+		// This is only if we actually destroy the player gameObject
 		auto playerInputCP = GetOwner()->GetComponent<PlayerInputCP>();
 		if (playerInputCP != nullptr)
 		{
 			// Indicate the player died to ensure we unbind all the commands associated 
 			playerInputCP->SetPlayerDied();
 		}
+		*/
 	}
 }
