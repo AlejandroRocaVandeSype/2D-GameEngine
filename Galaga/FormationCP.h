@@ -11,8 +11,9 @@ namespace engine
 	class TransformComponent;
 }
 
-// Component that will contain all enemies from the current level and will
-// init them with correct info and add them to the scene
+
+// CONTAINS ALL ENEMIES FROM THE FORMATION.
+// enemies will move with the formation when they are in the formation
 class FormationCP final : public engine::Component, public engine::Observer
 {
 public:
@@ -26,20 +27,27 @@ public:
 
 	void ReadFormationFromJSON(const std::string& JSONPath);
 
-	std::vector< engine::GameObject*> GetEnemies(const std::string& type);
+	std::vector< engine::GameObject*>& GetEnemies(const std::string& type);
 
 
 private:
 
+	// ENEMIES CREATION 
+	void CreateEnemies(const std::string& type, const std::vector< std::pair<std::string, glm::vec3>>& enemyReadInfo);
+	void CreateBee(const glm::vec3& startPos, const glm::vec3& formationPos);
+	void CreateButterfly(const glm::vec3& startPos, const glm::vec3& formationPos);
+	void CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos);
+
 	void SetStartingPos(const std::string& commingFrom, glm::vec3& startPos);
 	void SearchForDeadEnemy();
 	
+	const std::string BEES_TYPE;
+	const std::string BUTTERFLIES_TYPE;
+	const std::string GALAGAS_TYPE;
+
 	std::vector< engine::GameObject*> m_vBees;
 	std::vector< engine::GameObject*> m_vButterflies;
 	std::vector< engine::GameObject*> m_vGalagas;
-
-	int beesPos = 0;
-	float timeBees = 1.f;
 	
 	// Formation movement
 	const float m_FormationSize;
@@ -48,6 +56,7 @@ private:
 	bool m_MovingRight;
 	float m_LeftLimitFormation;
 	float m_RighttLimitFormation;
+
 
 };
 

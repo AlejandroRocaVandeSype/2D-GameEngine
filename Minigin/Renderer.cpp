@@ -91,6 +91,25 @@ void engine::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
+// Render a sprite indicating the part of the sprite we want to actually render (with src)
+void engine::Renderer::RenderSprite(const Texture2D& texture, float x, float y, float width, float height,
+	const float texX, const float texY, const float texWidth, const float texHeight) const
+{
+	SDL_Rect dst{};
+	dst.x = static_cast<int>(x);
+	dst.y = static_cast<int>(y);
+	dst.w = static_cast<int>(width);
+	dst.h = static_cast<int>(height);
+
+	SDL_Rect src{};
+	src.x = static_cast<int>(texX);
+	src.y = static_cast<int>(texY);
+	src.w = static_cast<int>(texWidth);
+	src.h = static_cast<int>(texHeight);
+
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+}
+
 inline SDL_Renderer* engine::Renderer::GetSDLRenderer() const { return m_renderer; }
 
 inline SDL_Window* engine::Renderer::GetSDLWindow() const { return m_window; }

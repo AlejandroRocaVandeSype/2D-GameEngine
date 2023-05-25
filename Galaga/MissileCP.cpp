@@ -12,7 +12,7 @@ MissileCP::MissileCP(engine::GameObject* pOwner)
 
 MissileCP::~MissileCP()
 {
-	std::cout << "MissileBehaviourCP destructor" << std::endl;
+	std::cout << "MissileCP destructor" << std::endl;
 }
 
 void MissileCP::Update( const float )

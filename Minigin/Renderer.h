@@ -23,6 +23,8 @@ namespace engine
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
+		void RenderSprite(const Texture2D& texture, float x, float y, float width, float height,
+			const float texX, const float texY, const float texWidth, const float texHeight) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 		SDL_Window* GetSDLWindow() const;

@@ -11,98 +11,73 @@
 
 FormationCP::FormationCP(engine::GameObject* pOwner, const std::string& positionsJSONPath)
 	:Component("FormationCP", pOwner)
-	, m_LeftLimitFormation{}, m_RighttLimitFormation{}, m_pTransformCP{ nullptr }, m_MovingRight{ true }
+	, BEES_TYPE{ "bees" }, BUTTERFLIES_TYPE{ "butterflies" }, GALAGAS_TYPE { "galagas" }
+	, m_LeftLimitFormation{ -50.f }, m_pTransformCP{ nullptr }, m_MovingRight{ true }
 	, m_FormationSize { 160.f }, m_FormationSpeed { 30.f }
 {
-	pOwner->AddComponent<FormationReaderCP>(pOwner);
-	ReadFormationFromJSON(positionsJSONPath);
-
 	auto window = engine::SceneManager::GetInstance().GetSceneWindow();
-	m_LeftLimitFormation = -50.f;
 	m_RighttLimitFormation = window.width - 300.f;
 	m_pTransformCP = GetOwner()->GetComponent<engine::TransformComponent>();
 
+	// READ JSON FILE 
+	pOwner->AddComponent<FormationReaderCP>(pOwner);
+	ReadFormationFromJSON(positionsJSONPath);
 }
 
+// Get all info about the formation from a JSON file
 void FormationCP::ReadFormationFromJSON(const std::string& JSONPath)
 {
-	//auto& scene = engine::SceneManager::GetInstance().GetActiveScene();
 	auto jsonReaderCP = GetOwner()->GetComponent<FormationReaderCP>();
 
-	m_vBees.clear();
-	m_vButterflies.clear();
-	m_vGalagas.clear();
-
 	// Read all info about the enemies (startPos, formationPos etc) from JSON
-	std::vector<std::pair<std::string, glm::vec3>> bees = jsonReaderCP->ReadFormation(JSONPath, "bees");
-	std::vector<std::pair<std::string, glm::vec3>> butterflies = jsonReaderCP->ReadFormation(JSONPath, "butterflies");
-	std::vector<std::pair<std::string, glm::vec3>> galagas = jsonReaderCP->ReadFormation(JSONPath, "galagas");
+	std::vector<std::pair<std::string, glm::vec3>> bees = jsonReaderCP->ReadFormation(JSONPath, BEES_TYPE);
+	std::vector<std::pair<std::string, glm::vec3>> butterflies = jsonReaderCP->ReadFormation(JSONPath, BUTTERFLIES_TYPE);
+	std::vector<std::pair<std::string, glm::vec3>> galagas = jsonReaderCP->ReadFormation(JSONPath, GALAGAS_TYPE);
 
-	glm::vec3 startPos{};
-	// Enemies will be positioned according to his parent position
-	auto ParentFormationPos = GetOwner()->GetComponent<engine::TransformComponent>()->GetWorldPosition();
-
-	// Enemies will be owned by the Formation Game Object
-	// Create Bee enemies
-	for (const auto& pair : bees)
-	{
-		SetStartingPos(pair.first, startPos);
-
-		glm::vec3 formationPos{ ParentFormationPos.x + pair.second.x, ParentFormationPos.y + pair.second.y ,
-			ParentFormationPos.z + pair.second.z };
-
-		auto go_BeeEnemy = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{2.f, 2.f}, false);
-		go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, "Sprites/Bee.png", formationPos, 1);
-		go_BeeEnemy->AddComponent<AI_BeeCP>(go_BeeEnemy);
-		go_BeeEnemy->GetComponent<HealthComponent>()->AddObserver(this);
-
-		// Inactive at start
-		go_BeeEnemy->SetIsActive(false);
-
-		m_vBees.emplace_back(go_BeeEnemy);
-		
-	}
-
-	// Butterfly enemies
-	for (const auto& pair : butterflies)
-	{
-		SetStartingPos(pair.first, startPos);
-
-		glm::vec3 formationPos{ ParentFormationPos.x + pair.second.x, ParentFormationPos.y + pair.second.y ,
-			ParentFormationPos.z + pair.second.z };
-
-		auto go_Butterfly = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{2.f, 2.f}, false);
-		go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, "Sprites/Butterfly.png", formationPos, 1);
-		go_Butterfly->AddComponent<AI_BeeCP>(go_Butterfly);
-		go_Butterfly->GetComponent<HealthComponent>()->AddObserver(this);
-
-		// Inactive at start
-		go_Butterfly->SetIsActive(false);
-
-		m_vButterflies.emplace_back(go_Butterfly);
-
-	}
-
-	// Galaga enemies
-	for (const auto& pair : galagas)
-	{
-		SetStartingPos(pair.first, startPos);
-
-		glm::vec3 formationPos{ ParentFormationPos.x + pair.second.x, ParentFormationPos.y + pair.second.y ,
-			ParentFormationPos.z + pair.second.z };
-
-		auto go_Galagas = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{2.f, 2.f}, false);
-		go_Galagas->AddComponent<EnemyCP>(go_Galagas, "Sprites/Galaga.png", formationPos, 2);
-		go_Galagas->AddComponent<AI_BeeCP>(go_Galagas);
-		go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
-		// Inactive at start
-		go_Galagas->SetIsActive(false);
-
-		m_vGalagas.emplace_back(go_Galagas);
-	}
+	CreateEnemies(BEES_TYPE, bees);
+	CreateEnemies(BUTTERFLIES_TYPE, butterflies);
+	CreateEnemies(GALAGAS_TYPE, galagas);
 
 	// Done reading everything needed
 	jsonReaderCP->ClearJSONFile();
+
+}
+
+// Create the corresponding type of enemies
+void FormationCP::CreateEnemies(const std::string& type, const std::vector< std::pair<std::string, glm::vec3>>& enemyReadInfo)
+{
+	// Enemies will be positioned in the formation according to its parent position
+	glm::vec3 startPos{};
+	glm::vec3 baseFormationPos{};
+	if (m_pTransformCP != nullptr)
+	{
+		baseFormationPos = m_pTransformCP->GetWorldPosition();
+	}
+	 
+	for (const auto& pair : enemyReadInfo)
+	{
+		auto startDirection = pair.first;
+		SetStartingPos(startDirection, startPos);
+
+		// Calculate the position of the enemy in the formation base in the current position of the base formation CP
+		auto enemyPosInFormation = pair.second;
+		glm::vec3 finalPosInFormation{ baseFormationPos.x + enemyPosInFormation.x, baseFormationPos.y + enemyPosInFormation.y ,
+			baseFormationPos.z + enemyPosInFormation.z };
+
+		if (type == BEES_TYPE)
+		{
+			CreateBee(startPos, finalPosInFormation);
+		}
+		else if (type == BUTTERFLIES_TYPE)
+		{
+			CreateButterfly(startPos, finalPosInFormation);
+		}
+		else
+		{
+			CreateGalaga(startPos, finalPosInFormation);
+		}
+
+	}
 
 }
 
@@ -129,6 +104,44 @@ void FormationCP::SetStartingPos(const std::string& commingFrom, glm::vec3& star
 			startPos = glm::vec3{ (window.width / 2.f) + 20.f, -10, 0 };
 		}
 	}
+}
+
+void FormationCP::CreateBee(const glm::vec3& startPos, const glm::vec3& formationPos)
+{
+	auto go_BeeEnemy = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
+	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, "Sprites/Bee.png", formationPos, 1);
+	go_BeeEnemy->AddComponent<AI_BeeCP>(go_BeeEnemy);
+	//go_BeeEnemy->GetComponent<HealthComponent>()->AddObserver(this);
+
+	// Inactive at start
+	go_BeeEnemy->SetIsActive(false);
+
+	m_vBees.emplace_back(go_BeeEnemy);
+
+}
+void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& formationPos)
+{
+	auto go_Butterfly = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
+	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, "Sprites/Butterfly.png", formationPos, 1);
+	go_Butterfly->AddComponent<AI_BeeCP>(go_Butterfly);
+	//go_Butterfly->GetComponent<HealthComponent>()->AddObserver(this);
+
+	// Inactive at start
+	go_Butterfly->SetIsActive(false);
+
+	m_vButterflies.emplace_back(go_Butterfly);
+}
+
+void FormationCP::CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos)
+{
+	auto go_Galagas = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
+	go_Galagas->AddComponent<EnemyCP>(go_Galagas, "Sprites/Galaga.png", formationPos, 2);
+	go_Galagas->AddComponent<AI_BeeCP>(go_Galagas);
+	//go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
+	// Inactive at start
+	go_Galagas->SetIsActive(false);
+
+	m_vGalagas.emplace_back(go_Galagas);
 }
 
 
@@ -166,12 +179,8 @@ void FormationCP::Update(const float deltaTime)
 			{
 				m_MovingRight = true;
 			}
-		}
-		
-
-		
+		}		
 	}
-
 }
 
 void FormationCP::ReceiveMessage(const std::string& message, const std::string& value)
@@ -187,6 +196,7 @@ void FormationCP::ReceiveMessage(const std::string& message, const std::string& 
 
 void FormationCP::OnNotify(engine::GameObject*, const engine::Event& event)
 {
+
 	if (event.IsSameEvent("GameObjectDied"))
 	{
 		SearchForDeadEnemy();		
@@ -247,24 +257,17 @@ void FormationCP::SearchForDeadEnemy()
 
 }
 
-std::vector< engine::GameObject*> FormationCP::GetEnemies(const std::string& type)
+std::vector<engine::GameObject*>& FormationCP::GetEnemies(const std::string& type)
 {
 	if (type == "bees")
-	{
-		return m_vBees;
-	}
+		return m_vBees;	
 	
 	if (type == "butterflies")
-	{
 		return m_vButterflies;
-	}
-
+	
 	if (type == "galagas")
-	{
 		return m_vGalagas;
-	}
 
 	return m_vBees;
-	
 }
 
