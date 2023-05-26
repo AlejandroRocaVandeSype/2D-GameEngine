@@ -93,7 +93,7 @@ void FormationCP::SetStartingPos(const std::string& commingFrom, glm::vec3& star
 	{
 		if (commingFrom == "left")
 		{
-			startPos = glm::vec3{ -10, window.height / 2.f, 0 };
+			startPos = glm::vec3{ -100, window.height / 2.f, 0 };
 		}
 		else if (commingFrom == "right")
 		{

@@ -18,7 +18,7 @@ class EnemyCP final: public engine::Component, public engine::Observer
 		glm::vec3 GetFormationPos() const;
 
 private:
-	glm::vec3 m_FormationPos;
+	glm::vec3 m_FormationPos;				// Position the enemy will be placed in the formation
 };
 
 #endif

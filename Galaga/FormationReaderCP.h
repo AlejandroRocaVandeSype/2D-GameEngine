@@ -11,6 +11,25 @@
 class FormationReaderCP final : public engine::Component
 {
 public:
+
+	struct EnemySpawnInfo
+	{
+	public:
+		EnemySpawnInfo(std::string startPos, std::string type, short indexMaxCount)
+			: startPosition{ startPos }, enemyType{ type }, spawnIdxMaxCount{ indexMaxCount } {}
+
+		const std::string& GetStartPos() { return startPosition; }
+		const std::string& GetEnemyType() { return enemyType; }
+		short GetSpawnAmount() { return spawnIdxMaxCount; }
+
+	private:
+		const std::string startPosition;
+		const std::string enemyType;
+		const short spawnIdxMaxCount;		// Indicates until which index we can active enemies from this type
+											// It takes into account the amount of enemies from the same type that
+											// have spawned already
+	};
+
 	FormationReaderCP(engine::GameObject* pOwner);
 	~FormationReaderCP();
 
@@ -21,7 +40,7 @@ public:
 	void ClearJSONFile();
 
 	std::vector<std::pair<std::string, glm::vec3>> ReadFormation(const std::string& jsonFilePath, const std::string& enemyType);
-	std::vector<std::pair<std::string, unsigned short>> ReadOrder(const std::string& jsonFilePath);
+	std::vector<FormationReaderCP::EnemySpawnInfo*> ReadSpawnOrder(const std::string& jsonFilePath);
 
 private:
 	rapidjson::Document m_FormationJsonDoc;		

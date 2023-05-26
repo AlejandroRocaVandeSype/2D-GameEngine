@@ -3,13 +3,16 @@
 
 #include <Component.h>
 #include <vector>
+#include "FormationReaderCP.h"
 
 class FormationCP;
+
 // Manages all enemies from the formation, acting like a Squad leader giving orders to them
 class AI_FormationCP final : public engine::Component
 {
 
 public:
+
 	AI_FormationCP(engine::GameObject* pOwner, const std::string& JSONPath);
 	~AI_FormationCP() override;
 
@@ -20,35 +23,40 @@ private:
 
 	enum class FormationState
 	{
-		setupFormation,
+		spawning,
 		attacking
 	};
 
-	enum class MovingFormationState
+	enum class SpawnOrderState
 	{
-		top,
+		top_first,
 		left, 
 		right,
-		backToTop
+		top_second,
+		top_third
 	};
 
 	void GetEnemyData(const std::string& type, std::vector<engine::GameObject*>& container);
-	void MoveIntoFormation(const float deltaTime);
-	void ActivateEnemy(const std::string& type, unsigned short& currentActive);
+	void SpawnEnemies(const float deltaTime);
+	void ActivateEnemy(const std::string& type);
+	short GetEnemyTypeCount(const std::string& type) const;
+	void SetEnemyTypeCount(const std::string& type);
 
 	FormationCP* m_pFormationCP;
 	FormationState m_FormationState;
-	MovingFormationState m_MovingFTState;
+	SpawnOrderState m_MovingFTState;
 
-	// SETUP FORMATION DATA
-	unsigned short m_TopFormationAmount;
-	unsigned short m_LeftFormationAmount;
-	unsigned short m_Top1FormationAmount;
-	unsigned short m_RightFormationAmount;
-	unsigned short m_BeesActive;
-	unsigned short m_ButterfliesActive;
-	unsigned short m_GalagasActive;
-	bool m_SpwanFirstType;				// For the left batch of enemies.
+	// SPAWNING ENEMIES 
+	std::vector<std::unique_ptr<FormationReaderCP::EnemySpawnInfo>> m_vSpawningInfo; // All spawn info for all enemies 
+	std::vector < std::pair<std::string, short>> m_vCurrentSpawnInfo;				// Info from the current batch spawning
+	bool m_IsSpawnInfoReaded;
+	std::string m_LastEnemyType;							// For the left batch of enemies.
+	short m_BeesActiveCount;
+	short m_ButterfliesActiveCount;
+	short m_GalagasActiveCount;
+	bool m_SpwanFirstType;				
+
+	
 
 	const float m_TimeEnemySpawn;
 	float m_CurrentTimeSpawn;
