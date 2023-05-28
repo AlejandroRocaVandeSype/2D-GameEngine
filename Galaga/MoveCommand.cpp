@@ -18,7 +18,6 @@ void MoveCommand::Execute(float deltaTime)
 	if (m_Actor->IsActive())
 	{
 		auto moveCP = m_Actor->GetComponent<MoveComponent>();
-
 		if (moveCP != nullptr)
 		{
 			moveCP->Move(deltaTime, m_Direction);

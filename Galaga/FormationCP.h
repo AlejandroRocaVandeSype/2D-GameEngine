@@ -28,6 +28,7 @@ public:
 	void ReadFormationFromJSON(const std::string& JSONPath);
 
 	std::vector< engine::GameObject*>& GetEnemies(const std::string& type);
+	bool AreEnemiesLeft(const std::string& type) const;
 
 
 private:
@@ -48,6 +49,10 @@ private:
 	std::vector< engine::GameObject*> m_vBees;
 	std::vector< engine::GameObject*> m_vButterflies;
 	std::vector< engine::GameObject*> m_vGalagas;
+
+	unsigned short m_BeesDeadCount;
+	unsigned short m_ButterfliesDeadCount;
+	unsigned short m_GalagasDeadCount;
 	
 	// Formation movement
 	const float m_FormationSize;

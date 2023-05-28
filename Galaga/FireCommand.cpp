@@ -15,12 +15,11 @@ FireCommand::~FireCommand()
 
 }
 
-void FireCommand::Execute([[maybe_unused]] float deltaTime)
+void FireCommand::Execute(float)
 {
 	if (m_Actor->IsActive())
 	{
 		auto missileManagerCP = m_Actor->GetComponent<MissileManagerCP>();
-
 		if (missileManagerCP != nullptr)
 		{
 			missileManagerCP->Fire(m_Direction);

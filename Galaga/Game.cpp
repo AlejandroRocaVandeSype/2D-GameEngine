@@ -91,11 +91,6 @@ void Game::SetupEnemies()
 	go_Formation->AddComponent<AI_FormationCP>(go_Formation.get(), "../Data/Formations/Formation1-Order.json");
 	scene.Add(go_Formation);
 
-
-	auto go_BeeEnemy = std::make_shared<engine::GameObject>(nullptr, "Enemy", glm::vec3{350, 550, 0}, glm::vec2{2.f, 2.f});
-	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy.get(), "Sprites/Bee.png", glm::vec3{0,0,0}, 1);
-
-	scene.Add(go_BeeEnemy);
 }
 
 Game::~Game()

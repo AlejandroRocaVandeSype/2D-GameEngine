@@ -109,9 +109,9 @@ void FormationCP::SetStartingPos(const std::string& commingFrom, glm::vec3& star
 void FormationCP::CreateBee(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_BeeEnemy = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, "Sprites/Bee.png", formationPos, 1);
+	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, "bee", "Sprites/Bee.png", formationPos, 1);
 	go_BeeEnemy->AddComponent<AI_BeeCP>(go_BeeEnemy);
-	//go_BeeEnemy->GetComponent<HealthComponent>()->AddObserver(this);
+	go_BeeEnemy->GetComponent<HealthComponent>()->AddObserver(this);
 
 	// Inactive at start
 	go_BeeEnemy->SetIsActive(false);
@@ -122,9 +122,9 @@ void FormationCP::CreateBee(const glm::vec3& startPos, const glm::vec3& formatio
 void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_Butterfly = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, "Sprites/Butterfly.png", formationPos, 1);
+	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, "butterfly", "Sprites/Butterfly.png", formationPos, 1);
 	go_Butterfly->AddComponent<AI_BeeCP>(go_Butterfly);
-	//go_Butterfly->GetComponent<HealthComponent>()->AddObserver(this);
+	go_Butterfly->GetComponent<HealthComponent>()->AddObserver(this);
 
 	// Inactive at start
 	go_Butterfly->SetIsActive(false);
@@ -135,9 +135,10 @@ void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& fo
 void FormationCP::CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_Galagas = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_Galagas->AddComponent<EnemyCP>(go_Galagas, "Sprites/Galaga.png", formationPos, 2);
+	go_Galagas->AddComponent<EnemyCP>(go_Galagas, "galaga", "Sprites/Galaga.png", formationPos, 2);
 	go_Galagas->AddComponent<AI_BeeCP>(go_Galagas);
-	//go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
+	go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
+
 	// Inactive at start
 	go_Galagas->SetIsActive(false);
 
@@ -194,12 +195,27 @@ void FormationCP::ReceiveMessage(const std::string& message, const std::string& 
 	}
 }
 
-void FormationCP::OnNotify(engine::GameObject*, const engine::Event& event)
+void FormationCP::OnNotify(engine::GameObject* gameObject, const engine::Event& event)
 {
 
 	if (event.IsSameEvent("GameObjectDied"))
 	{
-		SearchForDeadEnemy();		
+		auto enemyCP{ gameObject->GetComponent<EnemyCP>() };
+		if (enemyCP != nullptr)
+		{
+			if (enemyCP->GetType() == "bee")
+			{
+				m_BeesDeadCount++;
+			}
+			else if (enemyCP->GetType() == "butterfly")
+			{
+				m_ButterfliesDeadCount++;;
+			}
+			else if (enemyCP->GetType() == "galaga")
+			{
+				m_GalagasDeadCount++;
+			}
+		}
 	}
 }
 
@@ -269,5 +285,33 @@ std::vector<engine::GameObject*>& FormationCP::GetEnemies(const std::string& typ
 		return m_vGalagas;
 
 	return m_vBees;
+}
+
+// Return true if there are no more enemies of the type specified
+bool FormationCP::AreEnemiesLeft(const std::string& type) const
+{
+	if (type == "bees")
+	{
+		return m_BeesDeadCount != m_vBees.size();
+	}
+
+	if (type == "butterflies")
+	{
+		return m_ButterfliesDeadCount != m_vButterflies.size();
+	}
+
+	if (type == "galagas")
+	{
+		return m_GalagasDeadCount != m_vGalagas.size();
+	}
+
+	// Are there still enemies left?
+	if (type == "all")
+	{
+		return m_GalagasDeadCount != m_vGalagas.size() && m_ButterfliesDeadCount != m_vButterflies.size()
+			&& m_BeesDeadCount != m_vBees.size();
+	}
+
+	return false;
 }
 

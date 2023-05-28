@@ -12,16 +12,21 @@ namespace engine
 class AI_BeeCP final: public engine::Component
 {
 public:
+
 	AI_BeeCP(engine::GameObject* pOwner);
 	virtual ~AI_BeeCP() override;
 
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
+
 private:
+	
+	void UpdateAttack(const float deltaTime);
+	void UpdateMoveToFormation(const float deltaTime);
+
 	EnemyCP* m_pEnemyCP;
 	MoveComponent* m_pMoveCP;
 	engine::TransformComponent* m_pTransformCP;
-	bool m_InFormation;
 };
 
 #endif

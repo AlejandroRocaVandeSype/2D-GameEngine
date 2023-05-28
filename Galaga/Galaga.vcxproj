@@ -163,6 +163,7 @@
     <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="FormationCP.cpp" />
     <ClCompile Include="FormationReaderCP.cpp" />
+    <ClCompile Include="FormationState.cpp" />
     <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
@@ -176,6 +177,8 @@
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="ParallaxScrollingCP.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
+    <ClCompile Include="SendingEnemiesState.cpp" />
+    <ClCompile Include="SpawningState.cpp" />
     <ClCompile Include="TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +188,7 @@
     <ClInclude Include="FireCommand.h" />
     <ClInclude Include="FormationCP.h" />
     <ClInclude Include="FormationReaderCP.h" />
+    <ClInclude Include="FormationState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameIncludes.h" />
     <ClInclude Include="HealthComponent.h" />
@@ -198,7 +202,9 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="ParallaxScrollingCP.h" />
     <ClInclude Include="RotatorComponent.h" />
+    <ClInclude Include="SendingEnemiesState.h" />
     <ClInclude Include="SoundIDs.h" />
+    <ClInclude Include="SpawningState.h" />
     <ClInclude Include="TextComponent.h" />
   </ItemGroup>
   <ItemGroup>
