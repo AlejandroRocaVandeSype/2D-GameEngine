@@ -10,7 +10,9 @@ AI_FormationCP::AI_FormationCP(engine::GameObject* pOwner, const std::string& JS
 	, m_FormationState { FormationState::spawning_enemies }, m_MovingFTState { SpawnOrderState::top_first }
 	, BEES_TYPE { "bees" }, BUTTERFLIES_TYPE { "butterflies" }, GALAGAS_TYPE { "galagas" }
 	, m_SpwanFirstType{true}, m_CurrentTimeSpawn{ 0.f }, m_TimeEnemySpawn { 0.5f }, m_IsSpawnInfoReaded { false }
-	, m_LastEnemyType { }, m_TimeEnemySend { 1.f }, m_EnemyToSend { BEES_TYPE }, NEXT_GALAGA { 4 }
+	, m_LastEnemyType{ }, m_TimeEnemySend{ 1.5f }, NEXT_GALAGA{ 4 }, m_EnemyToSend{ BEES_TYPE }, m_SendGalagaCount {
+	0
+}
 {
 	auto jsonReaderCP = GetOwner()->GetComponent<FormationReaderCP>();
 	if (jsonReaderCP != nullptr)
@@ -25,12 +27,6 @@ AI_FormationCP::AI_FormationCP(engine::GameObject* pOwner, const std::string& JS
 	jsonReaderCP->ClearJSONFile();
 	
 	m_pFormationCP = pOwner->GetComponent<FormationCP>();
-
-	m_SendingOrder[0] = "bees";
-	m_SendingOrder[1] = "butterflies";
-	m_SendingOrder[2] = "bees";
-	m_SendingOrder[3] = "butterflies";
-	m_SendingOrder[4] = "galagas";
 }
 
 void AI_FormationCP::GetEnemyData(const std::string& type, std::vector<engine::GameObject*>& container)
@@ -215,7 +211,21 @@ void AI_FormationCP::UpdateSpawningBatch(const std::string& batch)
 void AI_FormationCP::SendEnemies()
 {
 	std::string nextEnemy = GetNextEnemyToSend();
-
+	std::cout << nextEnemy << std::endl;
+	std::vector<engine::GameObject*> enemies = m_pFormationCP->GetEnemies(nextEnemy);
+	for (auto& enemy : enemies)
+	{
+		if (enemy->IsActive())
+		{
+			EnemyCP* pEnemyCP = enemy->GetComponent<EnemyCP>();
+			if (pEnemyCP->GetCurrentState() == EnemyCP::ENEMY_STATE::waiting)
+			{
+				// Active enemy and in waiting state -> Send him to attack
+				pEnemyCP->ChangeCurrentState(EnemyCP::ENEMY_STATE::attack);
+				break;
+			}		
+		}
+	}
 
 }
 

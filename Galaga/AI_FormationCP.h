@@ -68,10 +68,6 @@ private:
 	void SendEnemies();
 	const std::string& GetNextEnemyToSend();
 
-	static const int ORDER_TOTAL{ 5 };
-	int m_CurrentSendingIdx;
-	std::string m_SendingOrder[ORDER_TOTAL];
-
 	std::string m_EnemyToSend;
 	const int NEXT_GALAGA;					// Every 4 enemies, one Galaga is send
 	int m_SendGalagaCount;					// Keep the count to know if next enemy to be sent is a Galaga type
