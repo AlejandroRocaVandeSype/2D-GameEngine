@@ -1,6 +1,7 @@
 #ifndef GALAGA_AI_BEECP
 #define GALAGA_AI_BEECP
 #include <Component.h>
+#include "glm/vec3.hpp"
 
 class EnemyCP;
 class MoveComponent;
@@ -21,12 +22,24 @@ public:
 
 private:
 	
+	enum class AttackState
+	{
+		breakFormation,
+		diagonalMov,
+		verticalMov
+	};
+
 	void UpdateAttack(const float deltaTime);
 	void UpdateMoveToFormation(const float deltaTime);
 
 	EnemyCP* m_pEnemyCP;
 	MoveComponent* m_pMoveCP;
 	engine::TransformComponent* m_pTransformCP;
+	AttackState m_AttackState;
+
+	float m_ElapsedTimeMov;
+	float m_MaxTimeMov;
+	glm::vec3 m_Direction;
 };
 
 #endif

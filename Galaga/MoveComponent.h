@@ -43,11 +43,12 @@ public:
 
 	void Move(float deltaTime, const glm::vec3& direction);
 	void ChangeDirection(const glm::vec3& newDirection);			// Only for auto Movement
+	void ChangeSpeed(const float newSpeed);
 
 	bool InsideBoundaries() const;
 
 private :
-	const float SPEED;
+	float m_Speed;
 	Boundaries m_Boundaries;
 	glm::vec2 m_GObjectSize;
 	glm::vec3 m_Direction;			// Only for auto movement

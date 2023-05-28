@@ -20,7 +20,6 @@ namespace engine
 		void UpdateWorldPosition();
 
 		const glm::vec3 GetWorldPosition();
-		glm::vec3 GetWorldPositionRelative() const;
 		const glm::vec3 GetLocalPosition() const;
 		const glm::vec2 GetScale() const;
 

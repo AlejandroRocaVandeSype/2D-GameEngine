@@ -3,7 +3,7 @@
 
 MoveComponent::MoveComponent(engine::GameObject* pOwner, float speed, const Boundaries& boundaries)
 	: Component("MoveCP", pOwner)
-	, SPEED{ speed }
+	, m_Speed{ speed }
 	, m_Boundaries { boundaries }
 	, m_GObjectSize{ }
 	, m_AutoMovement{ false }
@@ -35,7 +35,7 @@ void MoveComponent::Move(float deltaTime, const glm::vec3& direction)
 	{
 		glm::vec3 pos = transformCP->GetLocalPosition();
 
-		pos += direction * SPEED * deltaTime;
+		pos += direction * m_Speed * deltaTime;
 
 		// Check if GameObject inside boundaries
 		if (pos.x > m_Boundaries.LeftLimit() && pos.x + m_GObjectSize.x
@@ -84,6 +84,11 @@ void MoveComponent::ChangeDirection(const glm::vec3& newDirection)
 		// Only change direction if autoMovement 
 		m_Direction = glm::normalize(newDirection);
 	}
+}
+
+void MoveComponent::ChangeSpeed(const float newSpeed)
+{
+	m_Speed = newSpeed;
 }
 
 void MoveComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
