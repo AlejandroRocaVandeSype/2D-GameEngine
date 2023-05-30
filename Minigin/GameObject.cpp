@@ -96,7 +96,6 @@ bool GameObject::FreeChild(GameObject* child)
 			// Found
 			childItr->release();					// Parent doesnt own the child anymore
 			childItr = m_vChildren.erase(childItr);
-
 			return true;
 		}
 	}
@@ -138,7 +137,8 @@ void GameObject::Update(const float deltaTime)
 					child->Update(deltaTime);
 				}
 				
-			}
+			}			
+
 		}
 	}
 	
@@ -148,6 +148,12 @@ const bool GameObject::IsMarkedAsDead() const
 {
 	return m_IsDead;
 }
+
+void GameObject::SetParentActivity(bool activate)
+{
+	m_IsParentDeactivated = activate;
+}
+
 
 void GameObject::Render() const
 {
@@ -256,6 +262,9 @@ const glm::vec3 GameObject::GetWorldPosition() const
 
 const GameObject* GameObject::getParent() const
 {
+	if (m_IsParentDeactivated)
+		return nullptr;
+
 	return m_pParent;
 }
 
@@ -305,6 +314,7 @@ void GameObject::MarkAsDead()
 
 }
 
+
 void GameObject::SetPositionDirty()
 {
 	if (m_pTransformCP != nullptr && !m_KeepWorldPosition)
@@ -313,13 +323,6 @@ void GameObject::SetPositionDirty()
 	}
 }
 
-void GameObject::SetChildrenPosDirty()
-{
-	for (const auto& child : m_vChildren)
-	{
-		child->SetPositionDirty();
-	}
-}
 
 void GameObject::SavePreviousWorldPosition(const glm::vec3& prevWorldPos)
 {

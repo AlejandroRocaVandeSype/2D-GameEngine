@@ -39,6 +39,7 @@ namespace engine
 
 		bool m_IsPositionDirty;
 		engine::CollisionComponent* m_pCollisionCP;
+		bool m_MoveWithParent{ true };
 	};
 }
 #endif

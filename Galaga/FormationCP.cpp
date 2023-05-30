@@ -13,7 +13,7 @@ FormationCP::FormationCP(engine::GameObject* pOwner, const std::string& position
 	:Component("FormationCP", pOwner)
 	, BEES_TYPE{ "bees" }, BUTTERFLIES_TYPE{ "butterflies" }, GALAGAS_TYPE { "galagas" }
 	, m_LeftLimitFormation{ -50.f }, m_pTransformCP{ nullptr }, m_MovingRight{ true }
-	, m_FormationSize { 160.f }, m_FormationSpeed { 30.f }
+	, m_FormationSize { 160.f }, m_FormationSpeed { 20.f }
 {
 	auto window = engine::SceneManager::GetInstance().GetSceneWindow();
 	m_RighttLimitFormation = window.width - 300.f;

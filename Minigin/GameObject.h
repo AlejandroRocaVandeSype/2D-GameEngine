@@ -46,10 +46,10 @@ namespace engine
 		const glm::vec3 GetWorldPosition() const;
 		void SetPositionDirty();
 		void SavePreviousWorldPosition(const glm::vec3& prevWorldPos);
-		void SetChildrenPosDirty();
 
 		template <typename T> bool HasComponentAlready() const;
 		const bool IsMarkedAsDead() const;
+		void SetParentActivity(bool activate);
 
 		void SetIsActive(const bool isActive);
 		bool IsActive() const;
@@ -77,6 +77,7 @@ namespace engine
 		bool m_IsActive;
 		bool m_IsDead;											// If the gameObject needs to be removed after updating all gameObjects
 		bool m_HasToRender;										// Does this gameObject have a render component?
+		bool m_IsParentDeactivated{ false };
 
 		std::string m_Tag;
 

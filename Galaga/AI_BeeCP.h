@@ -5,6 +5,7 @@
 
 class EnemyCP;
 class MoveComponent;
+class RotatorComponent;
 namespace engine
 {
 	class TransformComponent;
@@ -26,7 +27,8 @@ private:
 	{
 		breakFormation,
 		diagonalMov,
-		verticalMov
+		verticalMov,
+		rotation
 	};
 
 	void UpdateAttack(const float deltaTime);
@@ -35,11 +37,17 @@ private:
 	EnemyCP* m_pEnemyCP;
 	MoveComponent* m_pMoveCP;
 	engine::TransformComponent* m_pTransformCP;
+	RotatorComponent* m_pRotatorCP;
 	AttackState m_AttackState;
 
 	float m_ElapsedTimeMov;
 	float m_MaxTimeMov;
 	glm::vec3 m_Direction;
+	bool m_AtRightSide;
+
+	// ROTATION
+	const float ROTATION_TIME;
+	float m_RotationRadius;
 };
 
 #endif

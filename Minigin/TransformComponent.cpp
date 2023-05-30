@@ -64,12 +64,6 @@ void engine::TransformComponent::UpdateWorldPosition()
 
 			pOwner->SavePreviousWorldPosition(m_WorldPosition);
 
-			if (pOwner->HasChildren())
-			{
-				// If it has children -> Also marked to move with the parent
-				pOwner->SetChildrenPosDirty();
-			}
-
 			// If there is a collisionCP update its boundingBox with the position
 			if (m_pCollisionCP)
 			{
