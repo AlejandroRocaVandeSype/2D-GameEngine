@@ -33,9 +33,9 @@ public:
 	};
 
 	// The direction of the movement will be indicated through commands (either by the Player or AI)
-	MoveComponent(engine::GameObject* pOwner, float speed, const Boundaries& boundaries);
+	MoveComponent(engine::GameObject* pOwner, const glm::vec2& speed, const Boundaries& boundaries);
 	// The GameObject will move towards the direction passed through the constructor
-	MoveComponent(engine::GameObject* pOwner, float speed, const Boundaries& boundaries, const glm::vec3& direction);
+	MoveComponent(engine::GameObject* pOwner, const glm::vec2& speed, const Boundaries& boundaries, const glm::vec3& direction);
 	virtual ~MoveComponent() override;
 
 	virtual void Update(const float deltaTime) override;
@@ -43,12 +43,12 @@ public:
 
 	void Move(float deltaTime, const glm::vec3& direction);
 	void ChangeDirection(const glm::vec3& newDirection);			// Only for auto Movement
-	void ChangeSpeed(const float newSpeed);
+	void ChangeSpeed(const glm::vec2& newSpeed);
 
 	bool InsideBoundaries() const;
 
 private :
-	float m_Speed;
+	glm::vec2 m_Speed;
 	Boundaries m_Boundaries;
 	glm::vec2 m_GObjectSize;
 	glm::vec3 m_Direction;			// Only for auto movement

@@ -23,14 +23,14 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const glm::v
 		playerInputCP->AddControllerMovement();
 
 		// MOVEMENT
-		float playerSpeed{ 150.f };
+		glm::vec2 playerSpeed{ 150.f, 150.f };
 		MoveComponent::Boundaries playerBoundaries{ 0.f, windowLimits.x, windowLimits.y, 0.f, true };
 		pOwner->AddComponent<MoveComponent>(pOwner, playerSpeed, playerBoundaries);
 
 		// MISSILES 
 		int maxMissiles{ 2 };
-		float missileSpeed{ 300.f };
-		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed);
+		glm::vec2 missileSpeed{ 450.f, 450.f };
+		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed, "player", "Sprites/PlayerBullet.png");
 
 		// COLLISIONS ENABLED
 		pOwner->AddComponent<engine::CollisionComponent>(pOwner, renderCP->GetTextureSize());

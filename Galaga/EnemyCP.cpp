@@ -6,6 +6,7 @@
 #include "SoundIDs.h"
 #include "MoveComponent.h"
 #include "RotatorComponent.h"
+#include "MissileManagerCP.h"
 #include <iostream>
 
 EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const std::string& spriteFilePath, 
@@ -18,11 +19,15 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 		auto renderCP = pOwner->AddComponent<engine::RenderComponent>(pOwner, spriteFilePath);
 		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
 		MoveComponent::Boundaries enemyBoundaries{};  // No boundaries restriction
-		pOwner->AddComponent<MoveComponent>(pOwner, 200.f, enemyBoundaries);
+		pOwner->AddComponent<MoveComponent>(pOwner, glm::vec2{ 200.f, 200.f }, enemyBoundaries);
 		auto collisionCP = pOwner->AddComponent<engine::CollisionComponent>(pOwner, renderCP->GetTextureSize());
 		pOwner->AddComponent<RotatorComponent>(pOwner);
 		collisionCP->AddObserver(this);
 		healthCP->AddObserver(this);
+
+		int maxMissiles{ 2 };
+		glm::vec2 missileSpeed{ 100.f, 350.f };
+		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed, "enemy", "Sprites/enemyMissile.png");
 	
 	}
 }
@@ -46,7 +51,7 @@ void EnemyCP::ReceiveMessage( const std::string&, const std::string& )
 void EnemyCP::OnNotify(engine::GameObject* gameObject, const engine::Event& event)
 {
 	// Enemy crash into the player
-	if (event.IsSameEvent("CollisionWith Player") || event.IsSameEvent("CollisionWith PlayerMissile"))
+	if (event.IsSameEvent("CollisionWith Player") || event.IsSameEvent("CollisionWith playerMissile"))
 	{
 		// Enemy loose a life
 		auto enemyHealthCP = GetOwner()->GetComponent<HealthComponent>();
@@ -55,7 +60,7 @@ void EnemyCP::OnNotify(engine::GameObject* gameObject, const engine::Event& even
 			enemyHealthCP->DecrementHealth(1);
 		}
 
-		if (event.IsSameEvent("CollisionWith PlayerMissile"))
+		if (event.IsSameEvent("CollisionWith playerMissile"))
 		{
 			gameObject->SetIsActive(false);
 		}

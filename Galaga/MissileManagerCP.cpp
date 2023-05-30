@@ -10,10 +10,12 @@
 #include "SoundIDs.h"
 #include <iostream>
 
-MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, float missileSpeed)
+MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, const glm::vec2& missileSpeed,
+	const std::string& missileOwner, const std::string& texturePath)
 	:Component("MissileManagerCP", pOwner)
 	, SPEED{ missileSpeed }
 	, MAX_MISSILES{ maxMissiles }
+	, m_MissileOwner { missileOwner }
 {
 
 	auto& SceneManager = engine::SceneManager::GetInstance();
@@ -22,15 +24,23 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 
 	MoveComponent::Boundaries missileBoundaries{ 0.f, 560.f , 640.f, 0.f, false };
 
+
+	std::string missileTag{ missileOwner + "Missile" };
+	bool isPlayer{ false };
+	if (missileOwner == "player")
+	{
+		isPlayer = true;
+	}
+
 	// Create all the missiles already but set them as inactives until fired
 	// Missiles will be activated/deactivated when fire instead of creating it them all the time
 	for (int missileIdx{ 0 }; missileIdx < maxMissiles; ++missileIdx)
 	{
-		auto go_Missile = std::make_shared<engine::GameObject>(nullptr, "PlayerMissile", missileStartPos, glm::vec2{2.f, 2.f});
-		auto renderCP = go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), "Sprites/PlayerBullet.png");
-		go_Missile->AddComponent<MoveComponent>(go_Missile.get(), 450.f, missileBoundaries, glm::vec3{0.f, -1.f, 0.f});
+		auto go_Missile = std::make_shared<engine::GameObject>(nullptr, missileTag, missileStartPos, glm::vec2{2.f, 2.f});
+		auto renderCP = go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), texturePath);
+		go_Missile->AddComponent<MoveComponent>(go_Missile.get(), SPEED, missileBoundaries, glm::vec3{0.f, -1.f, 0.f});
 		go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
-		auto missileCP = go_Missile->AddComponent<MissileCP>(go_Missile.get());
+		auto missileCP = go_Missile->AddComponent<MissileCP>(go_Missile.get(), isPlayer);
 		auto collisionCP = go_Missile->AddComponent<engine::CollisionComponent>(go_Missile.get(), renderCP->GetTextureSize());
 		collisionCP->AddObserver(missileCP);
 
@@ -64,8 +74,12 @@ void MissileManagerCP::Fire(const glm::vec3& direction)
 			missile->GetComponent<MoveComponent>()->ChangeDirection(direction);
 			missile->GetComponent<engine::TransformComponent>()->SetLocalPosition(GetOwner()->GetWorldPosition());
 			missile->SetIsActive(true);
-			auto& soundSystem = engine::Servicealocator::Get_Sound_System();
-			soundSystem.PlaySound(short(Sounds::playerFire));
+
+			if (m_MissileOwner == "player")
+			{
+				auto& soundSystem = engine::Servicealocator::Get_Sound_System();
+				soundSystem.PlaySound(short(Sounds::playerFire));
+			}			
 			break;
 		}
 	}

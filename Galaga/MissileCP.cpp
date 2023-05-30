@@ -4,10 +4,19 @@
 #include "HealthComponent.h"
 #include <iostream>
 
-MissileCP::MissileCP(engine::GameObject* pOwner)
+MissileCP::MissileCP(engine::GameObject* pOwner, bool IsPlayerMissile)
 	:Component("MissileBehaviourCP", pOwner)
 {
 	m_pMoveComponent = pOwner->GetComponent<MoveComponent>();
+
+	if (IsPlayerMissile)
+	{
+		m_CollisionWith = "CollisionWith Enemy";
+	}
+	else
+	{
+		m_CollisionWith = "CollisionWith Player";
+	}
 }
 
 MissileCP::~MissileCP()
@@ -29,7 +38,7 @@ void MissileCP::Update( const float )
 
 void MissileCP::OnNotify(engine::GameObject* gameObject, const engine::Event& event)
 {
-	if (event.IsSameEvent("CollisionWith Enemy"))
+	if (event.IsSameEvent(m_CollisionWith))
 	{
 		auto enemyHealthCP = gameObject->GetComponent<HealthComponent>();
 		if (enemyHealthCP != nullptr)

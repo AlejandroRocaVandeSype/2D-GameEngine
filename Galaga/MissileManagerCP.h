@@ -9,7 +9,8 @@
 class MissileManagerCP final : public engine::Component
 {
 public:
-	MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, float missileSpeed);
+	MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, const glm::vec2& missileSpeed, const std::string& missileOwner,
+		const std::string& texturePath);
 
 	virtual ~MissileManagerCP() override;
 
@@ -19,9 +20,9 @@ public:
 	void Fire(const glm::vec3& direction);
 
 private:
-	const float SPEED;						// Speed at which all missiles will move
-	const int MAX_MISSILES;					// Max amount of missiles allow to fire up  on the screen at a time
-
+	const glm::vec2& SPEED;						// Speed at which all missiles will move
+	const int MAX_MISSILES;						// Max amount of missiles allow to fire up  on the screen at a time
+	const std::string m_MissileOwner;
 	std::vector<std::shared_ptr <engine::GameObject>> m_vMissiles;
 };
 

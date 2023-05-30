@@ -4,6 +4,7 @@
 #include "MoveComponent.h"
 #include "FormationCP.h"
 #include "RotatorComponent.h"
+#include "MissileManagerCP.h"
 #include "Scene.h"
 #include <glm/gtc/constants.hpp>
 #include <iostream>
@@ -13,15 +14,18 @@ AI_BeeCP::AI_BeeCP(engine::GameObject* pOwner)
 	, m_pEnemyCP { nullptr }
 	, m_pMoveCP { nullptr }
 	, m_pTransformCP{ nullptr }
-	, m_MaxTimeMov{ 0.f }, m_ElapsedTimeMov { 0.f }
+	, m_pMissileManagerCP { nullptr }
+	, m_DiagonalDiveMaxTime{ 0.f }, m_ElapsedDiagonalDive { 0.f }
 	, m_AttackState { AttackState::breakFormation }, m_Direction { 1.f, 1.f, 0.f }
-	, ROTATION_TIME{ 3.f }, m_RotationRadius{ 80.f }
+	, ROTATION_TIME{ 3.f }, m_RotationRadius{ 80.f }, m_HasShoot { false }, m_AmountMissiles{ 0 }
+	, m_ElapsedShootTime { 0.f }, m_WaitBetweenShoot { 0.5f }
 
 {
 	m_pEnemyCP = pOwner->GetComponent<EnemyCP>();
 	m_pMoveCP = pOwner->GetComponent<MoveComponent>();
 	m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 	m_pRotatorCP = pOwner->GetComponent<RotatorComponent>();
+	m_pMissileManagerCP = pOwner->GetComponent<MissileManagerCP>();
 }
 
 AI_BeeCP::~AI_BeeCP()
@@ -36,7 +40,7 @@ void AI_BeeCP::Update(const float deltaTime)
 		switch (m_pEnemyCP->GetCurrentState())
 		{
 			case EnemyCP::ENEMY_STATE::waiting:
-				// While waiting needs to keep moving with the formation
+				// While waiting he needs to keep moving with the formation
 				m_pTransformCP->SetPositionDirty();
 				break;
 			case EnemyCP::ENEMY_STATE::moveToFormation:
@@ -49,7 +53,7 @@ void AI_BeeCP::Update(const float deltaTime)
 	}
 }
 
-// Enemy moves back to the formation
+// Enemy moves back to its position in the formation
 void AI_BeeCP::UpdateMoveToFormation(const float deltaTime)
 {
 	auto currentPos = m_pTransformCP->GetWorldPosition();
@@ -67,20 +71,19 @@ void AI_BeeCP::UpdateMoveToFormation(const float deltaTime)
 	{
 		// Wait until recieve orders to attack
 		m_pEnemyCP->ChangeCurrentState(EnemyCP::ENEMY_STATE::waiting);
-		m_pMoveCP->ChangeSpeed(120.f);		// Reduce its speed
+		m_pMoveCP->ChangeSpeed(glm::vec2{120.f, 120.f});		// Reduce its speed
 	}
 }
 
 void AI_BeeCP::UpdateAttack(const float deltaTime)
 {
 	auto currentPos = m_pTransformCP->GetWorldPosition();
-
 	auto window = engine::SceneManager::GetInstance().GetSceneWindow();
 	switch (m_AttackState)
 	{
 		case AI_BeeCP::AttackState::breakFormation:
-		{
-			
+		{		
+			// Break formation and determine on which direction dive
 			if (currentPos.x > window.width / 2.f)
 			{
 				// Move to the left
@@ -92,35 +95,25 @@ void AI_BeeCP::UpdateAttack(const float deltaTime)
 				m_Direction.x = 1;
 				m_AtRightSide = true;
 			}
-			m_MaxTimeMov = float((std::rand() % 2) + 1);
-			m_AttackState = AttackState::diagonalMov;
+			m_DiagonalDiveMaxTime = float((std::rand() % 2) + 1);
+			m_AttackState = AttackState::diagonalDive;
+
+			// Charge 1 or 2 missiles to shoot (or zero)
+			 m_AmountMissiles = std::rand() % 3;
 			break;
 		}	
-		case AI_BeeCP::AttackState::diagonalMov:
-		{
-			// Downward Diagonal movement until max Time or before it leaves window boundaries
-			if (m_ElapsedTimeMov < m_MaxTimeMov && (currentPos.x > 0 && currentPos.x < window.width))
-			{
-				m_ElapsedTimeMov += deltaTime;
-				m_pMoveCP->Move(deltaTime, m_Direction);
-			}
-			else
-			{
-				m_ElapsedTimeMov = 0.f;
-				m_AttackState = AttackState::verticalMov;
-				m_Direction.x = 0.f;		// Now only move downwards
-			
-			}
+		case AI_BeeCP::AttackState::diagonalDive:
+			UpdateDiagonalDive(deltaTime, currentPos, window);
 			break;
-		}
-		case AI_BeeCP::AttackState::verticalMov:
+
+		case AI_BeeCP::AttackState::verticalDive:
 		{
 			// Move downwards until certain limit
 			m_pMoveCP->Move(deltaTime, m_Direction);
 			if (currentPos.y > (window.height - 120.f) )
 			{
 
-				m_AttackState = AttackState::rotation;
+				m_AttackState = AttackState::roundSwoop;
 
 				if (m_pRotatorCP != nullptr)
 				{
@@ -149,7 +142,7 @@ void AI_BeeCP::UpdateAttack(const float deltaTime)
 
 			break;
 		}
-		case AI_BeeCP::AttackState::rotation:
+		case AI_BeeCP::AttackState::roundSwoop:
 		{
 			if (m_pRotatorCP != nullptr)
 			{
@@ -158,6 +151,7 @@ void AI_BeeCP::UpdateAttack(const float deltaTime)
 				{
 					m_pEnemyCP->ChangeCurrentState(EnemyCP::ENEMY_STATE::moveToFormation);
 					m_AttackState = AttackState::breakFormation;
+					m_HasShoot = false;
 				}
 			}		
 			break;
@@ -169,6 +163,46 @@ void AI_BeeCP::UpdateAttack(const float deltaTime)
 	
 
 
+
+}
+
+// Dives diagonally downards. While this there is a chance to also shoot up to two missiles
+void AI_BeeCP::UpdateDiagonalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window)
+{
+	// Shoot missiles if there any to shoot
+	if (!m_HasShoot && m_AmountMissiles > 0)
+	{
+		m_ElapsedShootTime += deltaTime;
+		if (m_ElapsedShootTime > m_WaitBetweenShoot)
+		{
+			if (m_pMissileManagerCP != nullptr)
+			{
+				m_pMissileManagerCP->Fire(glm::vec3{ 1.f, 1.f, 0.f });
+			}
+			m_MissilesShoot++;
+			if (m_MissilesShoot == m_AmountMissiles)
+			{
+				// No more missiles to shoot
+				m_HasShoot = false;
+				m_MissilesShoot = 0;
+				m_ElapsedShootTime = 0.f;
+			}
+		}	
+	}
+
+	// Downward Diagonal movement until max Time or before it leaves window boundaries
+	if (m_ElapsedDiagonalDive < m_DiagonalDiveMaxTime && (currentPos.x > 0 && currentPos.x < window.width))
+	{
+		m_ElapsedDiagonalDive += deltaTime;
+		m_pMoveCP->Move(deltaTime, m_Direction);
+	}
+	else
+	{
+		m_ElapsedDiagonalDive = 0.f;
+		m_AttackState = AttackState::verticalDive;
+		m_Direction.x = 0.f;		// Now only move downwards
+
+	}
 
 }
 

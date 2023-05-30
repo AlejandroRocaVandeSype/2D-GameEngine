@@ -7,7 +7,7 @@ class MoveComponent;
 class MissileCP final : public engine::Component, public engine::Observer
 {
 public:
-	MissileCP(engine::GameObject* pOwner);							
+	MissileCP(engine::GameObject* pOwner, bool IsPlayerMissile);							
 	virtual ~MissileCP() override;
 
 	virtual void Update(const float deltaTime) override;
@@ -17,6 +17,7 @@ public:
 
 private:
 	MoveComponent* m_pMoveComponent;
+	std::string m_CollisionWith;
 };
 
 #endif
