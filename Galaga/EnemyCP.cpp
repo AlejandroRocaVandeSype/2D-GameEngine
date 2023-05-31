@@ -14,13 +14,14 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 	const glm::vec3 formationPos, unsigned int health)
 	: Component("EnemyCP", pOwner)
 	, m_FormationPos { formationPos }, m_CurrentState { ENEMY_STATE::moveToFormation }, m_EnemyType { enemyType }
+	, m_pTransformCP { nullptr }, m_pMoveCP { nullptr }
 {
 	if (pOwner != nullptr)
 	{
 		auto renderCP = pOwner->AddComponent<engine::RenderComponent>(pOwner, spriteFilePath);
 		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
 		MoveComponent::Boundaries enemyBoundaries{};  // No boundaries restriction
-		pOwner->AddComponent<MoveComponent>(pOwner, glm::vec2{ 200.f, 200.f }, enemyBoundaries);
+		m_pMoveCP = pOwner->AddComponent<MoveComponent>(pOwner, glm::vec2{ 220.f, 220.f }, enemyBoundaries);
 		auto collisionCP = pOwner->AddComponent<engine::CollisionComponent>(pOwner, renderCP->GetTextureSize());
 		pOwner->AddComponent<RotatorComponent>(pOwner);
 		collisionCP->AddObserver(this);
@@ -29,6 +30,8 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 		int maxMissiles{ 2 };
 		glm::vec2 missileSpeed{ 80.f, 400.f };
 		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed, "enemy", "Sprites/enemyMissile.png");
+
+		m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 	
 	}
 }
@@ -38,15 +41,61 @@ EnemyCP::~EnemyCP()
 
 }
 
-void EnemyCP::Update(const float )
+void EnemyCP::Update(const float deltaTime)
 {
+	if (m_pMoveCP != nullptr && m_pTransformCP != nullptr)
+	{
+		switch (m_CurrentState)
+		{
+		case EnemyCP::ENEMY_STATE::waiting:
+			// While waiting he needs to keep moving with the formation
+			m_pTransformCP->SetPositionDirty();
+			break;
+		case EnemyCP::ENEMY_STATE::moveToFormation:
+			UpdateMoveToFormation(deltaTime);
+			break;
 
+			// Attack state will be updated by the AI component
+		}
+	}
 }
 
-
-void EnemyCP::ReceiveMessage( const std::string&, const std::string& )
+// Enemy moves back to its position in the formation
+void EnemyCP::UpdateMoveToFormation(const float deltaTime)
 {
+	auto currentPos = m_pTransformCP->GetWorldPosition();
 
+	glm::vec3 targetPos{ GetOwner()->getParent()->GetComponent<engine::TransformComponent>()->GetWorldPosition() 
+		+ m_FormationPos };
+	// Normalized Vector from the enemy position to the target to get the direction
+	glm::vec3 direction{ glm::normalize(targetPos - currentPos) };
+
+	float distance{ glm::distance(targetPos, currentPos) };
+	if (distance > 2.f)
+	{
+		m_pMoveCP->Move(deltaTime, direction);
+	}
+	else
+	{
+		// Wait until recieve orders to attack
+		m_CurrentState = EnemyCP::ENEMY_STATE::waiting;
+		m_pMoveCP->ChangeSpeed(glm::vec2{ 80.f, 160.f });		// Reduce its speed
+	}
+}
+
+void EnemyCP::ReceiveMessage( const std::string& message, const std::string& value)
+{
+	if (message == "RemoveCP")
+	{
+		if (value == "TransformCP")
+		{
+			m_pTransformCP = nullptr;
+		}
+		if (value == "MoveCP")
+		{
+			m_pMoveCP = nullptr;
+		}
+	}
 }
 
 void EnemyCP::OnNotify(engine::GameObject* gameObject, const engine::Event& event)

@@ -5,6 +5,11 @@
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 
+namespace engine
+{
+	class TransformComponent;
+}
+class MoveComponent;
 class EnemyCP final: public engine::Component, public engine::Observer
 {
 	public:
@@ -13,7 +18,7 @@ class EnemyCP final: public engine::Component, public engine::Observer
 		{
 			waiting,					// Waits in the formation until he receives the order to attack
 			moveToFormation,			
-			attack
+			attack						
 		};
 
 		EnemyCP(engine::GameObject* pOwner, const std::string& spriteFilePath, const std::string& enemyType,
@@ -33,9 +38,14 @@ class EnemyCP final: public engine::Component, public engine::Observer
 	
 
 private:
+
+	void UpdateMoveToFormation(const float deltaTime);
+
 	glm::vec3 m_FormationPos;				// Position the enemy will be placed in the formation
 	ENEMY_STATE m_CurrentState;
 	std::string m_EnemyType;
+	engine::TransformComponent* m_pTransformCP;
+	MoveComponent* m_pMoveCP;
 };
 
 #endif

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "EnemyCP.h"
 #include "AI_BeeCP.h"
+#include "AI_ButterflyCP.h"
 #include "HealthComponent.h"
 #include "FormationReaderCP.h"
 #include "TransformComponent.h"
@@ -123,7 +124,7 @@ void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& fo
 {
 	auto go_Butterfly = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
 	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, "butterfly", "Sprites/Butterfly.png", formationPos, 1);
-	go_Butterfly->AddComponent<AI_BeeCP>(go_Butterfly);
+	go_Butterfly->AddComponent<AI_ButterflyCP>(go_Butterfly);
 	go_Butterfly->GetComponent<HealthComponent>()->AddObserver(this);
 
 	// Inactive at start

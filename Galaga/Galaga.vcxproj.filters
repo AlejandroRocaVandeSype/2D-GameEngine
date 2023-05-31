@@ -11,10 +11,6 @@
     <Filter Include="Components">
       <UniqueIdentifier>{5176175a-4496-4757-b1bd-0fd7bda61c46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="General files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Components\Enemies">
       <UniqueIdentifier>{2b2bee8d-a3ee-44fb-bc7d-973066bd878d}</UniqueIdentifier>
     </Filter>
@@ -29,6 +25,10 @@
     </Filter>
     <Filter Include="FormationState">
       <UniqueIdentifier>{b3f5479d-e30c-4c91-8533-a4cc8fc8c938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="SendingEnemiesState.cpp">
       <Filter>FormationState</Filter>
+    </ClCompile>
+    <ClCompile Include="AI_ButterflyCP.cpp">
+      <Filter>Components\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="SendingEnemiesState.h">
       <Filter>FormationState</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_ButterflyCP.h">
+      <Filter>Components\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
