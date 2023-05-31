@@ -33,9 +33,13 @@ private:
 		roundSwoop
 	};
 
+	void InitAttackData(const glm::vec3& currentPos, const engine::Window& window);
 	void UpdateAttack(const float deltaTime);
 	void UpdateMoveToFormation(const float deltaTime);
 	void UpdateDiagonalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window);
+	void UpdateVerticalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window);
+	void CalculateMissileDirection();
+	void FireMissile(const float deltaTime);
 
 	EnemyCP* m_pEnemyCP;
 	MoveComponent* m_pMoveCP;
@@ -47,10 +51,11 @@ private:
 	// ATTACK STATE
 	float m_ElapsedDiagonalDive;
 	float m_DiagonalDiveMaxTime;
-	glm::vec3 m_Direction;						// Keeps track of the direction the enemy is facing
 	bool m_AtRightSide;							// Enemy at right side of the window? 
-
+	glm::vec3 m_Direction;						// Keeps track of the direction the enemy is facing
+	
 	// Shooting
+	glm::vec3 m_MissileDir;
 	bool m_HasShoot;
 	unsigned short m_AmountMissiles;			// How many missiles he will be able to shoot
 	unsigned short m_MissilesShoot;				// How many missiles he has already shot

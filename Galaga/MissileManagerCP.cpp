@@ -19,10 +19,11 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 {
 
 	auto& SceneManager = engine::SceneManager::GetInstance();
+	auto window = SceneManager.GetSceneWindow();
 	// Position will be updated when missiles are fired
 	glm::vec3 missileStartPos{ glm::vec3{} };		
 
-	MoveComponent::Boundaries missileBoundaries{ 0.f, 560.f , 640.f, 0.f, false };
+	MoveComponent::Boundaries missileBoundaries{ 0.f, window.width , window.height, 0.f, false };
 
 
 	std::string missileTag{ missileOwner + "Missile" };

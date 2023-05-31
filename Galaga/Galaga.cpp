@@ -12,6 +12,9 @@
 
 int main(int, char* [])
 {
+	// Seed the random number generator with the current time
+	std::srand(static_cast<unsigned>(std::time(nullptr)));
+
 	engine::Window window{ "Galaga", 560.f , 640.f };
 	engine::Engine engine("../Data/", window);
 

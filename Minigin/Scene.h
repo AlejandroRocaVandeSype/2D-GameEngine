@@ -21,6 +21,8 @@ namespace engine
 
 		void CheckCollisions(size_t objectIdx1, engine::CollisionComponent* pCollisionCP);
 
+		engine::GameObject* FindGameObjectByTag(const std::string& tag);
+
 		const std::string& Name() const;
 
 		~Scene();

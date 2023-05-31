@@ -143,6 +143,27 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
+
+engine::GameObject* Scene::FindGameObjectByTag(const std::string& tag)
+{
+	for (auto& gameObject : m_objects)
+	{
+		if (gameObject->Tag() == tag)
+		{
+			if (gameObject->IsActive())
+			{
+				return gameObject.get();
+			}
+			else
+			{
+				return nullptr;
+			}
+		}
+	}
+	// GameObject with that tag not found
+	return nullptr;
+}
+
 const std::string& Scene::Name() const
 {
 	return m_name;

@@ -51,9 +51,9 @@ private :
 	glm::vec2 m_Speed;
 	Boundaries m_Boundaries;
 	glm::vec2 m_GObjectSize;
-	glm::vec3 m_Direction;			// Only for auto movement
+	glm::vec3 m_Direction;			// Only for auto movement (Direction is always the same)
 	bool m_IsInsideBoundaries;
-	bool m_AutoMovement;			// Controlled movement or just automatic
+	bool m_AutoMovement;			// Controlled movement (Player) or just automatic (AI)
 	
 };
 

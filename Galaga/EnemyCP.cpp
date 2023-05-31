@@ -7,6 +7,7 @@
 #include "MoveComponent.h"
 #include "RotatorComponent.h"
 #include "MissileManagerCP.h"
+#include "PlayerCP.h"
 #include <iostream>
 
 EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const std::string& spriteFilePath, 
@@ -26,7 +27,7 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 		healthCP->AddObserver(this);
 
 		int maxMissiles{ 2 };
-		glm::vec2 missileSpeed{ 100.f, 350.f };
+		glm::vec2 missileSpeed{ 80.f, 400.f };
 		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed, "enemy", "Sprites/enemyMissile.png");
 	
 	}

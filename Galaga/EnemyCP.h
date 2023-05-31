@@ -30,6 +30,7 @@ class EnemyCP final: public engine::Component, public engine::Observer
 		glm::vec3 GetFormationPos() const;
 		ENEMY_STATE GetCurrentState() const;
 		const std::string& GetType() const;
+	
 
 private:
 	glm::vec3 m_FormationPos;				// Position the enemy will be placed in the formation

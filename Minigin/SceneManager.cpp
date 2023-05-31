@@ -95,6 +95,16 @@ void engine::SceneManager::AddToScene(const std::string& sceneName, std::shared_
 
 }
 
+engine::GameObject* engine::SceneManager::FindGameObjectByTag(const std::string& tag)
+{
+	if(m_ActiveScene >= 0 && m_ActiveScene < (int)m_scenes.size())
+	{
+		return m_scenes.at(m_ActiveScene)->FindGameObjectByTag(tag);
+	}
+	
+	return nullptr;
+}
+
 void engine::SceneManager::SetActiveScene(const std::string& sceneName)
 {
 	for (size_t sceneIdx{ 0 }; sceneIdx < m_scenes.size(); ++sceneIdx)
