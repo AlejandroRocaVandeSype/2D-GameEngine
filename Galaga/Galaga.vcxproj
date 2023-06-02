@@ -160,6 +160,7 @@
     <ClCompile Include="AI_BeeCP.cpp" />
     <ClCompile Include="AI_ButterflyCP.cpp" />
     <ClCompile Include="AI_FormationCP.cpp" />
+    <ClCompile Include="AI_Galagacp.cpp" />
     <ClCompile Include="EnemyCP.cpp" />
     <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="FormationCP.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="AI_BeeCP.h" />
     <ClInclude Include="AI_ButterflyCP.h" />
     <ClInclude Include="AI_FormationCP.h" />
+    <ClInclude Include="AI_GalagaCP.h" />
     <ClInclude Include="EnemyCP.h" />
     <ClInclude Include="FireCommand.h" />
     <ClInclude Include="FormationCP.h" />

@@ -13,19 +13,19 @@ AI_BeeCP::AI_BeeCP(engine::GameObject* pOwner)
 	:Component("AI_BeeCP", pOwner)
 	, m_pEnemyCP { nullptr }
 	, m_pMoveCP { nullptr }
-	, m_pTransformCP{ nullptr }
-	, m_pMissileManagerCP { nullptr }
+	, m_pTransformCP{ nullptr }, m_pRotatorCP { nullptr }
 	, m_DiagonalDiveMaxTime{ 0.f }, m_ElapsedDiagonalDive { 0.f }, m_AtRightSide { false }
-	, m_AttackState { AttackState::breakFormation }, m_Direction { 1.f, 1.f, 0.f }, m_MissileDir { 0.f, 1.f, 0.f }
-	, ROTATION_TIME{ 3.f }, m_RotationRadius{ 80.f }, m_HasShoot { true }, m_AmountMissiles{ 0 }, m_MissilesShoot { 0 }
-	, m_ElapsedShootTime { 0.f }, m_WaitBetweenShoot { 0.3f }
+	, m_AttackState { AttackState::breakFormation }, m_Direction { 1.f, 1.f, 0.f }
+	, ROTATION_TIME{ 3.f }, m_RotationRadius{ 80.f }
 
 {
-	m_pEnemyCP = pOwner->GetComponent<EnemyCP>();
-	m_pMoveCP = pOwner->GetComponent<MoveComponent>();
-	m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
-	m_pRotatorCP = pOwner->GetComponent<RotatorComponent>();
-	m_pMissileManagerCP = pOwner->GetComponent<MissileManagerCP>();
+	if (pOwner != nullptr)
+	{
+		m_pEnemyCP = pOwner->GetComponent<EnemyCP>();
+		m_pMoveCP = pOwner->GetComponent<MoveComponent>();
+		m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
+		m_pRotatorCP = pOwner->GetComponent<RotatorComponent>();
+	}
 }
 
 AI_BeeCP::~AI_BeeCP()
@@ -79,13 +79,6 @@ void AI_BeeCP::UpdateAttack(const float deltaTime)
 		}
 		
 	}
-
-	// Shoot missiles if there are any to shoot
-	if (!m_HasShoot)
-	{
-		FireMissile(deltaTime);
-	}
-	
 }
 
 // Break formation and determine on which direction dive and fire
@@ -104,46 +97,13 @@ void AI_BeeCP::InitAttackData(const glm::vec3& currentPos, const engine::Window&
 	}
 	// Random between float numbers
 	m_DiagonalDiveMaxTime = float(((std::rand()) / float(RAND_MAX / 1)) + 1.f);
-	m_AttackState = AttackState::diagonalDive;
+	m_AttackState = AttackState::diagonalDive;	
 
-	// Charge 1 or 2 missiles to shoot (or zero)
-	m_AmountMissiles = std::rand() % 3;
-	if (m_AmountMissiles > 0)
+	if (m_pEnemyCP != nullptr)
 	{
-		m_HasShoot = false;
-		CalculateMissileDirection();
+		// Calculate the missiles direction in order to fire 
+		m_pEnemyCP->CalculateMissileDirection();
 	}
-	
-}
-
-void AI_BeeCP::CalculateMissileDirection()
-{
-	auto& sceneManager = engine::SceneManager::GetInstance();
-	engine::GameObject* pPlayer = sceneManager.FindGameObjectByTag("Player");
-
-	if (pPlayer != nullptr)
-	{
-		engine::TransformComponent* pPlayerTransformCP = pPlayer->GetComponent<engine::TransformComponent>();
-		if (pPlayerTransformCP != nullptr)
-		{
-			// Missile lways go downwards. The x direction will be determine depending where the player is
-			float playerXPos{ pPlayerTransformCP->GetWorldPosition().x };
-			if (playerXPos < m_pTransformCP->GetWorldPosition().x)
-			{
-				m_MissileDir.x = -1.f;
-			}
-			else
-			{
-				m_MissileDir.x = 1.f;
-			}
-
-			return;
-		}
-	}
-
-	// No player or no valid player pos = no fire missiles
-	m_HasShoot = true;
-
 }
 
 // Dives diagonally downards. While this there is a chance to also shoot up to two missiles
@@ -166,28 +126,6 @@ void AI_BeeCP::UpdateDiagonalDive(const float deltaTime, const glm::vec3& curren
 
 }
 
-void AI_BeeCP::FireMissile(const float deltaTime)
-{
-	m_ElapsedShootTime += deltaTime;
-	if (m_ElapsedShootTime > m_WaitBetweenShoot)
-	{
-		if (m_pMissileManagerCP != nullptr)
-		{
-			m_pMissileManagerCP->Fire(m_MissileDir);		
-		}
-
-		m_MissilesShoot++;
-		if (m_MissilesShoot == m_AmountMissiles)
-		{
-			// No more missiles to shoot
-			m_HasShoot = true;
-			m_MissilesShoot = 0;
-		}
-
-		m_ElapsedShootTime = 0.f;
-	}
-}
-
 // Dive downwards until certain limit
 void AI_BeeCP::UpdateVerticalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window)
 {
@@ -198,7 +136,7 @@ void AI_BeeCP::UpdateVerticalDive(const float deltaTime, const glm::vec3& curren
 		m_AttackState = AttackState::roundSwoop;
 		if (m_pRotatorCP != nullptr)
 		{
-			bool posRot = false;
+			bool positiveRot = false;
 			auto rotationCenter = m_pTransformCP->GetLocalPosition();
 			float rotationAngle{}, targetRotation{};
 			if (m_AtRightSide)
@@ -206,7 +144,7 @@ void AI_BeeCP::UpdateVerticalDive(const float deltaTime, const glm::vec3& curren
 				rotationCenter.x -= m_RotationRadius;
 				rotationAngle = 0.f;
 				targetRotation = glm::pi<float>();
-				posRot = true;
+				positiveRot = true;
 			}
 			else
 			{
@@ -217,15 +155,31 @@ void AI_BeeCP::UpdateVerticalDive(const float deltaTime, const glm::vec3& curren
 			}
 
 			m_pRotatorCP->SetDataRotation(m_RotationRadius, ROTATION_TIME, targetRotation, 
-				rotationCenter, posRot, rotationAngle);
+				rotationCenter, positiveRot, rotationAngle);
 		}
 	}
 }
 
-
-
-
-void AI_BeeCP::ReceiveMessage( const std::string& , const std::string& )
+void AI_BeeCP::ReceiveMessage(const std::string& message, const std::string& value)
 {
+	if (message == "RemoveCP")
+	{
+		if (value == "TransformCP")
+		{
+			m_pTransformCP = nullptr;
+		}
+		if (value == "MoveCP")
+		{
+			m_pMoveCP = nullptr;
+		}
+		if (value == "RotatorCP")
+		{
+			m_pRotatorCP = nullptr;
+		}
 
+		if (value == "EnemyCP")
+		{
+			m_pEnemyCP = nullptr;
+		}
+	}
 }

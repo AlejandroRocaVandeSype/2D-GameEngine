@@ -3,6 +3,7 @@
 #include "EnemyCP.h"
 #include "AI_BeeCP.h"
 #include "AI_ButterflyCP.h"
+#include "AI_GalagaCP.h"
 #include "HealthComponent.h"
 #include "FormationReaderCP.h"
 #include "TransformComponent.h"
@@ -137,7 +138,7 @@ void FormationCP::CreateGalaga(const glm::vec3& startPos, const glm::vec3& forma
 {
 	auto go_Galagas = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
 	go_Galagas->AddComponent<EnemyCP>(go_Galagas, "galaga", "Sprites/Galaga.png", formationPos, 2);
-	go_Galagas->AddComponent<AI_BeeCP>(go_Galagas);
+	go_Galagas->AddComponent<AI_GalagaCP>(go_Galagas);
 	go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
 
 	// Inactive at start

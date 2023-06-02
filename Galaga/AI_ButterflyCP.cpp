@@ -8,22 +8,17 @@
 
 AI_ButterflyCP::AI_ButterflyCP(engine::GameObject* pOwner)
 	: Component("AI_ButterflyCP", pOwner)
-	, m_pEnemyCP{ nullptr }, m_pMoveCP{ nullptr }, m_pButterflyTransfCP{ nullptr }, m_pMissileManagerCP { nullptr }
+	, m_pEnemyCP{ nullptr }, m_pMoveCP{ nullptr }, m_pButterflyTransfCP{ nullptr }
 	, m_AttackState { AttackState::breakFormation }
 	, m_DiagonalDiveMaxTime{ 0.f }, m_ElapsedSec{ 0.f }, m_AtRightSide{ false }, m_Direction{ 1.f, 1.f, 0.f }
-	, m_MissileDir{ 0.f, 1.f, 0.f}, m_HasShoot { true }, m_ElapsedShootTime{ 0.f }, m_WaitBetweenShoot{ 0.3f }
-	, m_MaxSteeringTime { 0.f }, m_AmountMissiles { 0 }, m_MissilesShoot { 0 }
+	, m_MaxSteeringTime{ 0.f }
 {
 	if (pOwner != nullptr)
 	{
 		m_pButterflyTransfCP = pOwner->GetComponent<engine::TransformComponent>();
 		m_pMoveCP = pOwner->GetComponent<MoveComponent>();
 		m_pEnemyCP = pOwner->GetComponent<EnemyCP>();
-		m_pMissileManagerCP = pOwner->GetComponent<MissileManagerCP>();
-	}
-
-	
-	
+	}	
 }
 
 AI_ButterflyCP::~AI_ButterflyCP()
@@ -60,12 +55,6 @@ void AI_ButterflyCP::UpdateAttack(const float deltaTime)
 		UpdateZigZagSteer(deltaTime, currentPos, window);
 		break;
 	}
-
-	// Shoot missiles if there are any to shoot
-	if (!m_HasShoot)
-	{
-		FireMissile(deltaTime);
-	}
 	
 }
 
@@ -87,45 +76,14 @@ void AI_ButterflyCP::InitAttackData(const glm::vec3& currentPos, const engine::W
 	m_DiagonalDiveMaxTime = float(((std::rand()) / float(RAND_MAX / 1.f) ) + 1.f);
 	m_AttackState = AttackState::diagonalDive;
 
-	 //Charge 1 or 2 missiles to shoot (or zero)
-	m_AmountMissiles = std::rand() % 3;
-	if (m_AmountMissiles > 0)
+
+	if (m_pEnemyCP != nullptr)
 	{
-		m_HasShoot = false;
-		CalculateMissileDirection();
+		// Calculate the missiles direction in order to fire 
+		m_pEnemyCP->CalculateMissileDirection();
 	}
 }
 
-// Determine the direction of the Missile based on the player X position
-void AI_ButterflyCP::CalculateMissileDirection()
-{
-	auto& sceneManager = engine::SceneManager::GetInstance();
-	engine::GameObject* pPlayer = sceneManager.FindGameObjectByTag("Player");
-
-	if (pPlayer != nullptr)
-	{
-		engine::TransformComponent* pPlayerTransformCP = pPlayer->GetComponent<engine::TransformComponent>();
-		if (pPlayerTransformCP != nullptr)
-		{
-			// Missile lways go downwards. The x direction will be determine depending where the player is
-			float playerXPos{ pPlayerTransformCP->GetWorldPosition().x };
-			if (playerXPos < m_pButterflyTransfCP->GetWorldPosition().x)
-			{
-				m_MissileDir.x = -1.f;
-			}
-			else
-			{
-				m_MissileDir.x = 1.f;
-			}
-
-			return;
-		}
-	}
-
-	// No player or no valid player pos = no fire missiles
-	m_HasShoot = true;
-
-}
 
 void AI_ButterflyCP::UpdateDiagonalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window)
 {
@@ -140,28 +98,6 @@ void AI_ButterflyCP::UpdateDiagonalDive(const float deltaTime, const glm::vec3& 
 		m_ElapsedSec = 0.f;
 		m_AttackState = AttackState::zigZagSteer;	
 
-	}
-}
-
-void AI_ButterflyCP::FireMissile(const float deltaTime)
-{
-	m_ElapsedShootTime += deltaTime;
-	if (m_ElapsedShootTime > m_WaitBetweenShoot)
-	{
-		if (m_pMissileManagerCP != nullptr)
-		{
-			m_pMissileManagerCP->Fire(m_MissileDir);
-		}
-
-		m_MissilesShoot++;
-		if (m_MissilesShoot == m_AmountMissiles)
-		{
-			// No more missiles to shoot
-			m_HasShoot = true;
-			m_MissilesShoot = 0;
-		}
-
-		m_ElapsedShootTime = 0.f;
 	}
 }
 
@@ -221,7 +157,17 @@ void AI_ButterflyCP::UpdateZigZagSteer(const float deltaTime, const glm::vec3& c
 	}
 }
 
-void AI_ButterflyCP::ReceiveMessage(const std::string& , const std::string& )
+void AI_ButterflyCP::ReceiveMessage(const std::string& message, const std::string& value)
 {
-
+	if (message == "RemoveCP")
+	{
+		if (value == "TransformCP")
+		{
+			m_pButterflyTransfCP = nullptr;
+		}
+		if (value == "MoveCP")
+		{
+			m_pMoveCP = nullptr;
+		}
+	}
 }

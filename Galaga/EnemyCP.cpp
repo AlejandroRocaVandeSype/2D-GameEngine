@@ -8,13 +8,16 @@
 #include "RotatorComponent.h"
 #include "MissileManagerCP.h"
 #include "PlayerCP.h"
+#include "Scene.h"
 #include <iostream>
 
 EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const std::string& spriteFilePath, 
 	const glm::vec3 formationPos, unsigned int health)
 	: Component("EnemyCP", pOwner)
 	, m_FormationPos { formationPos }, m_CurrentState { ENEMY_STATE::moveToFormation }, m_EnemyType { enemyType }
-	, m_pTransformCP { nullptr }, m_pMoveCP { nullptr }
+	, m_pTransformCP { nullptr }, m_pMoveCP { nullptr }, m_MissileDir{ 0.f, 1.f, 0.f }, m_HasShoot{ true }
+	, m_AmountMissiles{ 0 }, m_MissilesShoot{ 0 }, m_ElapsedShootTime{ 0.f }, m_WaitBetweenShoot{ 0.3f }
+	, m_pMissileManagerCP{ nullptr }
 {
 	if (pOwner != nullptr)
 	{
@@ -29,7 +32,8 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 
 		int maxMissiles{ 2 };
 		glm::vec2 missileSpeed{ 80.f, 400.f };
-		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed, "enemy", "Sprites/enemyMissile.png");
+		m_pMissileManagerCP = pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed,
+			"enemy", "Sprites/enemyMissile.png");
 
 		m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 	
@@ -54,8 +58,15 @@ void EnemyCP::Update(const float deltaTime)
 		case EnemyCP::ENEMY_STATE::moveToFormation:
 			UpdateMoveToFormation(deltaTime);
 			break;
-
-			// Attack state will be updated by the AI component
+		case EnemyCP::ENEMY_STATE::attack:
+			// Only handle the firing behavior
+			// The enemy behavior will be updated by the AI component
+			if (!m_HasShoot)
+			{
+				// Enemy has to shoot a missile
+				FireMissile(deltaTime);
+			}
+			break;
 		}
 	}
 }
@@ -79,7 +90,71 @@ void EnemyCP::UpdateMoveToFormation(const float deltaTime)
 	{
 		// Wait until recieve orders to attack
 		m_CurrentState = EnemyCP::ENEMY_STATE::waiting;
-		m_pMoveCP->ChangeSpeed(glm::vec2{ 80.f, 160.f });		// Reduce its speed
+		glm::vec2 newSpeed{ 160.f, 160.f };
+		if (m_EnemyType != "galaga")
+		{
+			// Bees and butterflies move slower in the x axis
+			newSpeed.x = 80.f;
+		}
+
+		// Reduce its speed
+		m_pMoveCP->ChangeSpeed(newSpeed);
+	}
+}
+
+void EnemyCP::CalculateMissileDirection()
+{
+	// Charge 1 or 2 missiles to shoot (or zero)
+	m_AmountMissiles = std::rand() % 3;
+	if (m_AmountMissiles > 0)
+	{
+		m_HasShoot = false;			// There missiles that need to be fired
+		
+		auto& sceneManager = engine::SceneManager::GetInstance();
+		engine::GameObject* pPlayer = sceneManager.FindGameObjectByTag("Player");
+		if (pPlayer != nullptr)
+		{
+			engine::TransformComponent* pPlayerTransformCP = pPlayer->GetComponent<engine::TransformComponent>();
+			if (pPlayerTransformCP != nullptr)
+			{
+				// Missile lways go downwards. The x direction will be determine depending where the player is
+				float playerXPos{ pPlayerTransformCP->GetWorldPosition().x };
+				if (playerXPos < m_pTransformCP->GetWorldPosition().x)
+				{
+					m_MissileDir.x = -1.f;
+				}
+				else
+				{
+					m_MissileDir.x = 1.f;
+				}
+				return;
+			}
+		}
+
+		// No player or no valid player pos = no fire missiles
+		m_HasShoot = true;
+	}
+}
+
+void EnemyCP::FireMissile(const float deltaTime)
+{
+	m_ElapsedShootTime += deltaTime;
+	if (m_ElapsedShootTime > m_WaitBetweenShoot)
+	{
+		if (m_pMissileManagerCP != nullptr)
+		{
+			m_pMissileManagerCP->Fire(m_MissileDir);
+		}
+
+		m_MissilesShoot++;
+		if (m_MissilesShoot == m_AmountMissiles)
+		{
+			// No more missiles to shoot
+			m_HasShoot = true;
+			m_MissilesShoot = 0;
+		}
+
+		m_ElapsedShootTime = 0.f;
 	}
 }
 
@@ -94,6 +169,10 @@ void EnemyCP::ReceiveMessage( const std::string& message, const std::string& val
 		if (value == "MoveCP")
 		{
 			m_pMoveCP = nullptr;
+		}
+		if (value == "MissileManagerCP")
+		{
+			m_pMissileManagerCP = nullptr;
 		}
 	}
 }
