@@ -9,6 +9,8 @@
 
 #include "Engine.h"
 #include "Game.h"
+#include "structs.h"
+#include <memory>
 
 int main(int, char* [])
 {
@@ -18,7 +20,7 @@ int main(int, char* [])
 	engine::Window window{ "Galaga", 560.f , 640.f };
 	engine::Engine engine("../Data/", window);
 
-	std::unique_ptr<Game> game = std::make_unique<Game>(window);
+	std::unique_ptr<Game> game = std::make_unique<Game>();
 	engine.Run();
 
 	return 0;

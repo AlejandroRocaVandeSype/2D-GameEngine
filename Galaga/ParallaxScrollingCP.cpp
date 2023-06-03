@@ -6,7 +6,7 @@ ParallaxScrollingCP::ParallaxScrollingCP(engine::GameObject* pOwner)
 	:Component("parallaxScrollingCP", pOwner)
 	, m_TextureSize{ 0.f, 0.f}
 	, SPEED{ 250.f}
-	, m_Direction { 0.f, 1.f, 0.f}
+	, m_Direction { 0.f, 1.f, 0.f}, m_IsScrollingActive { false }
 {
 	m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 	engine::RenderComponent* pRenderCP = pOwner->GetComponent<engine::RenderComponent>();
@@ -24,7 +24,7 @@ ParallaxScrollingCP::~ParallaxScrollingCP()
 
 void ParallaxScrollingCP::Update(const float deltaTime)
 {
-	if (m_pTransformCP != nullptr)
+	if (m_pTransformCP != nullptr && m_IsScrollingActive)
 	{
 		auto position = m_pTransformCP->GetWorldPosition();
 
@@ -39,6 +39,11 @@ void ParallaxScrollingCP::Update(const float deltaTime)
 		}
 		m_pTransformCP->SetLocalPosition(position);
 	}
+}
+
+void ParallaxScrollingCP::ActivateScrolling()
+{
+	m_IsScrollingActive = true;
 }
 
 void ParallaxScrollingCP::ReceiveMessage( const std::string& message, const std::string& value)

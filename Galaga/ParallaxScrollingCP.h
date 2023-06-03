@@ -19,11 +19,14 @@ public:
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
+	void ActivateScrolling();
+
 private:
 	engine::TransformComponent* m_pTransformCP;
 	glm::vec2 m_TextureSize;
 	const float SPEED;
 	const glm::vec3 m_Direction;   // Parallax movement direction
+	bool m_IsScrollingActive;		// To know if background has to move or not (deactivated at start)
 };
 
 #endif

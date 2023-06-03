@@ -23,12 +23,12 @@
     <Filter Include="Components\Sound">
       <UniqueIdentifier>{e6791f6c-5c51-4384-a561-4d911be8fe9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FormationState">
-      <UniqueIdentifier>{b3f5479d-e30c-4c91-8533-a4cc8fc8c938}</UniqueIdentifier>
-    </Filter>
     <Filter Include="General files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="GameState">
+      <UniqueIdentifier>{cd03763b-c208-4503-9f67-fae3e37f4793}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -92,20 +92,26 @@
     <ClCompile Include="AI_FormationCP.cpp">
       <Filter>Components\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="SpawningState.cpp">
-      <Filter>FormationState</Filter>
-    </ClCompile>
-    <ClCompile Include="FormationState.cpp">
-      <Filter>FormationState</Filter>
-    </ClCompile>
-    <ClCompile Include="SendingEnemiesState.cpp">
-      <Filter>FormationState</Filter>
-    </ClCompile>
     <ClCompile Include="AI_ButterflyCP.cpp">
       <Filter>Components\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="AI_Galagacp.cpp">
       <Filter>Components\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameplayState.cpp">
+      <Filter>GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCP.cpp">
+      <Filter>General files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartCommand.cpp">
+      <Filter>Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,20 +178,26 @@
     <ClInclude Include="RotatorComponent.h">
       <Filter>Components\General</Filter>
     </ClInclude>
-    <ClInclude Include="FormationState.h">
-      <Filter>FormationState</Filter>
-    </ClInclude>
-    <ClInclude Include="SpawningState.h">
-      <Filter>FormationState</Filter>
-    </ClInclude>
-    <ClInclude Include="SendingEnemiesState.h">
-      <Filter>FormationState</Filter>
-    </ClInclude>
     <ClInclude Include="AI_ButterflyCP.h">
       <Filter>Components\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="AI_GalagaCP.h">
       <Filter>Components\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameplayState.h">
+      <Filter>GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCP.h">
+      <Filter>General files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

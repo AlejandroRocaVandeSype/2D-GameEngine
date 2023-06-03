@@ -165,10 +165,13 @@
     <ClCompile Include="FireCommand.cpp" />
     <ClCompile Include="FormationCP.cpp" />
     <ClCompile Include="FormationReaderCP.cpp" />
-    <ClCompile Include="FormationState.cpp" />
     <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameCP.cpp" />
+    <ClCompile Include="GameplayState.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MissileCP.cpp" />
     <ClCompile Include="MissileManagerCP.cpp" />
     <ClCompile Include="PlayerCP.cpp" />
@@ -179,8 +182,7 @@
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="ParallaxScrollingCP.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
-    <ClCompile Include="SendingEnemiesState.cpp" />
-    <ClCompile Include="SpawningState.cpp" />
+    <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -192,10 +194,13 @@
     <ClInclude Include="FireCommand.h" />
     <ClInclude Include="FormationCP.h" />
     <ClInclude Include="FormationReaderCP.h" />
-    <ClInclude Include="FormationState.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameCP.h" />
     <ClInclude Include="GameIncludes.h" />
+    <ClInclude Include="GameplayState.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="MenuState.h" />
     <ClInclude Include="MissileCP.h" />
     <ClInclude Include="MissileManagerCP.h" />
     <ClInclude Include="PlayerCP.h" />
@@ -206,9 +211,8 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="ParallaxScrollingCP.h" />
     <ClInclude Include="RotatorComponent.h" />
-    <ClInclude Include="SendingEnemiesState.h" />
     <ClInclude Include="SoundIDs.h" />
-    <ClInclude Include="SpawningState.h" />
+    <ClInclude Include="StartCommand.h" />
     <ClInclude Include="TextComponent.h" />
   </ItemGroup>
   <ItemGroup>
