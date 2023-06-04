@@ -7,7 +7,6 @@ namespace engine
 {
 	class Font;
 }
-	
 class TextComponent final : public engine::Component
 {
 	public:

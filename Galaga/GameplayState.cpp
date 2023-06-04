@@ -6,6 +6,13 @@
 #include "AI_FormationCP.h"
 #include <iostream>
 
+
+GameplayState::GameplayState(const std::string& gameMode)
+	:m_GameMode { gameMode }
+{
+
+}
+
 GameplayState::~GameplayState()
 {
 	std::cout << "Gameplay State destructor" << std::endl;
@@ -13,20 +20,24 @@ GameplayState::~GameplayState()
 
 void GameplayState::OnEnter()
 {
-	std::cout << "Enter Gameplay state" << std::endl;
+	if (m_GameMode == "1 PLAYER")
+	{
+		std::cout << "1 PLAYER MODE" << std::endl;
 
-	auto& sceneManager = engine::SceneManager::GetInstance();
-	auto& scene = sceneManager.GetActiveScene();
+		auto& sceneManager = engine::SceneManager::GetInstance();
+		auto& scene = sceneManager.GetActiveScene();
 
-	auto& window = sceneManager.GetSceneWindow();
+		auto& window = sceneManager.GetSceneWindow();
+
+		InitEnemies();
+
+		// PLAYER 1
+		glm::vec3 startPos{ window.width / 2.f, window.height / 1.15f, 0.f };
+		auto go_Player = std::make_shared<engine::GameObject>(nullptr, PLAYER_TAG, startPos, glm::vec2{ 2.f, 2.f });
+		go_Player->AddComponent<PlayerCP>(go_Player.get(), 3, glm::vec2{ window.width, window.height });
+		scene.Add(go_Player);
+	}
 	
-	InitEnemies();
-
-	// PLAYER 1
-	glm::vec3 startPos{ window.width / 2.f, window.height / 1.15f, 0.f };
-	auto go_Player = std::make_shared<engine::GameObject>(nullptr, PLAYER_TAG, startPos, glm::vec2{ 2.f, 2.f });
-	go_Player->AddComponent<PlayerCP>(go_Player.get(), 3, glm::vec2{ window.width, window.height });
-	scene.Add(go_Player);
 }
 
 void GameplayState::InitEnemies()

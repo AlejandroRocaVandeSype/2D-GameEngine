@@ -171,6 +171,8 @@
     <ClCompile Include="GameplayState.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="MenuSelectionCommand.cpp" />
+    <ClCompile Include="MenuSelectionCP.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="MissileCP.cpp" />
     <ClCompile Include="MissileManagerCP.cpp" />
@@ -200,6 +202,8 @@
     <ClInclude Include="GameplayState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="MenuSelectionCommand.h" />
+    <ClInclude Include="MenuSelectionCP.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="MissileCP.h" />
     <ClInclude Include="MissileManagerCP.h" />

@@ -12,15 +12,12 @@ TextComponent::TextComponent(engine::GameObject* pOwner, const std::string& text
 	, m_font { font }
 	, m_needsUpdate{ true }
 	, m_Color{ color }
+	, m_pRenderCP { nullptr }
 
 {
 	if (pOwner != nullptr)
 	{
 		m_pRenderCP = pOwner->GetComponent<engine::RenderComponent>();
-	}
-	else
-	{
-		m_pRenderCP = nullptr;
 	}
 }
 
@@ -29,7 +26,7 @@ TextComponent::~TextComponent()
 	std::cout << "TextComponent destructor" << std::endl;
 }
 
-void TextComponent::Update([[maybe_unused]] const float deltaTime)
+void TextComponent::Update(const float )
 {
 	if (m_needsUpdate && m_pRenderCP != nullptr)
 	{
