@@ -35,8 +35,6 @@ public:
 
 	bool IsConnected() const;
 
-	static bool IsNewControllerAdded(const unsigned controllerIdx);
-
 	const unsigned GetControllerIdx() const;
 
 private:

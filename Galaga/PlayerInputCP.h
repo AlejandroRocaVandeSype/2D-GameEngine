@@ -14,15 +14,19 @@ public:
 	virtual void Update(const float deltaTime) override;
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
-	void AddMenuInput(MenuSelectionCP* pMenuSelectionCP);
-	void AddGameplayInput();
-	void AddControllerInput(MenuSelectionCP* pMenuSelectionCP = nullptr);
+	// INPUT SETUP
+	void MenuInput(MenuSelectionCP* pMenuSelectionCP);					// Both keyboard and controller for Player 1
+	void TwoPlayersGameplayInput();										// Two players playing setup
+	void GameplayControllerInput(unsigned controllerIdx);				// Add this player a controller with the 
+																		// specified controllerIDX
+	void GameplayKeyboardInput();
 
-	//void AddControllerMovement();
 
 	void SetPlayerDied();
 
 private:
+
+	void AddMenuControllerInput(MenuSelectionCP* pMenuSelectionCP);			// Allow the Player 1 to control the menu
 
 	bool m_PlayerDied;			// This is to ensure we unbind commands associated to the gameObject when it dies and not 
 								// when program closes

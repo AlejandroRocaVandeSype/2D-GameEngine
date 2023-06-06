@@ -1,6 +1,7 @@
 #include "FireCommand.h"
 #include "GameObject.h"
 #include "MissileManagerCP.h"
+#include <iostream>
 
 
 FireCommand::FireCommand(engine::GameObject* actor, glm::vec3 direction)
@@ -12,7 +13,7 @@ FireCommand::FireCommand(engine::GameObject* actor, glm::vec3 direction)
 
 FireCommand::~FireCommand()
 {
-
+	std::cout << "Fire Command destructor" << std::endl;
 }
 
 void FireCommand::Execute(float)

@@ -21,7 +21,7 @@ GameplayState::~GameplayState()
 
 void GameplayState::OnEnter()
 {
-	if (m_GameMode == "1 PLAYER")
+	if (m_GameMode == "1 PLAYER" || m_GameMode == "2 PLAYERS")
 	{
 		std::cout << "1 PLAYER MODE" << std::endl;
 
@@ -33,17 +33,46 @@ void GameplayState::OnEnter()
 		InitEnemies();
 
 		// Add the PlayerCP to Player gameObject and the input for the Gameplay
-		auto pPlayerGO = scene.FindGameObjectByTag("Player");
-		if (pPlayerGO != nullptr)
+		auto pPlayer1GO = scene.FindGameObjectByTag("Player");
+		if (pPlayer1GO != nullptr)
 		{
-			pPlayerGO->AddComponent<PlayerCP>(pPlayerGO, 3, glm::vec2{ window.width, window.height });
-			auto pPlayerInputCP = pPlayerGO->GetComponent<PlayerInputCP>();
-			if (pPlayerInputCP != nullptr)
+			pPlayer1GO->AddComponent<PlayerCP>(pPlayer1GO, 4, 1, glm::vec2{ window.width, window.height });
+			auto pPlayerInputCP = pPlayer1GO->GetComponent<PlayerInputCP>();
+			if (pPlayerInputCP != nullptr && m_GameMode == "1 PLAYER")
 			{
-				pPlayerInputCP->AddGameplayInput();
+				// Player 1 can play with Keyboard and Controller
+				pPlayerInputCP->GameplayControllerInput(unsigned int(0));
+				pPlayerInputCP->GameplayKeyboardInput();
+				return;
 			}
 		}		
+
+		if (m_GameMode == "2 PLAYERS")
+		{
+			// Add Player 2 too ( Player 2 will use the available controller)
+			glm::vec3 startPos{ (window.width / 2.f) + 50.f, window.height / 1.15f, 0.f };
+			auto go_Player2 = std::make_shared<engine::GameObject>(nullptr, "Player", startPos, glm::vec2{ 2.f, 2.f });
+			go_Player2->AddComponent<PlayerCP>(go_Player2.get(), 4, 2, glm::vec2{window.width, window.height});
+			auto pPlayer2InputCP = go_Player2->AddComponent<PlayerInputCP>(go_Player2.get());
+			pPlayer2InputCP->TwoPlayersGameplayInput();
+
+			scene.Add(go_Player2);
+	
+			if (pPlayer1GO != nullptr)
+			{
+				// Player 2 will have the controller 1, so Player 1 will control the other controller 
+				// if there is any available
+				auto pPlayerInputCP = pPlayer1GO->GetComponent<PlayerInputCP>();
+				if (pPlayerInputCP != nullptr)
+				{
+
+					pPlayerInputCP->TwoPlayersGameplayInput();
+				}
+			}
+		}
 	}
+	
+
 	
 }
 

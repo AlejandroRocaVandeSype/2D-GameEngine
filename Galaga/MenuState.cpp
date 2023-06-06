@@ -62,12 +62,12 @@ void MenuState::InitMenuInput()
 
 	// Create Player 1 gameObject but without the PlayerCP yet.
 	// Is only to be able to navigate in the Menu
-	glm::vec3 startPos{ window.width / 2.f, window.height / 1.15f, 0.f };
+	glm::vec3 startPos{ (window.width / 2.f) - 50.f, window.height / 1.15f, 0.f };
 	auto go_Player = std::make_shared<engine::GameObject>(nullptr, "Player", startPos, glm::vec2{2.f, 2.f});	
 	
 	// INPUT FOR PLAYER
 	auto playerInputCP = go_Player->AddComponent<PlayerInputCP>(go_Player.get());;
-	playerInputCP->AddMenuInput(m_pMenuSelectionCP);
+	playerInputCP->MenuInput(m_pMenuSelectionCP);
 	scene.Add(go_Player);
 
 }
@@ -128,7 +128,6 @@ void MenuState::InitMenuUI()
 	arrow_opt->AddComponent<TextComponent>(arrow_opt.get(), ">", galaga_Font);
 	m_pMenuSelectionCP = arrow_opt->AddComponent<MenuSelectionCP>(arrow_opt.get(), menuOptions);
 
-
 	scene.Add(one_player_opt);
 	scene.Add(two_players_opt);
 	scene.Add(versus_opt);
@@ -152,7 +151,7 @@ void MenuState::OnExit()
 		auto scrollingCP = gameObject->GetComponent<ParallaxScrollingCP>();
 		if (scrollingCP != nullptr)
 		{
-			// Activate the parallax scrolling for the background
+			// Activate the parallax scrolling for the background			
 			scrollingCP->ActivateScrolling();
 		}
 		else if(gameObject->GetComponent<PlayerInputCP>() == nullptr)
@@ -170,7 +169,7 @@ GameState* MenuState::GetChangeState()
 	{
 		std::string selectedOption{ m_pMenuSelectionCP->GetSelection() };
 
-		if (selectedOption == ONE_PLAYER_OPT)
+		if (selectedOption == ONE_PLAYER_OPT ||selectedOption == TWO_PLAYERS_OPT)
 		{
 			OnExit();
 			return new GameplayState(selectedOption);

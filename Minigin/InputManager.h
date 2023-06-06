@@ -35,14 +35,13 @@ namespace engine
 		void UnbindAllCommands(unsigned int controllerIdx);
 
 
-		int GetFreeController() const;
+		int GetFreeController();
 		bool IsPlayer1Connected() const;
 		
 	private :
 
 		bool ProcessKeyboardInput(float deltaTime);
 		bool ProcessControllersInput(float deltaTime);
-		void CheckControllerConnected();
 
 		// *** KEYBOARD ***
 		using KeyTypeKeyPair = std::pair<SDL_Keycode, InputType>;					// SDL_Keycode - InputType
