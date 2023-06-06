@@ -1,5 +1,6 @@
 #include "MenuSelectionCommand.h"
 #include "MenuSelectionCP.h"
+#include <iostream>
 
 MenuSelectionCommand::MenuSelectionCommand( MenuSelectionCP* pMenuSelectionCP, int menuAction)
 	:Command()
@@ -11,7 +12,7 @@ MenuSelectionCommand::MenuSelectionCommand( MenuSelectionCP* pMenuSelectionCP, i
 
 MenuSelectionCommand::~MenuSelectionCommand()
 {
-
+	std::cout << "MenuSelectionCommand destructor" << std::endl;
 }
 
 void MenuSelectionCommand::Execute(float )

@@ -18,10 +18,6 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const glm::v
 		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
 		healthCP->AddObserver(this);
 
-		// INPUT FOR PLAYER
-		auto playerInputCP = pOwner->AddComponent<PlayerInputCP>(pOwner);
-		playerInputCP->AddControllerMovement();
-
 		// MOVEMENT
 		glm::vec2 playerSpeed{ 150.f, 150.f };
 		MoveComponent::Boundaries playerBoundaries{ 0.f, windowLimits.x, windowLimits.y, 0.f, true };

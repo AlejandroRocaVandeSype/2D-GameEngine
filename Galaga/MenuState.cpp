@@ -5,11 +5,10 @@
 #include "Scene.h"
 #include "ParallaxScrollingCP.h"
 #include "InputManager.h"
-#include "MenuSelectionCommand.h"
 #include "TextComponent.h"
 #include "ResourceManager.h"
 #include "MenuSelectionCP.h"
-
+#include "PlayerInputCP.h"
 
 MenuState::~MenuState() 
 {
@@ -57,19 +56,19 @@ void MenuState::InitBackground()
 // Set all the Input in order to be able to navigate through the menu
 void MenuState::InitMenuInput()
 {
-	auto& input = engine::InputManager::GetInstance();
+	auto& sceneManager = engine::SceneManager::GetInstance();
+	auto& scene = sceneManager.GetActiveScene();
+	auto& window = sceneManager.GetSceneWindow();
 
-	SDL_KeyCode keyEnter{ SDLK_RETURN };
-	SDL_KeyCode keyArrowDown{ SDLK_DOWN };
-	SDL_KeyCode keyArrowUP{ SDLK_UP };
-
-	std::unique_ptr<Command> upSelectionCommand = std::make_unique<MenuSelectionCommand>(m_pMenuSelectionCP ,-1);
-	std::unique_ptr<Command> downSelectionCommand = std::make_unique<MenuSelectionCommand>(m_pMenuSelectionCP, 1);
-	std::unique_ptr<Command> selectOption = std::make_unique<MenuSelectionCommand>(m_pMenuSelectionCP, 0);
-
-	input.BindCommand(std::move(upSelectionCommand), keyArrowUP, engine::InputType::Down);
-	input.BindCommand(std::move(downSelectionCommand), keyArrowDown, engine::InputType::Down);
-	input.BindCommand(std::move(selectOption), keyEnter, engine::InputType::Down);
+	// Create Player 1 gameObject but without the PlayerCP yet.
+	// Is only to be able to navigate in the Menu
+	glm::vec3 startPos{ window.width / 2.f, window.height / 1.15f, 0.f };
+	auto go_Player = std::make_shared<engine::GameObject>(nullptr, "Player", startPos, glm::vec2{2.f, 2.f});	
+	
+	// INPUT FOR PLAYER
+	auto playerInputCP = go_Player->AddComponent<PlayerInputCP>(go_Player.get());;
+	playerInputCP->AddMenuInput(m_pMenuSelectionCP);
+	scene.Add(go_Player);
 
 }
 
@@ -144,6 +143,7 @@ void MenuState::InitMenuUI()
 
 void MenuState::OnExit()
 {
+	// We dont want the menu commands to be available anymore
 	auto& input = engine::InputManager::GetInstance();
 	input.UnbindAllCommands();
 
@@ -155,9 +155,9 @@ void MenuState::OnExit()
 			// Activate the parallax scrolling for the background
 			scrollingCP->ActivateScrolling();
 		}
-		else
+		else if(gameObject->GetComponent<PlayerInputCP>() == nullptr)
 		{
-			// If not background is a gameObject that needs to be destroyed
+			// If not background is a gameObject that needs to be destroyed (not the player)
 			gameObject->MarkAsDead();
 		}	
 	}

@@ -1,6 +1,7 @@
 #include "GameplayState.h"
 #include "GameObject.h"
 #include "PlayerCP.h"
+#include "PlayerInputCP.h"
 #include "Scene.h"
 #include "FormationCP.h"
 #include "AI_FormationCP.h"
@@ -31,11 +32,17 @@ void GameplayState::OnEnter()
 
 		InitEnemies();
 
-		// PLAYER 1
-		glm::vec3 startPos{ window.width / 2.f, window.height / 1.15f, 0.f };
-		auto go_Player = std::make_shared<engine::GameObject>(nullptr, PLAYER_TAG, startPos, glm::vec2{ 2.f, 2.f });
-		go_Player->AddComponent<PlayerCP>(go_Player.get(), 3, glm::vec2{ window.width, window.height });
-		scene.Add(go_Player);
+		// Add the PlayerCP to Player gameObject and the input for the Gameplay
+		auto pPlayerGO = scene.FindGameObjectByTag("Player");
+		if (pPlayerGO != nullptr)
+		{
+			pPlayerGO->AddComponent<PlayerCP>(pPlayerGO, 3, glm::vec2{ window.width, window.height });
+			auto pPlayerInputCP = pPlayerGO->GetComponent<PlayerInputCP>();
+			if (pPlayerInputCP != nullptr)
+			{
+				pPlayerInputCP->AddGameplayInput();
+			}
+		}		
 	}
 	
 }
