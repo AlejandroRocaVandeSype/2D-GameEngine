@@ -45,8 +45,8 @@ void GameplayState::InitEnemies()
 	// FORMATION FOR ALL ENEMIES
 	// Formation GO will be the one who creates all enemies with the correct info
 	auto go_Formation = std::make_shared<engine::GameObject>(nullptr, LEVEL_TAG, glm::vec3{ 0.f, 0.f, 0.f });
-	m_pFormationCP = go_Formation->AddComponent<FormationCP>(go_Formation.get(), "../Data/Formations/Formation1.json");
-	go_Formation->AddComponent<AI_FormationCP>(go_Formation.get(), "../Data/Formations/Formation1-Order.json");
+	m_pFormationCP = go_Formation->AddComponent<FormationCP>(go_Formation.get(), "../Data/Formations/Formation2.json");
+	go_Formation->AddComponent<AI_FormationCP>(go_Formation.get(), "../Data/Formations/Formation2-Order.json");
 	scene.Add(go_Formation);
 	
 }
@@ -125,7 +125,7 @@ void GameplayState::UpdateState(const float)
 			sceneManager.MoveGameObjectsToScene("SECOND_STAGE");
 
 			// New formation read from json file
-			m_pFormationCP->Reset("../Data/Formations/Formation1.json", "../Data/Formations/Formation1-Order.json");
+			m_pFormationCP->Reset("../Data/Formations/Formation2.json", "../Data/Formations/Formation2-Order.json");
 
 			change = false;
 		}
