@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "structs.h"
 
+class FormationCP;
 class GameplayState final : public GameState
 {
 public:
@@ -18,6 +19,11 @@ public:
 private:
 
 	void InitEnemies();
+	void InitPlayer1();
+	void InitPlayer2();
+
+	// Reset everything need it for the new Stage
+	void Reset();
 
 	// GAMEOBJECT TAGS
 	const std::string ENEMY_TAG = "Enemy";
@@ -27,6 +33,8 @@ private:
 
 	const std::string m_GameMode;
 
+	FormationCP* m_pFormationCP;
+	bool change = true;
 };
 
 #endif

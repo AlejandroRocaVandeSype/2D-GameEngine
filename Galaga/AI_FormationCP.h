@@ -19,6 +19,8 @@ public:
 	void Update(const float deltaTime) override;
 	void ReceiveMessage(const std::string&, const std::string&) override;
 
+	void Reset(const std::string& JSONPath);
+
 private:
 
 	enum class FormationState

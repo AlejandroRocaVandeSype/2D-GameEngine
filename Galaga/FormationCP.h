@@ -25,16 +25,21 @@ public:
 
 	void OnNotify(engine::GameObject* gameObject, const engine::Event& event) override;
 
-	void ReadFormationFromJSON(const std::string& JSONPath);
+	void Reset(const std::string& JSONPath, const std::string& formationOrderJSON);								// Reset the formation with a new one
+
 
 	std::vector< engine::GameObject*>& GetEnemies(const std::string& type);
-	bool AreEnemiesLeft(const std::string& type) const;
+	bool AreEnemiesLeft(const std::string& type="All") const;
 
 
 private:
 
+	void InitFirstFormation(const std::string& JSONPath);					// First time creating the Formation
+	std::vector<std::vector<std::pair<std::string, glm::vec3>>> ReadFormationFromJSON(const std::string& JSONPath);
+
 	// ENEMIES CREATION 
 	void CreateEnemies(const std::string& type, const std::vector< std::pair<std::string, glm::vec3>>& enemyReadInfo);
+	void ResetEnemies(const std::string& type, const std::vector< std::pair<std::string, glm::vec3>>& enemyReadInfo);
 	void CreateBee(const glm::vec3& startPos, const glm::vec3& formationPos);
 	void CreateButterfly(const glm::vec3& startPos, const glm::vec3& formationPos);
 	void CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos);

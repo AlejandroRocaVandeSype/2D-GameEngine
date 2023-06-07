@@ -52,6 +52,26 @@ engine::Scene& engine::SceneManager::CreateScene(const std::string& name)
 	return *scene;
 }
 
+void engine::SceneManager::MoveGameObjectsToScene(const std::string& sceneName)
+{
+	for (size_t sceneIdx{ 0 }; sceneIdx < m_scenes.size(); ++sceneIdx)
+	{
+		if (m_scenes.at(sceneIdx)->Name() == sceneName)
+		{
+			// Scene found
+			// Move objects from the old scene to the new one
+			m_scenes.at(sceneIdx)->AddAll(m_scenes.at(m_ActiveScene)->GetAll());
+
+
+			SetActiveScene(sceneName);
+			break;
+		}
+	}
+			
+
+	
+}
+
 void engine::SceneManager::AddToActiveScene(GameObject* gameObject)
 {
 	if (!gameObject->getParent())

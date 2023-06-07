@@ -34,6 +34,8 @@ class EnemyCP final: public engine::Component, public engine::Observer
 		void ChangeCurrentState(EnemyCP::ENEMY_STATE newState);
 		void CalculateMissileDirection();
 
+		void Reset(const glm::vec3& startPos, const glm::vec3& formationPos);
+
 		glm::vec3 GetFormationPos() const;
 		ENEMY_STATE GetCurrentState() const;
 		const std::string& GetType() const;

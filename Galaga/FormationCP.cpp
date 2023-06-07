@@ -4,6 +4,7 @@
 #include "AI_BeeCP.h"
 #include "AI_ButterflyCP.h"
 #include "AI_GalagaCP.h"
+#include "AI_FormationCP.h"
 #include "HealthComponent.h"
 #include "FormationReaderCP.h"
 #include "TransformComponent.h"
@@ -21,28 +22,46 @@ FormationCP::FormationCP(engine::GameObject* pOwner, const std::string& position
 	m_RighttLimitFormation = window.width - 300.f;
 	m_pTransformCP = GetOwner()->GetComponent<engine::TransformComponent>();
 
-	// READ JSON FILE 
+	// READ JSON FILE and Init formation
 	pOwner->AddComponent<FormationReaderCP>(pOwner);
-	ReadFormationFromJSON(positionsJSONPath);
+	InitFirstFormation(positionsJSONPath);
+}
+
+// First time creating the formation -> Enemies need to be fully created
+void FormationCP::InitFirstFormation(const std::string& JSONPath)
+{
+	auto vEnemies = std::move(ReadFormationFromJSON(JSONPath));
+	if (vEnemies.size() > 0 && vEnemies.size() < 4)
+	{
+		CreateEnemies(BEES_TYPE, vEnemies.at(0));
+		CreateEnemies(BUTTERFLIES_TYPE,vEnemies.at(1));
+		CreateEnemies(GALAGAS_TYPE, vEnemies.at(2));
+	}
+	
 }
 
 // Get all info about the formation from a JSON file
-void FormationCP::ReadFormationFromJSON(const std::string& JSONPath)
+std::vector< std::vector<std::pair<std::string, glm::vec3>>> FormationCP::ReadFormationFromJSON(const std::string& JSONPath)
 {
+	std::vector< std::vector<std::pair<std::string, glm::vec3>>> vEnemies;
+
 	auto jsonReaderCP = GetOwner()->GetComponent<FormationReaderCP>();
+	if (jsonReaderCP != nullptr)
+	{		
+		// Read all info about the enemies (startPos, formationPos etc) from JSON
+		std::vector<std::pair<std::string, glm::vec3>> bees = jsonReaderCP->ReadFormation(JSONPath, BEES_TYPE);
+		std::vector<std::pair<std::string, glm::vec3>> butterflies = jsonReaderCP->ReadFormation(JSONPath, BUTTERFLIES_TYPE);
+		std::vector<std::pair<std::string, glm::vec3>> galagas = jsonReaderCP->ReadFormation(JSONPath, GALAGAS_TYPE);
 
-	// Read all info about the enemies (startPos, formationPos etc) from JSON
-	std::vector<std::pair<std::string, glm::vec3>> bees = jsonReaderCP->ReadFormation(JSONPath, BEES_TYPE);
-	std::vector<std::pair<std::string, glm::vec3>> butterflies = jsonReaderCP->ReadFormation(JSONPath, BUTTERFLIES_TYPE);
-	std::vector<std::pair<std::string, glm::vec3>> galagas = jsonReaderCP->ReadFormation(JSONPath, GALAGAS_TYPE);
+		vEnemies.emplace_back(bees);
+		vEnemies.emplace_back(butterflies);
+		vEnemies.emplace_back(galagas);
 
-	CreateEnemies(BEES_TYPE, bees);
-	CreateEnemies(BUTTERFLIES_TYPE, butterflies);
-	CreateEnemies(GALAGAS_TYPE, galagas);
-
-	// Done reading everything needed
-	jsonReaderCP->ClearJSONFile();
-
+		// Done reading everything needed
+		jsonReaderCP->ClearJSONFile();
+	}
+	
+	return vEnemies;
 }
 
 // Create the corresponding type of enemies
@@ -275,6 +294,86 @@ void FormationCP::SearchForDeadEnemy()
 
 }
 
+
+
+void FormationCP::Reset(const std::string& JSONPath, const std::string& formationOrderJSON)
+{
+	// Read new json file with the formation
+	auto vEnemies = std::move(ReadFormationFromJSON(JSONPath));	
+	if (vEnemies.size() > 0 && vEnemies.size() < 4)
+	{
+		ResetEnemies(BEES_TYPE, vEnemies.at(0));
+		ResetEnemies(BUTTERFLIES_TYPE, vEnemies.at(1));
+		ResetEnemies(GALAGAS_TYPE, vEnemies.at(2));
+
+
+	}
+
+	auto AI_formation = GetOwner()->GetComponent<AI_FormationCP>();
+	if (AI_formation != nullptr)
+	{
+		AI_formation->Reset(formationOrderJSON);
+	}
+}
+
+void FormationCP::ResetEnemies(const std::string& type, const std::vector< std::pair<std::string, glm::vec3>>& enemyReadInfo)
+{
+	glm::vec3 startPos{};
+	glm::vec3 baseFormationPos{};
+	if (m_pTransformCP != nullptr)
+	{
+		baseFormationPos = m_pTransformCP->GetWorldPosition();
+	}
+
+	for (size_t enemyIdx{ 0 }; enemyIdx < enemyReadInfo.size(); ++enemyIdx)
+	{
+		auto startDirection = enemyReadInfo[enemyIdx].first;
+		SetStartingPos(startDirection, startPos);
+
+		// Calculate the position of the enemy in the formation base in the current position of the base formation CP
+		auto enemyPosInFormation = enemyReadInfo[enemyIdx].second;
+		glm::vec3 finalPosInFormation{ baseFormationPos.x + enemyPosInFormation.x, baseFormationPos.y + enemyPosInFormation.y ,
+			baseFormationPos.z + enemyPosInFormation.z };
+
+		if (type == BEES_TYPE)
+		{
+			if (enemyIdx < m_vBees.size())
+			{
+				auto enemyCP{ m_vBees[enemyIdx]->GetComponent<EnemyCP>() };
+				if (enemyCP != nullptr)
+				{
+					enemyCP->Reset(startPos, finalPosInFormation);
+				}
+			}
+		}
+		else if (type == BUTTERFLIES_TYPE)
+		{
+			if (enemyIdx < m_vButterflies.size())
+			{
+				auto enemyCP{ m_vButterflies[enemyIdx]->GetComponent<EnemyCP>() };
+				if (enemyCP != nullptr)
+				{
+					enemyCP->Reset(startPos, finalPosInFormation);
+				}
+			}
+		}
+		else
+		{
+			if (enemyIdx < m_vGalagas.size())
+			{
+				auto enemyCP{ m_vGalagas[enemyIdx]->GetComponent<EnemyCP>() };
+				if (enemyCP != nullptr)
+				{
+					enemyCP->Reset(startPos, finalPosInFormation);
+				}
+			}
+		}
+	}
+
+	m_GalagasDeadCount = m_ButterfliesDeadCount = m_BeesDeadCount = 0;
+	
+}
+
 std::vector<engine::GameObject*>& FormationCP::GetEnemies(const std::string& type)
 {
 	if (type == "bees")
@@ -308,10 +407,16 @@ bool FormationCP::AreEnemiesLeft(const std::string& type) const
 	}
 
 	// Are there still enemies left?
-	if (type == "all")
+	if (type == "All")
 	{
-		return m_GalagasDeadCount != m_vGalagas.size() && m_ButterfliesDeadCount != m_vButterflies.size()
-			&& m_BeesDeadCount != m_vBees.size();
+		if (m_GalagasDeadCount != m_vGalagas.size())
+			return true;
+		if (m_ButterfliesDeadCount != m_vButterflies.size())
+			return true;
+		if (m_BeesDeadCount != m_vBees.size())
+			return true;
+		// No enemies left
+		return false;
 	}
 
 	return false;

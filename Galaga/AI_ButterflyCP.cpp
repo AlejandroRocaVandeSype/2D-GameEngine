@@ -171,3 +171,13 @@ void AI_ButterflyCP::ReceiveMessage(const std::string& message, const std::strin
 		}
 	}
 }
+
+void AI_ButterflyCP::Reset()
+{
+	m_AttackState = AttackState::breakFormation;
+	m_DiagonalDiveMaxTime = 0.f; 
+	m_ElapsedSec = 0.f; 
+	m_AtRightSide = false; 
+	m_Direction = glm::vec3{ 1.f, 1.f, 0.f };
+	m_MaxSteeringTime = 0.f;
+}

@@ -62,6 +62,16 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 	}	
 }
 
+void HealthComponent::ResetHealth(unsigned int newHealth)
+{
+	m_Lives = newHealth;
+	if (m_Lives > 0)
+	{
+		//engine::Event HealthResetEvent{ "HealthReset" };
+		//m_HealthSubject->NotifyObservers(GetOwner(), HealthResetEvent);
+	}
+}
+
 
 void HealthComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
 {

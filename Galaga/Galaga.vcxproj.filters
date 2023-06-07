@@ -27,11 +27,11 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="GameState">
-      <UniqueIdentifier>{cd03763b-c208-4503-9f67-fae3e37f4793}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\UI">
       <UniqueIdentifier>{6780e223-ac33-4355-943d-f1489d1fde62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameStates">
+      <UniqueIdentifier>{cd03763b-c208-4503-9f67-fae3e37f4793}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,13 +99,13 @@
       <Filter>Components\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>GameState</Filter>
+      <Filter>GameStates</Filter>
     </ClCompile>
     <ClCompile Include="MenuState.cpp">
-      <Filter>GameState</Filter>
+      <Filter>GameStates</Filter>
     </ClCompile>
     <ClCompile Include="GameplayState.cpp">
-      <Filter>GameState</Filter>
+      <Filter>GameStates</Filter>
     </ClCompile>
     <ClCompile Include="GameCP.cpp">
       <Filter>General files</Filter>
@@ -191,13 +191,13 @@
       <Filter>Components\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>GameState</Filter>
+      <Filter>GameStates</Filter>
     </ClInclude>
     <ClInclude Include="MenuState.h">
-      <Filter>GameState</Filter>
+      <Filter>GameStates</Filter>
     </ClInclude>
     <ClInclude Include="GameplayState.h">
-      <Filter>GameState</Filter>
+      <Filter>GameStates</Filter>
     </ClInclude>
     <ClInclude Include="GameCP.h">
       <Filter>General files</Filter>

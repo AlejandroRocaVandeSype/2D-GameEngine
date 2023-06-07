@@ -235,3 +235,17 @@ void AI_GalagaCP::ReceiveMessage(const std::string& message, const std::string& 
 		}
 	}
 }
+
+void AI_GalagaCP::Reset()
+{
+	m_AttackState= AttackState::breakFormation; 
+	m_BombingRunState = BombinRunState::divingLoop;
+	m_TractorBeamState = TractorBeamState::moveIntoPosition;
+	m_DoTractorBeam = true;
+	m_DoRotateLeft= false;
+	m_Direction = glm::vec3{ 0.f, 0.f, 0.f };
+	m_ElapsedTime =  0.f;
+
+	// Randomly decide on which side to rotate
+	m_DoRotateLeft = std::rand() % 2;
+}

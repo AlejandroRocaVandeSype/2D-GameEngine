@@ -25,6 +25,8 @@ namespace engine
 		void AddToActiveScene(std::shared_ptr<GameObject> gameObject);
 		void AddToScene(const std::string& sceneName, std::shared_ptr<GameObject> object);
 
+		void MoveGameObjectsToScene(const std::string& sceneName);
+
 		engine::GameObject* FindGameObjectByTag(const std::string& tag);
 
 		void SetActiveScene(const std::string& sceneName);

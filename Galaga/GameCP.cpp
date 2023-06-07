@@ -15,7 +15,7 @@ GameCP::~GameCP()
 	delete m_pGameState;
 }
 
-void GameCP::Update(const float )
+void GameCP::Update(const float deltaTime)
 {
 
 	GameState* pNewGameState = m_pGameState->GetChangeState();
@@ -29,7 +29,7 @@ void GameCP::Update(const float )
 		pNewGameState->OnEnter();
 	}
 
-	//m_pGameState->UpdateState(deltaTime);
+	m_pGameState->UpdateState(deltaTime);
 
 }
 

@@ -25,6 +25,11 @@ void Scene::Add(std::shared_ptr<GameObject> object)
 	
 }
 
+void Scene::AddAll(std::vector<std::shared_ptr<GameObject>>& objects)
+{
+	m_objects = std::move(objects);
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_objects)
@@ -143,6 +148,10 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
+std::vector<std::shared_ptr<engine::GameObject>>& Scene::GetAll()
+{
+	return m_objects;
+}
 
 engine::GameObject* Scene::FindGameObjectByTag(const std::string& tag)
 {

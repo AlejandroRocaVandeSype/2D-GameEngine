@@ -19,9 +19,9 @@ class Game final
 		void AddAllSounds();
 
 		// ALL GAME SCENES
-		const std::string FIRST_STAGE;
-		const std::string SECOND_STAGE;
-		const std::string THIRD_STAGE;
+		const std::string FIRST_STAGE{ "FIRST_STAGE" };
+		const std::string SECOND_STAGE{ "SECOND_STAGE" };
+		const std::string THIRD_STAGE{ "THIRD_STAGE" };
 
 
 

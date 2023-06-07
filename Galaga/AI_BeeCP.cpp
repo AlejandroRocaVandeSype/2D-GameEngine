@@ -183,3 +183,16 @@ void AI_BeeCP::ReceiveMessage(const std::string& message, const std::string& val
 		}
 	}
 }
+
+void AI_BeeCP::Reset()
+{
+	m_AttackState = AttackState::breakFormation;
+
+	m_DiagonalDiveMaxTime = 0.f;
+	m_ElapsedDiagonalDive = 0.f;
+	m_AtRightSide = false;
+	m_Direction = glm::vec3{ 1.f, 1.f, 0.f };
+	m_RotationRadius = 80.f;
+
+}
+
