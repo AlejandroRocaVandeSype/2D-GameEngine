@@ -29,9 +29,13 @@ void PlayerInputCP::TwoPlayersGameplayInput()
 		return;
 	}
 
+	// ADD an extra Controller for the Player 1
+	auto& input = engine::InputManager::GetInstance();
+	m_ControllerIdx = input.GetFreeController();
+
 	// PLAYER 1 KEYBOARD AND CONTROLLER INPUT
 	GameplayKeyboardInput();
-	GameplayControllerInput(playerIdx);
+	GameplayControllerInput(m_ControllerIdx);
 
 }
 

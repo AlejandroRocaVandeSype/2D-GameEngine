@@ -214,6 +214,10 @@
     <ClInclude Include="MenuSelectionCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Galaga_Strings.h">
+      <Filter>General files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

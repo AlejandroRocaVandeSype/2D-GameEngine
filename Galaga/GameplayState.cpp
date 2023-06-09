@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "FormationCP.h"
 #include "AI_FormationCP.h"
+#include "Galaga_Strings.h"
 #include <iostream>
 
 
@@ -44,7 +45,7 @@ void GameplayState::InitEnemies()
 
 	// FORMATION FOR ALL ENEMIES
 	// Formation GO will be the one who creates all enemies with the correct info
-	auto go_Formation = std::make_shared<engine::GameObject>(nullptr, LEVEL_TAG, glm::vec3{ 0.f, 0.f, 0.f });
+	auto go_Formation = std::make_shared<engine::GameObject>(nullptr, STR_LEVEL_TAG, glm::vec3{ 0.f, 0.f, 0.f });
 	m_pFormationCP = go_Formation->AddComponent<FormationCP>(go_Formation.get(), "../Data/Formations/Formation2.json");
 	go_Formation->AddComponent<AI_FormationCP>(go_Formation.get(), "../Data/Formations/Formation2-Order.json");
 	scene.Add(go_Formation);
@@ -58,7 +59,7 @@ void GameplayState::InitPlayer1()
 	auto& window = sceneManager.GetSceneWindow();
 
 	// Add the PlayerCP to Player gameObject and the input for the Gameplay
-	auto pPlayer1GO = scene.FindGameObjectByTag("Player");
+	auto pPlayer1GO = scene.FindGameObjectByTag(STR_PLAYER_TAG);
 	if (pPlayer1GO != nullptr)
 	{
 		pPlayer1GO->AddComponent<PlayerCP>(pPlayer1GO, 4, 1, glm::vec2{ window.width, window.height });
@@ -80,14 +81,14 @@ void GameplayState::InitPlayer2()
 	auto& window = sceneManager.GetSceneWindow();
 
 	glm::vec3 startPos{ (window.width / 2.f) + 50.f, window.height / 1.15f, 0.f };
-	auto go_Player2 = std::make_shared<engine::GameObject>(nullptr, "Player", startPos, glm::vec2{ 2.f, 2.f });
+	auto go_Player2 = std::make_shared<engine::GameObject>(nullptr, STR_PLAYER_TAG, startPos, glm::vec2{ 2.f, 2.f });
 	go_Player2->AddComponent<PlayerCP>(go_Player2.get(), 4, 2, glm::vec2{ window.width, window.height });
 	auto pPlayer2InputCP = go_Player2->AddComponent<PlayerInputCP>(go_Player2.get());
 	pPlayer2InputCP->TwoPlayersGameplayInput();
 
 	scene.Add(go_Player2);
 
-	auto pPlayer1 = scene.FindGameObjectByTag("Player");
+	auto pPlayer1 = scene.FindGameObjectByTag(STR_PLAYER_TAG);
 	if (pPlayer1 != nullptr)
 	{
 		// Player 2 will have the controller 1, so Player 1 will control the other controller 

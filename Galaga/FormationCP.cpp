@@ -1,4 +1,5 @@
 #include "FormationCP.h"
+#include "Galaga_Strings.h"
 #include "GameObject.h"
 #include "EnemyCP.h"
 #include "AI_BeeCP.h"
@@ -130,7 +131,7 @@ void FormationCP::SetStartingPos(const std::string& commingFrom, glm::vec3& star
 void FormationCP::CreateBee(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_BeeEnemy = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, "bee", "Sprites/Bee.png", formationPos, 1);
+	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, STR_BEE, "Sprites/Bee.png", formationPos, 1);
 	go_BeeEnemy->AddComponent<AI_BeeCP>(go_BeeEnemy);
 	go_BeeEnemy->GetComponent<HealthComponent>()->AddObserver(this);
 
@@ -143,7 +144,7 @@ void FormationCP::CreateBee(const glm::vec3& startPos, const glm::vec3& formatio
 void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_Butterfly = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, "butterfly", "Sprites/Butterfly.png", formationPos, 1);
+	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, STR_BUTTERFLY, "Sprites/Butterfly.png", formationPos, 1);
 	go_Butterfly->AddComponent<AI_ButterflyCP>(go_Butterfly);
 	go_Butterfly->GetComponent<HealthComponent>()->AddObserver(this);
 
@@ -156,7 +157,7 @@ void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& fo
 void FormationCP::CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_Galagas = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_Galagas->AddComponent<EnemyCP>(go_Galagas, "galaga", "Sprites/Galaga.png", formationPos, 2);
+	go_Galagas->AddComponent<EnemyCP>(go_Galagas, STR_GALAGA, "Sprites/Galaga.png", formationPos, 2);
 	go_Galagas->AddComponent<AI_GalagaCP>(go_Galagas);
 	go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
 
@@ -224,15 +225,15 @@ void FormationCP::OnNotify(engine::GameObject* gameObject, const engine::Event& 
 		auto enemyCP{ gameObject->GetComponent<EnemyCP>() };
 		if (enemyCP != nullptr)
 		{
-			if (enemyCP->GetType() == "bee")
+			if (enemyCP->GetType() == STR_BEE)
 			{
 				m_BeesDeadCount++;
 			}
-			else if (enemyCP->GetType() == "butterfly")
+			else if (enemyCP->GetType() == STR_BUTTERFLY)
 			{
 				m_ButterfliesDeadCount++;;
 			}
-			else if (enemyCP->GetType() == "galaga")
+			else if (enemyCP->GetType() ==STR_GALAGA)
 			{
 				m_GalagasDeadCount++;
 			}

@@ -26,10 +26,7 @@ private:
 	void Reset();
 
 	// GAMEOBJECT TAGS
-	const std::string ENEMY_TAG = "Enemy";
-	const std::string PLAYER_TAG = "Player";
-	const std::string LEVEL_TAG = "Level";
-	const std::string UI_TAG = "UI";
+	
 
 	const std::string m_GameMode;
 

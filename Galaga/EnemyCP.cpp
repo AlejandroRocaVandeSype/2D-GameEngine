@@ -1,4 +1,5 @@
 #include "EnemyCP.h"
+#include "Galaga_Strings.h"
 #include "GameObject.h"
 #include "CollisionComponent.h"
 #include "HealthComponent.h"
@@ -94,7 +95,7 @@ void EnemyCP::UpdateMoveToFormation(const float deltaTime)
 		// Wait until recieve orders to attack
 		m_CurrentState = EnemyCP::ENEMY_STATE::waiting;
 		glm::vec2 newSpeed{ 160.f, 160.f };
-		if (m_EnemyType != "galaga")
+		if (m_EnemyType != STR_GALAGA)
 		{
 			// Bees and butterflies move slower in the x axis
 			newSpeed.x = 80.f;
@@ -114,7 +115,7 @@ void EnemyCP::CalculateMissileDirection()
 		m_HasShoot = false;			// There missiles that need to be fired
 		
 		auto& sceneManager = engine::SceneManager::GetInstance();
-		engine::GameObject* pPlayer = sceneManager.FindGameObjectByTag("Player");
+		engine::GameObject* pPlayer = sceneManager.FindGameObjectByTag(STR_PLAYER_TAG);
 		if (pPlayer != nullptr)
 		{
 			engine::TransformComponent* pPlayerTransformCP = pPlayer->GetComponent<engine::TransformComponent>();
@@ -227,7 +228,7 @@ void EnemyCP::Reset(const glm::vec3& startPos, const glm::vec3& formationPos)
 		m_HasShoot = true;
 		m_ElapsedShootTime = 0.f;
 
-		if (m_EnemyType == "bee")
+		if (m_EnemyType == STR_BEE)
 		{
 			GetOwner()->GetComponent<HealthComponent>()->ResetHealth(1);
 			auto beeAI = GetOwner()->GetComponent<AI_BeeCP>();
@@ -237,7 +238,7 @@ void EnemyCP::Reset(const glm::vec3& startPos, const glm::vec3& formationPos)
 			}
 			
 		}
-		else if (m_EnemyType == "butterfly")
+		else if (m_EnemyType == STR_BUTTERFLY)
 		{
 			GetOwner()->GetComponent<HealthComponent>()->ResetHealth(1);
 			auto butterflyAI = GetOwner()->GetComponent<AI_ButterflyCP>();
@@ -246,7 +247,7 @@ void EnemyCP::Reset(const glm::vec3& startPos, const glm::vec3& formationPos)
 				butterflyAI->Reset();
 			}
 		}
-		else if(m_EnemyType == "galaga")
+		else if(m_EnemyType == STR_GALAGA)
 		{
 			GetOwner()->GetComponent<HealthComponent>()->ResetHealth(2);
 			auto galagaAI = GetOwner()->GetComponent<AI_GalagaCP>();

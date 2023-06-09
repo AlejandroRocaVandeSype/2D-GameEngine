@@ -214,9 +214,11 @@
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="ParallaxScrollingCP.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="SoundIDs.h" />
     <ClInclude Include="StartCommand.h" />
+    <ClInclude Include="Galaga_Strings.h" />
     <ClInclude Include="TextComponent.h" />
   </ItemGroup>
   <ItemGroup>
