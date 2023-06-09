@@ -3,6 +3,7 @@
 
 #include <Component.h>
 
+// Component that contains all the Game States and updates them
 class GameState;
 class GameCP final : public engine::Component
 {

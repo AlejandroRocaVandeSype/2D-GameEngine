@@ -26,7 +26,7 @@ public:
 	void OnNotify(engine::GameObject* gameObject, const engine::Event& event) override;
 
 	void Reset(const std::string& JSONPath, const std::string& formationOrderJSON);								// Reset the formation with a new one
-
+	void KillAllEnemies();
 
 	std::vector< engine::GameObject*>& GetEnemies(const std::string& type);
 	bool AreEnemiesLeft(const std::string& type="All") const;

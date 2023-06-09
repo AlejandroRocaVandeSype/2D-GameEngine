@@ -40,10 +40,11 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 		auto go_Missile = std::make_shared<engine::GameObject>(nullptr, missileTag, missileStartPos, glm::vec2{2.f, 2.f});
 		auto renderCP = go_Missile->AddComponent<engine::RenderComponent>(go_Missile.get(), texturePath);
 		go_Missile->AddComponent<MoveComponent>(go_Missile.get(), SPEED, missileBoundaries, glm::vec3{0.f, -1.f, 0.f});
-		go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
+		auto missileHealthCP = go_Missile->AddComponent<HealthComponent>(go_Missile.get(), 1);
 		auto missileCP = go_Missile->AddComponent<MissileCP>(go_Missile.get(), isPlayer);
 		auto collisionCP = go_Missile->AddComponent<engine::CollisionComponent>(go_Missile.get(), renderCP->GetTextureSize());
 		collisionCP->AddObserver(missileCP);
+		missileHealthCP->AddObserver(missileCP);
 
 		// Missiles wont show until they are fired
 		go_Missile->SetIsActive(false);			
@@ -74,6 +75,7 @@ void MissileManagerCP::Fire(const glm::vec3& direction)
 			// Activate it and place it at the player current position
 			missile->GetComponent<MoveComponent>()->ChangeDirection(direction);
 			missile->GetComponent<engine::TransformComponent>()->SetLocalPosition(GetOwner()->GetWorldPosition());
+			missile->GetComponent<HealthComponent>()->ResetHealth(1);
 			missile->SetIsActive(true);
 
 			if (m_MissileOwner == "player")
@@ -85,6 +87,16 @@ void MissileManagerCP::Fire(const glm::vec3& direction)
 		}
 	}
 
+}
+
+void MissileManagerCP::AddObserverToMissiles(engine::Observer* pObserver)
+{
+	for (auto& missile : m_vMissiles)
+	{
+		auto missileCP = missile->GetComponent<MissileCP>();
+		if (missileCP)
+			missileCP->AddObserver(pObserver);
+	}
 }
 
 void MissileManagerCP::Update(const float )

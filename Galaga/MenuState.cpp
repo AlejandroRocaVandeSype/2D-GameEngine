@@ -18,7 +18,7 @@ MenuState::~MenuState()
 void MenuState::OnEnter()
 {
 	InitBackground();
-	InitMenuUI();
+	InitUI();
 	InitMenuInput();
 }
 
@@ -72,7 +72,7 @@ void MenuState::InitMenuInput()
 
 }
 
-void MenuState::InitMenuUI()
+void MenuState::InitUI()
 {
 	auto& sceneManager = engine::SceneManager::GetInstance();
 	auto& scene = sceneManager.GetActiveScene();
@@ -128,6 +128,7 @@ void MenuState::InitMenuUI()
 	arrow_opt->AddComponent<TextComponent>(arrow_opt.get(), ">", galaga_Font);
 	m_pMenuSelectionCP = arrow_opt->AddComponent<MenuSelectionCP>(arrow_opt.get(), menuOptions);
 
+	// ALL MENU UI
 	scene.Add(one_player_opt);
 	scene.Add(two_players_opt);
 	scene.Add(versus_opt);
@@ -138,6 +139,9 @@ void MenuState::InitMenuUI()
 	m_vMenuGO.push_back(versus_opt);
 	m_vMenuGO.push_back(controls_opt);
 	m_vMenuGO.push_back(arrow_opt);
+	
+	
+
 }
 
 void MenuState::OnExit()
@@ -154,9 +158,9 @@ void MenuState::OnExit()
 			// Activate the parallax scrolling for the background			
 			scrollingCP->ActivateScrolling();
 		}
-		else if(gameObject->GetComponent<PlayerInputCP>() == nullptr)
+		else 
 		{
-			// If not background is a gameObject that needs to be destroyed (not the player)
+			//// If not background is a gameObject that needs to be destroyed (not the player)
 			gameObject->MarkAsDead();
 		}	
 	}

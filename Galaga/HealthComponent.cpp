@@ -29,7 +29,7 @@ void HealthComponent::AddObserver(engine::Observer* pObserver)
 
 }
 
-void HealthComponent::Update([[maybe_unused]] const float deltaTime)
+void HealthComponent::Update(const float )
 {
 
 }

@@ -24,7 +24,7 @@ private:
 
 	void InitBackground();
 	void InitMenuInput();
-	void InitMenuUI();
+	void InitUI();
 
 	std::vector< std::shared_ptr <engine::GameObject>> m_vMenuGO;			// All gameObjects from the Menu state
 	MenuSelectionCP* m_pMenuSelectionCP{};

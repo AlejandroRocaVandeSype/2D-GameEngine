@@ -25,19 +25,26 @@ namespace engine
 		void AddToActiveScene(std::shared_ptr<GameObject> gameObject);
 		void AddToScene(const std::string& sceneName, std::shared_ptr<GameObject> object);
 
-		void MoveGameObjectsToScene(const std::string& sceneName);
+		// Scene Load 
+		bool LoadNextScene();
 
 		engine::GameObject* FindGameObjectByTag(const std::string& tag);
 
-		void SetActiveScene(const std::string& sceneName);
+		
 		Scene& GetActiveScene();
-
-		void SetSceneWindow(const engine::Window& window);
 		const engine::Window& GetSceneWindow() const;
+		size_t GetTotalScenes() const;
+		const std::string GetActiveSceneName() const;
+
+		void SetActiveScene(const std::string& sceneName);
+		void SetSceneWindow(const engine::Window& window);
+		
 		
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager();
+
+		void MoveGameObjectsToScene(const std::string& sceneName);
 
 		std::vector<std::shared_ptr<Scene>> m_scenes;
 		const int INVALID_SCENE;

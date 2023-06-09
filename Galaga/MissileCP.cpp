@@ -6,6 +6,7 @@
 
 MissileCP::MissileCP(engine::GameObject* pOwner, bool IsPlayerMissile)
 	:Component("MissileBehaviourCP", pOwner)
+	, m_EnemyPoints { 0 }, m_MissileSubject{ nullptr}
 {
 	m_pMoveComponent = pOwner->GetComponent<MoveComponent>();
 
@@ -46,13 +47,52 @@ void MissileCP::OnNotify(engine::GameObject* gameObject, const engine::Event& ev
 			enemyHealthCP->DecrementHealth(1);
 		}
 		
+		auto missileHealthCP = GetOwner()->GetComponent<HealthComponent>();
+		if (missileHealthCP != nullptr)
+		{
+			missileHealthCP->DecrementHealth(1);
+		}
+	}
+
+	if (event.IsSameEvent("GameObjectDied"))
+	{
 		// Deactivate the missile
 		GetOwner()->SetIsActive(false);
 	}
 	
 }
 
-void MissileCP::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+// Add an observer to "Observe"
+void MissileCP::AddObserver(engine::Observer* pObserver)
+{
+	if (m_MissileSubject == nullptr)
+	{
+		m_MissileSubject = std::make_unique<engine::Subject>();
+	}
+
+	m_MissileSubject->AddObserver(pObserver);
+
+}
+
+void MissileCP::SetEnemyPoints(int enemyValue)
+{
+	m_EnemyPoints = enemyValue;
+	
+	// Everytime points are updated we notify 
+	if (m_MissileSubject != nullptr)
+	{
+		engine::Event updatePointsEvent{ "UpdatePoints" };
+		m_MissileSubject->NotifyObservers(GetOwner(), updatePointsEvent);
+	}
+
+}
+
+int MissileCP::GetEnemyPoints() const
+{
+	return m_EnemyPoints;
+}
+
+void MissileCP::ReceiveMessage( const std::string& , const std::string& )
 {
 
 }

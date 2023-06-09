@@ -389,6 +389,25 @@ std::vector<engine::GameObject*>& FormationCP::GetEnemies(const std::string& typ
 	return m_vBees;
 }
 
+void FormationCP::KillAllEnemies()
+{
+	for (const auto& bee : m_vBees)
+	{
+		bee->MarkAsDead();
+	}
+	m_vBees.clear();
+	for (const auto& butterfly : m_vButterflies)
+	{
+		butterfly->MarkAsDead();
+	}
+	m_vButterflies.clear();
+	for (const auto& galaga : m_vGalagas)
+	{
+		galaga->MarkAsDead();
+	}
+	m_vGalagas.clear();
+
+}
 // Return true if there are no more enemies of the type specified
 bool FormationCP::AreEnemiesLeft(const std::string& type) const
 {

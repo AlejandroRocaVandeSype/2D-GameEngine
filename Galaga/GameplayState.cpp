@@ -6,13 +6,22 @@
 #include "FormationCP.h"
 #include "AI_FormationCP.h"
 #include "Galaga_Strings.h"
+#include "GameOverState.h"
 #include <iostream>
 
 
 GameplayState::GameplayState(const std::string& gameMode)
-	:m_GameMode { gameMode }, m_pFormationCP { nullptr }
+	:m_GameMode { gameMode }, m_pFormationCP { nullptr }, m_vEnemiesData{ }
+	, m_IsGameOver{ false }
 {
+	// Load all data paths 
+	FormationJsonData formationData1("../Data/Formations/Formation1.json", "../Data/Formations/Formation1-Order.json");
+	std::pair stageData1{ std::make_pair(FIRST_STAGE, formationData1) };
+	m_vEnemiesData.emplace_back(stageData1);
 
+	/*FormationJsonData formationData2("../Data/Formations/Formation2.json", "../Data/Formations/Formation2-Order.json");
+	std::pair stageData2{ std::make_pair(SECOND_STAGE, formationData2) };
+	m_vEnemiesData.emplace_back(stageData2);*/
 }
 
 GameplayState::~GameplayState()
@@ -46,8 +55,8 @@ void GameplayState::InitEnemies()
 	// FORMATION FOR ALL ENEMIES
 	// Formation GO will be the one who creates all enemies with the correct info
 	auto go_Formation = std::make_shared<engine::GameObject>(nullptr, STR_LEVEL_TAG, glm::vec3{ 0.f, 0.f, 0.f });
-	m_pFormationCP = go_Formation->AddComponent<FormationCP>(go_Formation.get(), "../Data/Formations/Formation2.json");
-	go_Formation->AddComponent<AI_FormationCP>(go_Formation.get(), "../Data/Formations/Formation2-Order.json");
+	m_pFormationCP = go_Formation->AddComponent<FormationCP>(go_Formation.get(), m_vEnemiesData.at(0).second.GetEnemiesData());
+	go_Formation->AddComponent<AI_FormationCP>(go_Formation.get(), m_vEnemiesData.at(0).second.GetSpawnOrderData());
 	scene.Add(go_Formation);
 	
 }
@@ -86,8 +95,6 @@ void GameplayState::InitPlayer2()
 	auto pPlayer2InputCP = go_Player2->AddComponent<PlayerInputCP>(go_Player2.get());
 	pPlayer2InputCP->TwoPlayersGameplayInput();
 
-	scene.Add(go_Player2);
-
 	auto pPlayer1 = scene.FindGameObjectByTag(STR_PLAYER_TAG);
 	if (pPlayer1 != nullptr)
 	{
@@ -99,20 +106,47 @@ void GameplayState::InitPlayer2()
 			pPlayerInputCP->TwoPlayersGameplayInput();
 		}
 	}
+
+	scene.Add(go_Player2);
 }
 
-void GameplayState::Reset()
+bool GameplayState::NextStage()
 {
+	auto& sceneManager = engine::SceneManager::GetInstance();
+	if (sceneManager.LoadNextScene())
+	{
+		// New scene loaded succesfully -> Reset enemies data
+		for (size_t enemiesIdx { 0 }; enemiesIdx < m_vEnemiesData.size(); ++enemiesIdx)
+		{
+			auto enemiesData = m_vEnemiesData.at(enemiesIdx);
+			if (enemiesData.first == sceneManager.GetActiveSceneName())
+			{
+				// Get the corresponding data from this new stage
+				m_pFormationCP->Reset(enemiesData.second.GetEnemiesData(), enemiesData.second.GetSpawnOrderData());
+				return true;
+			}
+		}
+		
+	}
+	// No more scenes or no data found 
+	return false;
 
 }
 
 void GameplayState::OnExit()
 {
-
+	// Destroy all enemies from the scene
+	m_pFormationCP->KillAllEnemies();
 }
 
 GameState* GameplayState::GetChangeState()
 {
+	if (m_IsGameOver)
+	{
+		OnExit();
+		return new GameOverState();
+	}
+
 	return nullptr;
 }
 
@@ -120,15 +154,11 @@ void GameplayState::UpdateState(const float)
 {
 	if (m_pFormationCP != nullptr)
 	{
-		if (!m_pFormationCP->AreEnemiesLeft() && change)
+		if (!m_pFormationCP->AreEnemiesLeft())
 		{
-			auto& sceneManager = engine::SceneManager::GetInstance();
-			sceneManager.MoveGameObjectsToScene("SECOND_STAGE");
-
-			// New formation read from json file
-			m_pFormationCP->Reset("../Data/Formations/Formation2.json", "../Data/Formations/Formation2-Order.json");
-
-			change = false;
+			// If nextStage returns false then we go the GameOver state
+			if (!NextStage())
+				m_IsGameOver = true;
 		}
 	}
 }

@@ -148,6 +148,30 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
+void Scene::MarkAsDeadGameObject(const engine::GameObject* pGameObjectToMark)
+{
+	for (auto& gameObject : m_objects)
+	{
+		if (gameObject.get() == pGameObjectToMark)
+		{
+			gameObject->MarkAsDead();
+			break;
+		}
+	}
+}
+
+void Scene::MarkAsDeadGameObject(const std::shared_ptr<GameObject>& pGameObjectToMark)
+{
+	for (auto& gameObject : m_objects)
+	{
+		if (gameObject == pGameObjectToMark)
+		{
+			gameObject->MarkAsDead();
+			break;
+		}
+	}
+}
+
 std::vector<std::shared_ptr<engine::GameObject>>& Scene::GetAll()
 {
 	return m_objects;

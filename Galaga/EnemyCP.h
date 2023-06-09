@@ -44,6 +44,7 @@ class EnemyCP final: public engine::Component, public engine::Observer
 private:
 
 	void UpdateMoveToFormation(const float deltaTime);
+	void SetEnemyTypePoints();
 
 	// Firing Missiles - ALL enemies type can fire
 	void FireMissile(const float deltaTime);
@@ -62,6 +63,10 @@ private:
 	unsigned short m_MissilesShoot;				// How many missiles he has already fired
 	float m_ElapsedShootTime;
 	float m_WaitBetweenShoot;					// How much time to wait between one missile and another
+
+	int m_FormationPoints;						// Points this enemy give to the player when player shoot him
+	int m_DivingPoints;							
+
 };
 
 #endif

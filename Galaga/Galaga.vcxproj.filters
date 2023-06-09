@@ -47,9 +47,6 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="ParallaxScrollingCP.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -122,6 +119,15 @@
     <ClCompile Include="MenuSelectionCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverState.cpp">
+      <Filter>GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScoreCP.cpp">
+      <Filter>Components\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveCommand.h">
@@ -129,9 +135,6 @@
     </ClInclude>
     <ClInclude Include="KillCommand.h">
       <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>General files</Filter>
@@ -217,6 +220,15 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Galaga_Strings.h">
       <Filter>General files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>GameStates</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScoreCP.h">
+      <Filter>Components\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

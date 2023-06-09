@@ -6,6 +6,10 @@
 #include <vector>
 #include "GameObject.h"
 
+namespace engine
+{
+	class Observer;
+}
 class MissileManagerCP final : public engine::Component
 {
 public:
@@ -18,6 +22,7 @@ public:
 	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	void Fire(const glm::vec3& direction);
+	void AddObserverToMissiles(engine::Observer* pObserver);
 
 private:
 	const glm::vec2& SPEED;						// Speed at which all missiles will move

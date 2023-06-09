@@ -168,6 +168,7 @@
     <ClCompile Include="Galaga.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCP.cpp" />
+    <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="GameplayState.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="ParallaxScrollingCP.cpp" />
+    <ClCompile Include="PlayerScoreCP.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCP.h" />
     <ClInclude Include="GameIncludes.h" />
+    <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameplayState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="HealthComponent.h" />
@@ -214,6 +217,7 @@
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="ParallaxScrollingCP.h" />
+    <ClInclude Include="PlayerScoreCP.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="SoundIDs.h" />

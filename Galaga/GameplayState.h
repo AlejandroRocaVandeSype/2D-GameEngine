@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include "structs.h"
+#include <vector>
 
 class FormationCP;
 class GameplayState final : public GameState
@@ -18,20 +19,34 @@ public:
 
 private:
 
+	// Struct that contains data for the Formations of enemies
+	struct FormationJsonData 
+	{
+	public:
+		FormationJsonData(const std::string& enemiesJson, const std::string& spawnOrderJson)
+			:m_EnemiesData{ enemiesJson }, m_SpwanOrderData{ spawnOrderJson } {}
+
+		const std::string& GetEnemiesData() const { return m_EnemiesData;  }
+		const std::string& GetSpawnOrderData() const { return m_SpwanOrderData; }
+
+	private:
+		const std::string m_EnemiesData;				// Info with all enemies and their positions at the formation
+		const std::string m_SpwanOrderData;				// Order in which enemies will appear
+	};
+
 	void InitEnemies();
 	void InitPlayer1();
 	void InitPlayer2();
 
-	// Reset everything need it for the new Stage
-	void Reset();
-
-	// GAMEOBJECT TAGS
+	bool NextStage();
 	
-
 	const std::string m_GameMode;
-
 	FormationCP* m_pFormationCP;
-	bool change = true;
+	std::vector<std::pair<std::string, FormationJsonData>> m_vEnemiesData;
+
+	bool m_IsGameOver;
+
+
 };
 
 #endif

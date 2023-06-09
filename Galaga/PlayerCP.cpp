@@ -6,6 +6,7 @@
 #include "MoveComponent.h"
 #include "MissileManagerCP.h"
 #include "LivesUIComponent.h"
+#include "PlayerScoreCP.h"
 #include <iostream>
 
 
@@ -29,21 +30,26 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const unsign
 		// MISSILES 
 		int maxMissiles{ 2 };
 		glm::vec2 missileSpeed{ 450.f, 450.f };
-		pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed, "player", "Sprites/PlayerBullet.png");
+		auto missileManagerCP = pOwner->AddComponent<MissileManagerCP>(pOwner, maxMissiles, missileSpeed, "player", "Sprites/PlayerBullet.png");
 
 		// COLLISIONS ENABLED
 		pOwner->AddComponent<engine::CollisionComponent>(pOwner, renderCP->GetTextureSize());
 		//collisionCP->AddObserver(this);
 
 		// UI
+			// LIVES
 		glm::vec2 UIPos = { 10.f, windowLimits.y - 50.f };
 		if (m_PlayerIdx == 2)
 		{
 			// Lives will be displayed on the right side of the screen for Player 2
-			UIPos.x = windowLimits.x - 200.f;
+			UIPos.x = windowLimits.x - 100.f;
 		}
-		auto livesUICP = pOwner->AddComponent<LivesUIComponent>(pOwner, sprFileName, glm::vec2{ 10.f, windowLimits.y - 50.f}, health - 1);
+		auto livesUICP = pOwner->AddComponent<LivesUIComponent>(pOwner, sprFileName, UIPos, health - 1);
 		healthCP->AddObserver(livesUICP);
+
+			// SCORE
+		auto scoreCP = pOwner->AddComponent<PlayerScoreCP>(pOwner, m_PlayerIdx);
+		missileManagerCP->AddObserverToMissiles(scoreCP);		// Missiles will notify the score when to increase score
 
 	}
 }

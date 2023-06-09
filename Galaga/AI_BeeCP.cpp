@@ -25,6 +25,7 @@ AI_BeeCP::AI_BeeCP(engine::GameObject* pOwner)
 		m_pMoveCP = pOwner->GetComponent<MoveComponent>();
 		m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 		m_pRotatorCP = pOwner->GetComponent<RotatorComponent>();
+		
 	}
 }
 
