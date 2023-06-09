@@ -177,20 +177,29 @@ std::vector<std::shared_ptr<engine::GameObject>>& Scene::GetAll()
 	return m_objects;
 }
 
-engine::GameObject* Scene::FindGameObjectByTag(const std::string& tag)
+engine::GameObject* Scene::FindGameObjectByTag(const std::string& tag, bool IsActive)
 {
 	for (auto& gameObject : m_objects)
 	{
 		if (gameObject->Tag() == tag)
 		{
-			if (gameObject->IsActive())
+			if (IsActive)
 			{
-				return gameObject.get();
+				// Return only if Active
+				if (gameObject->IsActive())
+				{
+					return gameObject.get();
+				}
+				else
+				{
+					return nullptr;
+				}
 			}
 			else
 			{
-				return nullptr;
-			}
+				// Doenst matter if it is active or not.
+				return gameObject.get();
+			}		
 		}
 	}
 	// GameObject with that tag not found

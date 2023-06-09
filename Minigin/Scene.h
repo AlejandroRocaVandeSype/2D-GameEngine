@@ -24,7 +24,7 @@ namespace engine
 
 		void CheckCollisions(size_t objectIdx1, engine::CollisionComponent* pCollisionCP);
 
-		engine::GameObject* FindGameObjectByTag(const std::string& tag);
+		engine::GameObject* FindGameObjectByTag(const std::string& tag, bool IsActive = true);
 
 		std::vector < std::shared_ptr<engine::GameObject>>& GetAll();
 

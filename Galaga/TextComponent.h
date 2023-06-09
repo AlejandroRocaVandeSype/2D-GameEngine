@@ -17,7 +17,7 @@ class TextComponent final : public engine::Component
 		virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
 		void CreateTextureFromText();
 		void SetText(const std::string& text);
-
+		std::string GetText() const;
 
 	private:
 

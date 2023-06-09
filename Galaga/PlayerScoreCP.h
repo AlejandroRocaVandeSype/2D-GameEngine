@@ -2,7 +2,9 @@
 #include <Component.h>
 #include "Observer.h"
 #include "glm/vec2.hpp"
+#include <string>
 
+class TextComponent;
 class PlayerScoreCP final : public engine::Component, public engine::Observer
 {
 public:
@@ -14,7 +16,16 @@ public:
 
 	void OnNotify(engine::GameObject* gameObject, const engine::Event& event) override;
 
+	std::string GetRatio() const;
+	std::string GetHits() const;
+	std::string GetShots() const;
+
 private:
+	 
+	void UpdateScore(int points);
+	TextComponent* m_pTextComponent;
+	int m_PlayerHits;
+	int m_PlayerShots;
 
 };
 

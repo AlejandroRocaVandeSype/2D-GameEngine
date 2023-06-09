@@ -84,14 +84,5 @@ void PlayerCP::OnNotify(engine::GameObject*, const engine::Event& event)
 	{
 		GetOwner()->SetIsActive(false);
 
-		/*
-		// This is only if we actually destroy the player gameObject
-		auto playerInputCP = GetOwner()->GetComponent<PlayerInputCP>();
-		if (playerInputCP != nullptr)
-		{
-			// Indicate the player died to ensure we unbind all the commands associated 
-			playerInputCP->SetPlayerDied();
-		}
-		*/
 	}
 }

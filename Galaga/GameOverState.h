@@ -2,7 +2,12 @@
 #define GALAGA_GAMEOVERSTATE
 
 #include "GameState.h"
+#include <vector>
 
+namespace engine
+{
+	class GameObject;
+}
 class GameOverState final : public GameState
 {
 public:
@@ -17,6 +22,12 @@ public:
 
 private:
 
+	void UpdateUIObjects(const float deltaTime);
+	float m_elapsedSec{ 0.f };
+	float m_MaxTime{ 1.5f };
+
+	std::vector<engine::GameObject*> m_GameOverObjects{};
+	int m_CurrentShowing{ 0 };
 
 };
 

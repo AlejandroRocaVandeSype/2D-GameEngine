@@ -6,6 +6,7 @@
 #include <memory>
 
 class MoveComponent;
+class HealthComponent;
 class MissileCP final : public engine::Component, public engine::Observer
 {
 public:
@@ -24,8 +25,11 @@ public:
 
 private:
 	MoveComponent* m_pMoveComponent;
+	HealthComponent* m_pHealthCP;
 	std::string m_CollisionWith;
 	int m_EnemyPoints;
+
+	engine::Event m_MissileFiredEvent;
 	std::unique_ptr<engine::Subject> m_MissileSubject;
 };
 

@@ -66,6 +66,11 @@ void TextComponent::CreateTextureFromText()
 
 }
 
+std::string TextComponent::GetText() const
+{
+	return m_text;
+}
+
 // This implementation uses the "dirty flag" pattern
 void TextComponent::SetText(const std::string& text)
 {

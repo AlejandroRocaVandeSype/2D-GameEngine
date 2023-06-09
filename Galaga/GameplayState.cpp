@@ -71,6 +71,7 @@ void GameplayState::InitPlayer1()
 	auto pPlayer1GO = scene.FindGameObjectByTag(STR_PLAYER_TAG);
 	if (pPlayer1GO != nullptr)
 	{
+		m_vPlayers.emplace_back(pPlayer1GO);
 		pPlayer1GO->AddComponent<PlayerCP>(pPlayer1GO, 4, 1, glm::vec2{ window.width, window.height });
 		auto pPlayerInputCP = pPlayer1GO->GetComponent<PlayerInputCP>();
 		if (pPlayerInputCP != nullptr && m_GameMode == "1 PLAYER")
@@ -108,6 +109,7 @@ void GameplayState::InitPlayer2()
 	}
 
 	scene.Add(go_Player2);
+	m_vPlayers.emplace_back(go_Player2.get());
 }
 
 bool GameplayState::NextStage()
@@ -136,14 +138,14 @@ bool GameplayState::NextStage()
 void GameplayState::OnExit()
 {
 	// Destroy all enemies from the scene
-	m_pFormationCP->KillAllEnemies();
+	//m_pFormationCP->KillAllEnemies();
 }
 
 GameState* GameplayState::GetChangeState()
 {
 	if (m_IsGameOver)
 	{
-		OnExit();
+		//OnExit();
 		return new GameOverState();
 	}
 
@@ -154,11 +156,34 @@ void GameplayState::UpdateState(const float)
 {
 	if (m_pFormationCP != nullptr)
 	{
-		if (!m_pFormationCP->AreEnemiesLeft())
+		if (ArePlayersAlive())
 		{
-			// If nextStage returns false then we go the GameOver state
-			if (!NextStage())
-				m_IsGameOver = true;
+			// Player(s) still alive -> Check if there are enemies left
+			if (!m_pFormationCP->AreEnemiesLeft())
+			{
+				// If nextStage returns false then we go the GameOver state
+				if (!NextStage())
+					m_IsGameOver = true;
+			}
+		}
+		else
+		{
+			m_IsGameOver = true;
+		}
+		
+	}
+}
+
+bool GameplayState::ArePlayersAlive()
+{
+	for (const auto& player : m_vPlayers)
+	{
+		if (player->IsActive())
+		{
+			// At least one player is still alive
+			return true;
 		}
 	}
+
+	return false;
 }

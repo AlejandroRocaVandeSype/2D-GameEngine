@@ -6,9 +6,11 @@
 
 MissileCP::MissileCP(engine::GameObject* pOwner, bool IsPlayerMissile)
 	:Component("MissileBehaviourCP", pOwner)
-	, m_EnemyPoints { 0 }, m_MissileSubject{ nullptr}
+	, m_EnemyPoints{ 0 }, m_MissileSubject{ nullptr }, m_pHealthCP { nullptr }
+	, m_MissileFiredEvent{ "MissileFired" }
 {
 	m_pMoveComponent = pOwner->GetComponent<MoveComponent>();
+	m_pHealthCP = pOwner->GetComponent<HealthComponent>();
 
 	if (IsPlayerMissile)
 	{
@@ -32,7 +34,9 @@ void MissileCP::Update( const float )
 		if (!m_pMoveComponent->InsideBoundaries())
 		{
 			// Missile outside boundaries -> Deactivate it
-			GetOwner()->SetIsActive(false);
+			m_EnemyPoints = 0;
+			if(m_pHealthCP != nullptr)
+				m_pHealthCP->DecrementHealth(1);
 		}
 	}
 }
@@ -58,6 +62,13 @@ void MissileCP::OnNotify(engine::GameObject* gameObject, const engine::Event& ev
 	{
 		// Deactivate the missile
 		GetOwner()->SetIsActive(false);
+		// Notify I missile was shot
+		if (m_MissileSubject != nullptr)
+		{
+			m_MissileSubject->NotifyObservers(GetOwner(), m_MissileFiredEvent);
+		}
+		
+		
 	}
 	
 }
