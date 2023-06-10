@@ -5,16 +5,18 @@
 #include "MissileManagerCP.h"
 #include "EnemyCP.h"
 #include "Scene.h"
+#include "Galaga_Strings.h"
+#include "AnimationCP.h"
 #include <glm/gtc/constants.hpp>
 #include <iostream>
 
 AI_GalagaCP::AI_GalagaCP(engine::GameObject* pOwner)
 	:Component("AI_GalagaCP", pOwner)
-	, m_AttackState { AttackState::breakFormation }, m_BombingRunState { BombinRunState::divingLoop }
-	, m_TractorBeamState{ TractorBeamState::moveIntoPosition }, m_DoTractorBeam { true }, m_pGalagaTransfCP { nullptr }
-	, m_pMoveCP { nullptr }, m_pRotatorCP { nullptr }, ROTATION_TIME{ 1.5f }, m_RotationRadius{ 30.f }, m_DoRotateLeft { false }
+	, m_AttackState{ AttackState::breakFormation }, m_BombingRunState{ BombinRunState::divingLoop }
+	, m_TractorBeamState{ TractorBeamState::moveIntoPosition }, m_DoTractorBeam{ true }, m_pGalagaTransfCP{ nullptr }
+	, m_pMoveCP{ nullptr }, m_pRotatorCP{ nullptr }, ROTATION_TIME{ 1.5f }, m_RotationRadius{ 30.f }, m_DoRotateLeft{ false }
 	, m_pEnemyCP{ nullptr }, m_TractorBeamPos{ glm::vec2{0.f, 0.f} }, m_Direction{ 0.f, 0.f, 0.f }
-	, MAX_TRACTORBEAM_TIME { 5.f }, m_ElapsedTime { 0.f }
+	, MAX_TRACTORBEAM_TIME{ 3.5f }, m_ElapsedTime{ 0.f }, m_pTractorBeam{ nullptr }
 {
 
 	if (pOwner != nullptr)
@@ -30,6 +32,29 @@ AI_GalagaCP::AI_GalagaCP(engine::GameObject* pOwner)
 
 	auto window = engine::SceneManager::GetInstance().GetSceneWindow();
 	m_TractorBeamPos.y = window.height - 250.f;
+
+	if (m_pGalagaTransfCP != nullptr)
+	{
+		auto tractorBeamPos = m_pGalagaTransfCP->GetLocalPosition();
+		tractorBeamPos.y += 30.f;
+		tractorBeamPos.x -= 35.f;
+		// TractorBeam object with the sprite
+		m_pTractorBeam = new engine::GameObject(GetOwner(), STR_GALAGA, tractorBeamPos, glm::vec2{2.f, 2.f}, true);
+		m_pTractorBeam->AddComponent<engine::RenderComponent>(m_pTractorBeam, "Sprites/Enemies/tractorBeam.png");
+
+
+		float frameRate{ 1.f / 10.f };
+		int totalCols{ 3 };
+		int totalFrames{ 18 };
+		int startFrame{ 0 };
+		int limitFrame{ 16 };
+		int frameInc{ 1 };
+		engine::AnimationCP::AnimationMode mode = engine::AnimationCP::AnimationMode::normalAndBack;
+		m_pTractorBeam->AddComponent<engine::AnimationCP>(m_pTractorBeam, totalCols, totalFrames, frameRate, frameInc, limitFrame
+			, startFrame, mode);
+		m_pTractorBeam->SetIsActive(false);
+	}
+
 }
 
 AI_GalagaCP::~AI_GalagaCP()
@@ -69,7 +94,6 @@ void AI_GalagaCP::InitData(const engine::Window window)
 		float minXpos = 80.f;
 		 m_TractorBeamPos.x = float((std::rand() % int(maxXpos)) + minXpos);
 
-		 std::cout << m_TractorBeamPos.x << std::endl;
 	}
 	
 	m_AttackState = AttackState::startLoop;
@@ -182,6 +206,15 @@ void AI_GalagaCP::UpdateTractorBeam(const float deltaTime)
 
 		// Next time it will do a different behaviour
 		//m_DoTractorBeam = !m_DoTractorBeam;
+		m_pTractorBeam->SetIsActive(false);
+		return;
+	}
+
+	if (m_pTractorBeam != nullptr)
+	{
+		// Tractor beam animation
+		m_pTractorBeam->SetIsActive(true);
+		m_pTractorBeam->GetComponent<engine::TransformComponent>()->SetPositionDirty();
 	}
 	
 }
@@ -248,4 +281,15 @@ void AI_GalagaCP::Reset()
 
 	// Randomly decide on which side to rotate
 	m_DoRotateLeft = std::rand() % 2;
+}
+
+void AI_GalagaCP::ChangeSprite()
+{
+	auto render = GetOwner()->GetComponent<engine::RenderComponent>();
+
+	if (render != nullptr)
+	{
+		// Change sprite to the being hit version
+		render->SetTexture("Sprites/Enemies/galagasV2.png");
+	}
 }

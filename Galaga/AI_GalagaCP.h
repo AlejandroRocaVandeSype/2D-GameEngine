@@ -25,6 +25,8 @@ public:
 
 	void Reset();
 
+	void ChangeSprite();
+
 private:
 
 	enum class AttackState
@@ -55,7 +57,6 @@ private:
 	void UpdateTractorBeam(const float deltaTime);
 
 	// Bombing run behaviour
-
 	AttackState m_AttackState;
 	BombinRunState m_BombingRunState;
 	TractorBeamState m_TractorBeamState;
@@ -77,7 +78,7 @@ private:
 	const float MAX_TRACTORBEAM_TIME; 
 	float m_ElapsedTime;
 
-
+	engine::GameObject* m_pTractorBeam;
 
 };
 #endif // DEBUG

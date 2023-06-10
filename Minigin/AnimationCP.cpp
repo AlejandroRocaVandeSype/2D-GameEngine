@@ -7,7 +7,8 @@ engine::AnimationCP::AnimationCP(engine::GameObject* pOwner, const int numberCol
 	:Component("AnimationCP", pOwner)
 	, m_CurrentFrame { 0 }, m_ElapsedFrameTime{ 0.f }, m_FrameRate { frameRate }, m_TotalFrames { totalFrames }
 	, m_CurrentCol { 0 }, m_CurrentRow { 0 }, m_TotalCols { numberCols }, m_pRenderComponent { nullptr }
-	, m_FrameInc{ 1 }, m_LimitFrame { m_TotalFrames - 1 }
+	, m_FrameInc{ 1 }, m_LimitFrame{ m_TotalFrames - 1 }, m_StartFrame{ 0 }, m_AnimationMode { AnimationMode::normal}
+	, m_NormalState { true }
 {
 
 	m_pRenderComponent = pOwner->GetComponent<engine::RenderComponent>();
@@ -29,12 +30,14 @@ engine::AnimationCP::AnimationCP(engine::GameObject* pOwner, const int numberCol
 
 // Extra parameters for the Animation like custom increment, until which frame render, different startFrame
 engine::AnimationCP::AnimationCP(engine::GameObject* pOwner, const int numberCols, const int totalFrames, const float frameRate,
-	int frameInc, int limitFrame, int startFrame)
+	int frameInc, int limitFrame, int startFrame, const AnimationMode& mode)
 	: AnimationCP(pOwner, numberCols, totalFrames, frameRate)
 {
 	m_FrameInc = frameInc;
 	m_LimitFrame = limitFrame;
 	m_CurrentFrame = startFrame;
+	m_StartFrame = startFrame;
+	m_AnimationMode = mode;
 }
 
 engine::AnimationCP::~AnimationCP()
@@ -51,17 +54,74 @@ void engine::AnimationCP::Update(const float deltaTime)
 	if (m_ElapsedFrameTime > m_FrameRate)
 	{
 		//// Elapsed time more than framerate --> Next frame 
-		m_CurrentFrame += m_FrameInc;
-		if (m_CurrentFrame > m_LimitFrame)
+		switch (m_AnimationMode)
 		{
-			// Reset to start if we reached the limit
-			m_CurrentFrame = 0;
+			case engine::AnimationCP::AnimationMode::normal:
+				NormalUpdate();
+				break;
+			case engine::AnimationCP::AnimationMode::backwards:
+				BackwardsUpdate();
+				break;
+			case engine::AnimationCP::AnimationMode::normalAndBack:
+			{
+				if (m_NormalState)
+				{
+					NormalUpdate();
+				}
+				else
+				{
+					BackwardsUpdate();
+				}
+			}
+				break;
 		}
-		m_ElapsedFrameTime -= m_FrameRate; // Reset accumulatedTime so it counts again
 
+		m_ElapsedFrameTime -= m_FrameRate; // Reset accumulatedTime so it counts again
 		UpdateSourceRect();
 	}
 
+}
+
+void engine::AnimationCP::NormalUpdate()
+{
+	m_CurrentFrame += m_FrameInc;
+	if (m_CurrentFrame > m_LimitFrame)
+	{	
+		if (m_AnimationMode == engine::AnimationCP::AnimationMode::normalAndBack)
+		{
+			SwapStarAndLimit();
+		}
+		else
+		{
+			// Reset to start if we reached the limit
+			m_CurrentFrame = 0;
+		}	
+	}
+}
+
+void engine::AnimationCP::BackwardsUpdate()
+{
+	m_CurrentFrame -= m_FrameInc;
+	if (m_CurrentFrame < m_LimitFrame)
+	{
+		if (m_AnimationMode == engine::AnimationCP::AnimationMode::normalAndBack)
+		{
+			SwapStarAndLimit();
+		}
+		else
+		{
+			// Reset to start if we reached the limit
+			m_CurrentFrame = m_StartFrame;
+		}
+	}
+}
+
+void engine::AnimationCP::SwapStarAndLimit()
+{
+	m_NormalState = !m_NormalState;
+	int saveStart = m_StartFrame;
+	m_StartFrame = m_LimitFrame;
+	m_LimitFrame = saveStart;
 }
 
 void engine::AnimationCP::UpdateSourceRect()

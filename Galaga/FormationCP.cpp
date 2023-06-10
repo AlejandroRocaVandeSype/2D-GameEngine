@@ -144,7 +144,7 @@ void FormationCP::CreateBee(const glm::vec3& startPos, const glm::vec3& formatio
 void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_Butterfly = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, STR_BUTTERFLY, "Sprites/Butterfly.png", formationPos, 1);
+	go_Butterfly->AddComponent<EnemyCP>(go_Butterfly, STR_BUTTERFLY, "Sprites/Enemies/butterflies.png", formationPos, 1);
 	go_Butterfly->AddComponent<AI_ButterflyCP>(go_Butterfly);
 	go_Butterfly->GetComponent<HealthComponent>()->AddObserver(this);
 
@@ -157,7 +157,7 @@ void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& fo
 void FormationCP::CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_Galagas = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_Galagas->AddComponent<EnemyCP>(go_Galagas, STR_GALAGA, "Sprites/Galaga.png", formationPos, 2);
+	go_Galagas->AddComponent<EnemyCP>(go_Galagas, STR_GALAGA, "Sprites/Enemies/galagas.png", formationPos, 2);
 	go_Galagas->AddComponent<AI_GalagaCP>(go_Galagas);
 	go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
 
