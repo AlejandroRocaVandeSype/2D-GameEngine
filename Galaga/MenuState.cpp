@@ -84,6 +84,7 @@ void MenuState::InitUI()
 	title->AddComponent<engine::RenderComponent>(title.get(), "Sprites/Title.png");
 	scene.Add(title);
 	m_vMenuGO.push_back(title);
+	title->SetIsActive(false);
 
 	// OPTIONS
 	auto galaga_Font = engine::ResourceManager::GetInstance().LoadFont("Fonts/Emulogic-zrEw.ttf", 18);
@@ -95,6 +96,7 @@ void MenuState::InitUI()
 	one_player_opt->AddComponent<engine::RenderComponent>(one_player_opt.get());
 	one_player_opt->AddComponent<TextComponent>(one_player_opt.get(), ONE_PLAYER_OPT, galaga_Font);
 	menuOptions.push_back(std::make_pair(ONE_PLAYER_OPT, optionPos));
+	one_player_opt->SetIsActive(false);
 
 		// 2 PLAYERS
 	optionPos.x = optionPos.x;
@@ -103,22 +105,16 @@ void MenuState::InitUI()
 	two_players_opt->AddComponent<engine::RenderComponent>(two_players_opt.get());
 	two_players_opt->AddComponent<TextComponent>(two_players_opt.get(), TWO_PLAYERS_OPT, galaga_Font);
 	menuOptions.push_back(std::make_pair(TWO_PLAYERS_OPT, optionPos));
+	two_players_opt->SetIsActive(false);
 
-		// VERSUS
-	optionPos.x = optionPos.x + 30.f;
-	optionPos.y = optionPos.y + 40.f;
-	auto versus_opt{ std::make_shared<engine::GameObject>(nullptr, "UI", optionPos) };
-	versus_opt->AddComponent<engine::RenderComponent>(versus_opt.get());
-	versus_opt->AddComponent<TextComponent>(versus_opt.get(), VERSUS_OPT, galaga_Font);
-	menuOptions.push_back(std::make_pair(VERSUS_OPT, optionPos));
-
-		// CONTROLS
-	optionPos.x = optionPos.x - 20.f;
-	optionPos.y = optionPos.y + 40.f;
-	auto controls_opt{ std::make_shared<engine::GameObject>(nullptr, "UI", optionPos) };
-	controls_opt->AddComponent<engine::RenderComponent>(controls_opt.get());
-	controls_opt->AddComponent<TextComponent>(controls_opt.get(), CONTROLS_OPT, galaga_Font);
-	menuOptions.push_back(std::make_pair(CONTROLS_OPT, optionPos));
+	//	// CONTROLS
+	//optionPos.x = optionPos.x - 20.f;
+	//optionPos.y = optionPos.y + 40.f;
+	//auto controls_opt{ std::make_shared<engine::GameObject>(nullptr, "UI", optionPos) };
+	//controls_opt->AddComponent<engine::RenderComponent>(controls_opt.get());
+	//controls_opt->AddComponent<TextComponent>(controls_opt.get(), CONTROLS_OPT, galaga_Font);
+	//menuOptions.push_back(std::make_pair(CONTROLS_OPT, optionPos));
+	
 
 	// OPTION SELECTION ARROW
 	optionPos.x = optionPos.x - 10.f;
@@ -127,17 +123,22 @@ void MenuState::InitUI()
 	arrow_opt->AddComponent<engine::RenderComponent>(arrow_opt.get());
 	arrow_opt->AddComponent<TextComponent>(arrow_opt.get(), ">", galaga_Font);
 	m_pMenuSelectionCP = arrow_opt->AddComponent<MenuSelectionCP>(arrow_opt.get(), menuOptions);
+	arrow_opt->SetIsActive(false);
+
+	auto controlsImage{ std::make_shared<engine::GameObject>(nullptr, "UI", glm::vec3{0.f, 0.f, 0.f}) };
+	controlsImage->AddComponent<engine::RenderComponent>(controlsImage.get(), "Sprites/Controls.png");
+	m_pControlsImage = controlsImage.get();
 
 	// ALL MENU UI
 	scene.Add(one_player_opt);
 	scene.Add(two_players_opt);
-	scene.Add(versus_opt);
-	scene.Add(controls_opt);
+	//scene.Add(versus_opt);
+	//scene.Add(controls_opt);
 	scene.Add(arrow_opt);
+	scene.Add(controlsImage);
 	m_vMenuGO.push_back(two_players_opt);
 	m_vMenuGO.push_back(one_player_opt);
-	m_vMenuGO.push_back(versus_opt);
-	m_vMenuGO.push_back(controls_opt);
+	//m_vMenuGO.push_back(controls_opt);
 	m_vMenuGO.push_back(arrow_opt);
 	
 	
@@ -169,17 +170,25 @@ void MenuState::OnExit()
 
 GameState* MenuState::GetChangeState()
 {
+
 	if (m_pMenuSelectionCP != nullptr && m_pMenuSelectionCP->IsOptionSelected())
 	{
-		std::string selectedOption{ m_pMenuSelectionCP->GetSelection() };
+		m_pMenuSelectionCP->SetOptionSelected(false);
+
+		if (m_pControlsImage->IsActive())
+		{
+			SwitchToMenuOptions();
+			return nullptr;
+		}
+
+		std::string selectedOption{ m_pMenuSelectionCP->GetSelectionName() };
 
 		if (selectedOption == ONE_PLAYER_OPT ||selectedOption == TWO_PLAYERS_OPT)
 		{
 			OnExit();
 			return new GameplayState(selectedOption);
 		}	
-		
-		m_pMenuSelectionCP->SetOptionSelected(false);
+	
 	}
 	return nullptr;
 }
@@ -189,8 +198,16 @@ void MenuState::UpdateState(const float )
 	
 }
 
-void MenuState::StartGame()
+
+void MenuState::SwitchToMenuOptions()
 {
-	// New State
-	m_ChangeState = true;
+	if (m_pControlsImage->IsActive())
+	{
+		// Still in the Controls image -> Show menu
+		m_pControlsImage->SetIsActive(false);
+		for (auto& menuUI : m_vMenuGO)
+		{
+			menuUI->SetIsActive(true);
+		}
+	}
 }

@@ -185,7 +185,6 @@
     <ClCompile Include="ParallaxScrollingCP.cpp" />
     <ClCompile Include="PlayerScoreCP.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
-    <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="ToggleMuteCommand.cpp" />
   </ItemGroup>
@@ -220,7 +219,6 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="SoundIDs.h" />
-    <ClInclude Include="StartCommand.h" />
     <ClInclude Include="Galaga_Strings.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="ToggleMuteCommand.h" />

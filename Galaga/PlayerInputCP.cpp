@@ -54,13 +54,19 @@ void PlayerInputCP::MenuInput(MenuSelectionCP* pMenuSelectionCP)
 	SDL_KeyCode keyEnter{ SDLK_RETURN };
 	SDL_KeyCode keyArrowDown{ SDLK_DOWN };
 	SDL_KeyCode keyArrowUP{ SDLK_UP };
+	SDL_KeyCode keyS{ SDLK_w};
+	SDL_KeyCode keyW{ SDLK_s };
 
 	std::unique_ptr<Command> upSelectionCommand = std::make_unique<MenuSelectionCommand>(pMenuSelectionCP, -1);
 	std::unique_ptr<Command> downSelectionCommand = std::make_unique<MenuSelectionCommand>(pMenuSelectionCP, 1);
+	std::unique_ptr<Command> upSelectionCommand2 = std::make_unique<MenuSelectionCommand>(pMenuSelectionCP, -1);
+	std::unique_ptr<Command> downSelectionCommand2 = std::make_unique<MenuSelectionCommand>(pMenuSelectionCP, 1);
 	std::unique_ptr<Command> selectOption = std::make_unique<MenuSelectionCommand>(pMenuSelectionCP, 0);
 
 	input.BindCommand(std::move(upSelectionCommand), keyArrowUP, engine::InputType::Down);
 	input.BindCommand(std::move(downSelectionCommand), keyArrowDown, engine::InputType::Down);
+	input.BindCommand(std::move(upSelectionCommand2), keyS, engine::InputType::Down);
+	input.BindCommand(std::move(downSelectionCommand2), keyW, engine::InputType::Down);
 	input.BindCommand(std::move(selectOption), keyEnter, engine::InputType::Down);
 
 	// Menu controller input for Player 1

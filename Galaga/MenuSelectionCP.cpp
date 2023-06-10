@@ -8,9 +8,10 @@ MenuSelectionCP::MenuSelectionCP(engine::GameObject* pOwner, const std::vector<s
 {
 	if (!m_MenuOptions.empty())
 	{
-		// At start it is the first option
+		// At start no option is selected since it will be the Controls image
 		m_ActiveSelectionPos = 0;
 		m_selectionXPos = m_MenuOptions.at(0).second.x - 30.f;
+		UpdateArrowPos();
 	}
 
 }
@@ -43,7 +44,7 @@ void MenuSelectionCP::ChangeSelection(const int menuAction)
 	else if(menuAction < 0)
 	{
 		// Previous option
-		if (m_ActiveSelectionPos == 0)
+		if (m_ActiveSelectionPos <= 0)
 		{
 			m_ActiveSelectionPos = m_MenuOptions.size() - 1;
 		}
@@ -53,6 +54,12 @@ void MenuSelectionCP::ChangeSelection(const int menuAction)
 		}		
 	}
 
+	UpdateArrowPos();
+
+}
+
+void MenuSelectionCP::UpdateArrowPos()
+{
 	// Change arrow pos
 	auto arrowTransfCP{ GetOwner()->GetComponent<engine::TransformComponent>() };
 	if (arrowTransfCP != nullptr)
@@ -61,7 +68,6 @@ void MenuSelectionCP::ChangeSelection(const int menuAction)
 		newPos.x = m_selectionXPos;
 		arrowTransfCP->SetLocalPosition(newPos);
 	}
-
 }
 
 bool MenuSelectionCP::IsOptionSelected() const
@@ -69,7 +75,7 @@ bool MenuSelectionCP::IsOptionSelected() const
 	return m_IsSelected;
 }
 
-std::string MenuSelectionCP::GetSelection()
+std::string MenuSelectionCP::GetSelectionName() const
 {
 	if (m_ActiveSelectionPos >= 0 && m_ActiveSelectionPos < m_MenuOptions.size())
 	{
@@ -79,6 +85,7 @@ std::string MenuSelectionCP::GetSelection()
 	// Empty string to indicate an invalid selection
 	return "";
 }
+
 
 void MenuSelectionCP::SetOptionSelected(bool isSelected)
 {

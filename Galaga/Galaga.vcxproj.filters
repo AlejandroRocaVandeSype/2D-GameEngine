@@ -104,9 +104,6 @@
     <ClCompile Include="GameCP.cpp">
       <Filter>General files</Filter>
     </ClCompile>
-    <ClCompile Include="StartCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="TextComponent.cpp">
       <Filter>Components\UI</Filter>
     </ClCompile>
@@ -201,9 +198,6 @@
     </ClInclude>
     <ClInclude Include="GameCP.h">
       <Filter>General files</Filter>
-    </ClInclude>
-    <ClInclude Include="StartCommand.h">
-      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
       <Filter>Components\UI</Filter>

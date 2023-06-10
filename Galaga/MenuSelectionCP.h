@@ -18,12 +18,14 @@ public:
 
 	void ChangeSelection(const int menuAction);
 	
-	std::string GetSelection();
+	std::string GetSelectionName() const;
 	bool IsOptionSelected() const;
 	void SetOptionSelected(bool isSelected);
 	
 
 private:
+
+	void UpdateArrowPos();
 
 	const std::vector<std::pair<std::string, glm::vec3>> m_MenuOptions;
 	size_t m_ActiveSelectionPos;
