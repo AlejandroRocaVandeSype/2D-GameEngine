@@ -72,6 +72,7 @@ public:
 			std::cerr << "Mix_OpenAudio failed: " << Mix_GetError() << "\n";
 		}
 		Init();
+		StartAudioThread();
 	}
 
 	// Init the ring buffer for the PlaySound requests
@@ -79,6 +80,13 @@ public:
 
 	~SDL_SoundSystem_Impl()
 	{
+		// Set the flag to stop the audio thread
+		m_ShouldStop = true;
+
+		// Notify the audio thread to wake up and check the stop flag
+		// So it properly closes it
+		m_HasRequests.notify_one();
+
 		SDL_CloseAudio();
 	}
 
@@ -94,11 +102,46 @@ public:
 			// Wrap the tail back around to the beggining if it reaches the end
 			m_Tail = (m_Tail + 1) % MAX_PENDING;
 
+			// Notify that there is a sound need to be played
+			m_HasRequests.notify_one();
 		}
 	}
 
 	void ProcessRequests()
 	{
+		while (!m_ShouldStop)
+		{
+			// Lock the mutex while we use queue, so no other threads can use it
+			std::unique_lock<std::mutex> lock(m_Mutex);
+
+			m_HasRequests.wait(lock, [this] { return m_Head != m_Tail || m_ShouldStop; });
+			
+			if (m_Head != m_Tail)
+			{
+				// Search for the sound
+				auto soundPos = m_Sounds.find(m_Pending[m_Head]);
+
+				// We stopped using the queue so we free the mutex
+				lock.unlock();
+
+				if (soundPos != m_Sounds.end())
+				{
+					auto& sound = soundPos->second;
+					if (!sound->IsLoaded())
+					{
+						// Sound not loaded yet
+						sound->Load();
+					}
+					sound->Play();
+				}
+
+				// Wrap the head around when it reaches the end of the array
+				m_Head = (m_Head + 1) % MAX_PENDING;
+			}
+
+		}
+
+
 		// If there are no pending requests, do nothing
 		if (m_Head == m_Tail)
 		{
@@ -134,6 +177,14 @@ public:
 	}
 
 private:
+
+	void StartAudioThread()
+	{
+		m_ShouldStop = false;
+		// Start thread with the ProcessRequests
+		m_AudioThread = std::jthread([this] { ProcessRequests(); });
+	}
+
 	std::unordered_map<short, std::unique_ptr<AudioClip>> m_Sounds;
 
 	// Queue for the PlaySound requests (Ring buffer)
@@ -147,6 +198,7 @@ private:
 	std::mutex m_Mutex;
 	std::condition_variable m_HasRequests;
 	std::jthread m_AudioThread;
+	bool m_ShouldStop;						// To indicate that the audio thread should stop processing requests
 	
 };
 
@@ -187,4 +239,5 @@ void engine::SDL_SoundSystem::ProcessRequests()
 - Unlock mutex when we finish using the queue, since the queue is the one
  we need to protect. So after pop we unlock the mutex
 - Only one thread per sound (dont use jthread for every sound)
+
 */

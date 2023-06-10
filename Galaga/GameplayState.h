@@ -32,12 +32,18 @@ private:
 
 		const std::string& GetEnemiesData() const { return m_EnemiesData;  }
 		const std::string& GetSpawnOrderData() const { return m_SpwanOrderData; }
+		void changeData(const std::string& enemiesJson, const std::string& spawnOrderJson)
+		{
+			m_EnemiesData = enemiesJson;
+			m_SpwanOrderData = spawnOrderJson;
+		}
 
 	private:
-		const std::string m_EnemiesData;				// Info with all enemies and their positions at the formation
-		const std::string m_SpwanOrderData;				// Order in which enemies will appear
+		std::string m_EnemiesData;				// Info with all enemies and their positions at the formation
+		std::string m_SpwanOrderData;				// Order in which enemies will appear
 	};
 
+	void LoadDataPaths();
 	void InitEnemies();
 	void InitPlayer1();
 	void InitPlayer2();

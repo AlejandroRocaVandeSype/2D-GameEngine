@@ -16,4 +16,8 @@ const std::string FIRST_STAGE{ "FIRST_STAGE" };
 const std::string SECOND_STAGE{ "SECOND_STAGE" };
 const std::string THIRD_STAGE{ "THIRD_STAGE" };
 
+const std::string GALAGA_SPRITE_V1{ "Sprites/Enemies/galagas.png" };
+const std::string GALAGA_SPRITE_V2{ "Sprites/Enemies/galagasV2.png" };
+const std::string TRACTOR_BREAM_SPRITE{ "Sprites/Enemies/tractorBeam.png" };
+
 #endif

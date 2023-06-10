@@ -157,7 +157,7 @@ void FormationCP::CreateButterfly(const glm::vec3& startPos, const glm::vec3& fo
 void FormationCP::CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_Galagas = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_Galagas->AddComponent<EnemyCP>(go_Galagas, STR_GALAGA, "Sprites/Enemies/galagas.png", formationPos, 2);
+	go_Galagas->AddComponent<EnemyCP>(go_Galagas, STR_GALAGA, GALAGA_SPRITE_V1, formationPos, 2);
 	go_Galagas->AddComponent<AI_GalagaCP>(go_Galagas);
 	go_Galagas->GetComponent<HealthComponent>()->AddObserver(this);
 

@@ -7,6 +7,8 @@
 #include "Scene.h"
 #include "Galaga_Strings.h"
 #include "AnimationCP.h"
+#include "Servicealocator.h"
+#include "SoundIDs.h"
 #include <glm/gtc/constants.hpp>
 #include <iostream>
 
@@ -37,10 +39,10 @@ AI_GalagaCP::AI_GalagaCP(engine::GameObject* pOwner)
 	{
 		auto tractorBeamPos = m_pGalagaTransfCP->GetLocalPosition();
 		tractorBeamPos.y += 30.f;
-		tractorBeamPos.x -= 35.f;
+		tractorBeamPos.x -= 32.f;
 		// TractorBeam object with the sprite
 		m_pTractorBeam = new engine::GameObject(GetOwner(), STR_GALAGA, tractorBeamPos, glm::vec2{2.f, 2.f}, true);
-		m_pTractorBeam->AddComponent<engine::RenderComponent>(m_pTractorBeam, "Sprites/Enemies/tractorBeam.png");
+		m_pTractorBeam->AddComponent<engine::RenderComponent>(m_pTractorBeam, TRACTOR_BREAM_SPRITE);
 
 
 		float frameRate{ 1.f / 10.f };
@@ -96,6 +98,10 @@ void AI_GalagaCP::InitData(const engine::Window window)
 
 	}
 	
+	// Start galaga dive sound
+	auto& soundSystem = engine::Servicealocator::Get_Sound_System();
+	soundSystem.PlaySound(short(Sounds::galagaDive));
+
 	m_AttackState = AttackState::startLoop;
 }
 
@@ -191,6 +197,9 @@ void AI_GalagaCP::moveIntoPosition(const float deltaTime, const glm::vec3& curre
 	{
 		// In position -> Start tractor Beam
 		m_TractorBeamState = TractorBeamState::tractorBeam;
+		// Start tractor beam sound 
+		auto& soundSystem = engine::Servicealocator::Get_Sound_System();
+		soundSystem.PlaySound(short(Sounds::tractorBeam));
 	}
 	
 }
@@ -210,6 +219,7 @@ void AI_GalagaCP::UpdateTractorBeam(const float deltaTime)
 		return;
 	}
 
+	m_pGalagaTransfCP->SetPositionDirty();
 	if (m_pTractorBeam != nullptr)
 	{
 		// Tractor beam animation
@@ -279,17 +289,20 @@ void AI_GalagaCP::Reset()
 	m_Direction = glm::vec3{ 0.f, 0.f, 0.f };
 	m_ElapsedTime =  0.f;
 
+	m_pTractorBeam->SetIsActive(false);
+	ChangeSprite(GALAGA_SPRITE_V1);
+
 	// Randomly decide on which side to rotate
 	m_DoRotateLeft = std::rand() % 2;
 }
 
-void AI_GalagaCP::ChangeSprite()
+void AI_GalagaCP::ChangeSprite(const std::string& spritePath)
 {
 	auto render = GetOwner()->GetComponent<engine::RenderComponent>();
 
 	if (render != nullptr)
 	{
 		// Change sprite to the being hit version
-		render->SetTexture("Sprites/Enemies/galagasV2.png");
+		render->SetTexture(spritePath);
 	}
 }

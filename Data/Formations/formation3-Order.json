@@ -1,0 +1,59 @@
+{ 
+  "spawnInfo": [
+    {
+      "startPosition": "top_first",
+      "enemyTypes": [
+        {
+          "type": "bees",
+          "amount": 4
+        },
+        {
+          "type": "butterflies",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "startPosition": "left",
+      "enemyTypes": [
+        {
+          "type": "galagas",
+          "amount": 4
+        },
+        {
+          "type": "butterflies",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "startPosition": "right",
+      "enemyTypes": [
+        {
+          "type": "butterflies",
+          "amount": 8
+        }
+      ]
+    },
+    {
+      "startPosition": "top_second",
+      "enemyTypes": [
+        {
+          "type": "bees",
+          "amount": 8
+        }
+      ]
+    },
+    {
+      "startPosition": "top_third",
+      "enemyTypes": [
+        {
+          "type": "bees",
+          "amount": 8
+        }
+      ]
+    }
+
+  ]
+  
+}

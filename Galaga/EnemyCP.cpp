@@ -246,8 +246,8 @@ void EnemyCP::OnNotify(engine::GameObject* gameObject, const engine::Event& even
 	if (event.IsSameEvent("HealthDecremented"))
 	{
 		auto galaga = GetOwner()->GetComponent<AI_GalagaCP>();
-		if (galaga != nullptr)
-			galaga->ChangeSprite();
+		if (galaga != nullptr) // Change sprite for galaga enemies when hit
+			galaga->ChangeSprite(GALAGA_SPRITE_V2);
 	}
 }
 

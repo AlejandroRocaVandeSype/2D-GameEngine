@@ -85,8 +85,8 @@ void Scene::Update(const float deltaTime)
 
 	}
 
-	auto& soundSystem = Servicealocator::Get_Sound_System();
-	soundSystem.ProcessRequests();
+	//auto& soundSystem = Servicealocator::Get_Sound_System();
+	//soundSystem.ProcessRequests();
 	
 	// Loop again to remove dead gameObjects if any
 	RemoveDeadObjects();

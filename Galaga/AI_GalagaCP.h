@@ -25,7 +25,7 @@ public:
 
 	void Reset();
 
-	void ChangeSprite();
+	void ChangeSprite(const std::string& spritePath);
 
 private:
 

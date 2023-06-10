@@ -179,7 +179,6 @@
     <ClCompile Include="MissileManagerCP.cpp" />
     <ClCompile Include="PlayerCP.cpp" />
     <ClCompile Include="PlayerInputCP.cpp" />
-    <ClCompile Include="KillCommand.cpp" />
     <ClCompile Include="LivesUIComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
@@ -212,7 +211,6 @@
     <ClInclude Include="MissileManagerCP.h" />
     <ClInclude Include="PlayerCP.h" />
     <ClInclude Include="PlayerInputCP.h" />
-    <ClInclude Include="KillCommand.h" />
     <ClInclude Include="LivesUIComponent.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MoveComponent.h" />
