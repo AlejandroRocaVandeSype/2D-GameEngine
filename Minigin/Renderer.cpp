@@ -95,12 +95,14 @@ void engine::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 void engine::Renderer::RenderSprite(const Texture2D& texture, float x, float y, float width, float height,
 	const float texX, const float texY, const float texWidth, const float texHeight) const
 {
+	// Destination rectangle: Where do we want to draw the sprite on screen
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
 
+	// Source rec : Rectangle within the sprite, which part do we want to draw
 	SDL_Rect src{};
 	src.x = static_cast<int>(texX);
 	src.y = static_cast<int>(texY);

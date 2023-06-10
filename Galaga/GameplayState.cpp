@@ -7,6 +7,7 @@
 #include "AI_FormationCP.h"
 #include "Galaga_Strings.h"
 #include "GameOverState.h"
+#include "EnemyCP.h"
 #include <iostream>
 
 
@@ -45,6 +46,22 @@ void GameplayState::OnEnter()
 	}
 	
 
+	//auto& sceneManager = engine::SceneManager::GetInstance();
+	//auto& scene = sceneManager.GetActiveScene();
+	//auto& window = sceneManager.GetSceneWindow();
+
+	//// Test enemy
+	//auto go_BeeEnemy = std::make_shared<engine::GameObject>(nullptr, "Enemy", glm::vec3{window.width/2.f, window.height/2.f, 0.f}, glm::vec2{2.f, 2.f}, false);
+	//go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy.get(), STR_BEE, "Sprites/Enemies/bees.png", glm::vec3{0.f, 0.f, 0.f}, 1);
+	//float frameRate{ 1.f / 5.f };
+	//int totalCols{ 16 };
+	//int totalFrames{ 32 };
+	//int frameInc{ 16 };
+	//int limitFrame{ frameInc };
+	//go_BeeEnemy->AddComponent<engine::AnimationCP>(go_BeeEnemy.get(), totalCols, totalFrames, frameRate, frameInc, limitFrame);
+	//
+
+	//scene.Add(go_BeeEnemy);
 	
 }
 

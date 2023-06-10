@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Texture2D.h"
 #include "GameObject.h"
+#include "AnimationCP.h"
 #include <iostream>
 
 
@@ -11,7 +12,7 @@ engine::RenderComponent::RenderComponent(GameObject* pOwner)
 	, m_texture { nullptr }
 	, m_Scale { glm::vec2{ 1.f, 1.f } }
 	, m_TextureSize{ glm::vec2{} }
-	, m_IsTextureDirty { false }
+	, m_IsTextureDirty { false }, m_pAnimationCP{ nullptr }
 {
 	SetScale();
 }
@@ -20,10 +21,11 @@ engine::RenderComponent::RenderComponent(GameObject* pOwner, const std::string& 
 	: Component("RenderCP", pOwner)
 	, m_Scale{ glm::vec2{ 1.f, 1.f } }
 	, m_TextureSize{ glm::vec2{} }
-	, m_IsTextureDirty{ true }
+	, m_IsTextureDirty{ true }, m_pAnimationCP{ nullptr }
 {
 	SetTexture(filename);
 	SetScale();
+
 }
 
 
@@ -59,7 +61,7 @@ void engine::RenderComponent::SetTexture(const std::string& filename)
 
 }
 
-void engine::RenderComponent::Update([[maybe_unused]] const float deltaTime)
+void engine::RenderComponent::Update(const float )
 {
 	if (m_IsTextureDirty)
 	{
@@ -67,9 +69,15 @@ void engine::RenderComponent::Update([[maybe_unused]] const float deltaTime)
 	}
 }
 
-void engine::RenderComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void engine::RenderComponent::ReceiveMessage(const std::string& message, const std::string& value)
 {
-
+	if (message == "RemoveCP")
+	{
+		if (value == "AnimationCP")
+		{
+			m_pAnimationCP = nullptr;
+		}
+	}
 }
 
 engine::RenderComponent::~RenderComponent()
@@ -81,7 +89,22 @@ void engine::RenderComponent::Render(const glm::vec3& position) const
 {
 	if (m_texture != nullptr)
 	{	
-		Renderer::GetInstance().RenderTexture(*m_texture, position.x, position.y, m_TextureSize.x, m_TextureSize.y);
+		if (m_pAnimationCP != nullptr)
+		{
+
+			auto spriteRect{ m_pAnimationCP->GetSpriteRect() };
+			float scaledSrcWidth = spriteRect.w / m_Scale.x;
+			float scaledSrcHeight = spriteRect.h / m_Scale.y;
+
+			Renderer::GetInstance().RenderSprite(*m_texture, position.x, position.y, float(spriteRect.w), float(spriteRect.h)
+			, float(spriteRect.x), float(spriteRect.y), scaledSrcWidth, scaledSrcHeight);
+		}
+		else
+		{
+			// Normal sprite without any animation
+			Renderer::GetInstance().RenderTexture(*m_texture, position.x, position.y, m_TextureSize.x, m_TextureSize.y);
+		}
+		
 		
 	}
 	
@@ -96,6 +119,13 @@ void engine::RenderComponent::SetTexture(std::shared_ptr<engine::Texture2D> text
 	{
 		m_IsTextureDirty = true;
 	}
+	
+}
+
+void engine::RenderComponent::SetAnimationCP(engine::AnimationCP* animationCP)
+{
+	m_pAnimationCP = animationCP;
+	m_IsTextureDirty = true;
 	
 }
 
@@ -114,9 +144,36 @@ const glm::vec2 engine::RenderComponent::GetTextureSize()
 	if (m_IsTextureDirty)
 	{
 		// In case someone request the texture size we calculate it
-		CalculateTextureSize();
+		CalculateTextureSize();	
 	}
+
+	if (m_pAnimationCP != nullptr)
+	{
+		auto spriteSize{ m_pAnimationCP->GetSpriteRect() };
+
+		glm::vec2 size{ spriteSize.w, spriteSize.h };
+		return size;
+	}
+
 	return m_TextureSize;
+}
+
+const glm::vec2 engine::RenderComponent::GetSpriteSize() const
+{
+	if (m_pAnimationCP != nullptr)
+	{
+		auto spriteSize{ m_pAnimationCP->GetSpriteRect() };
+		
+		glm::vec2 size{ spriteSize.w, spriteSize.h };
+		return size;
+	}
+
+	return glm::vec2{};
+}
+
+const glm::vec2& engine::RenderComponent::GetScale()
+{
+	return m_Scale;
 }
 
 

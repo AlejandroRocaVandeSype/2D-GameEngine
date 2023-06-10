@@ -131,6 +131,9 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>Engine Files\Services\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationCP.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -213,6 +216,9 @@
     </ClCompile>
     <ClCompile Include="SDL_SoundSystem.cpp">
       <Filter>Engine Files\Services\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationCP.cpp">
+      <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

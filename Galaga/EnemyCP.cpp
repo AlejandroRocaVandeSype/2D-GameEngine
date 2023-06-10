@@ -14,6 +14,7 @@
 #include "AI_ButterflyCP.h"
 #include "AI_GalagaCP.h"
 #include "MissileCP.h"
+#include "AnimationCP.h"
 #include <iostream>
 
 EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const std::string& spriteFilePath, 
@@ -27,6 +28,12 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 	if (pOwner != nullptr)
 	{
 		auto renderCP = pOwner->AddComponent<engine::RenderComponent>(pOwner, spriteFilePath);
+		float frameRate{ 1.f / 5.f };
+		int totalCols{ 16 };
+		int totalFrames{ 32 };
+		int frameInc{ 16 };
+		int limitFrame{ frameInc };
+		pOwner->AddComponent<engine::AnimationCP>(pOwner, totalCols, totalFrames, frameRate, frameInc, limitFrame);
 		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
 		MoveComponent::Boundaries enemyBoundaries{};  // No boundaries restriction
 		m_pMoveCP = pOwner->AddComponent<MoveComponent>(pOwner, glm::vec2{ 220.f, 220.f }, enemyBoundaries);

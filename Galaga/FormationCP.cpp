@@ -131,10 +131,10 @@ void FormationCP::SetStartingPos(const std::string& commingFrom, glm::vec3& star
 void FormationCP::CreateBee(const glm::vec3& startPos, const glm::vec3& formationPos)
 {
 	auto go_BeeEnemy = new engine::GameObject(GetOwner(), "Enemy", startPos, glm::vec2{ 2.f, 2.f }, false);
-	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, STR_BEE, "Sprites/Bee.png", formationPos, 1);
+	go_BeeEnemy->AddComponent<EnemyCP>(go_BeeEnemy, STR_BEE, "Sprites/Enemies/bees.png", formationPos, 1);
 	go_BeeEnemy->AddComponent<AI_BeeCP>(go_BeeEnemy);
 	go_BeeEnemy->GetComponent<HealthComponent>()->AddObserver(this);
-
+	
 	// Inactive at start
 	go_BeeEnemy->SetIsActive(false);
 
