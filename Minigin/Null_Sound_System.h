@@ -12,8 +12,10 @@ namespace engine
 	{
 	public:
 		void PlaySound( const short) override {};
+		void ToggleSoundSystemSound() override {};
 		void ProcessRequests() override {};
 		void RegisterSoundID( const short,  const std::string&,  const int) override {};
+		bool IsMuted() const override { return false; };
 	};
 
 }

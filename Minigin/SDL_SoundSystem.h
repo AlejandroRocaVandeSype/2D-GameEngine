@@ -13,8 +13,10 @@ namespace engine
 		~SDL_SoundSystem() override;
 
 		void PlaySound(const short id) override;
+		void ToggleSoundSystemSound() override;
 		void ProcessRequests() override;
 		void RegisterSoundID(const short id, const std::string& soundPath, const int volume) override;
+		bool IsMuted() const override;
 
 	private:
 		class SDL_SoundSystem_Impl;

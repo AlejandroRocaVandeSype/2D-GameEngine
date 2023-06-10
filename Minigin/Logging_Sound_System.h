@@ -23,7 +23,25 @@ namespace engine
 		void PlaySound(const short id) override
 		{
 			_real_ss->PlaySound(id);
-			std::cout << "Playing Sound " << id << "\n";
+			if (!_real_ss->IsMuted())
+			{
+				std::cout << "Playing Sound " << id << "\n";
+			}
+			
+		}
+
+		void ToggleSoundSystemSound() override
+		{
+			_real_ss->ToggleSoundSystemSound();
+
+			if (_real_ss->IsMuted())
+			{
+				std::cout << "Sound Muted" << std::endl;
+			}
+			else
+			{
+				std::cout << "Sound Unmuted" << std::endl;
+			}
 		}
 
 		void ProcessRequests() override { _real_ss->ProcessRequests(); }
@@ -32,6 +50,11 @@ namespace engine
 		{
 			_real_ss->RegisterSoundID(id, soundPath, volume);
 			std::cout << "Sound created " << id << " with Path " << soundPath << "and volume " << volume << "\n";
+		}
+
+		bool IsMuted() const override
+		{
+			return _real_ss->IsMuted();
 		}
 
 	private:

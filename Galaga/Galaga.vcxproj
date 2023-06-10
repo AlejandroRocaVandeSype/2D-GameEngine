@@ -187,6 +187,7 @@
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="StartCommand.cpp" />
     <ClCompile Include="TextComponent.cpp" />
+    <ClCompile Include="ToggleMuteCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI_BeeCP.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="StartCommand.h" />
     <ClInclude Include="Galaga_Strings.h" />
     <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="ToggleMuteCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

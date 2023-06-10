@@ -71,8 +71,11 @@ public:
 		{
 			std::cerr << "Mix_OpenAudio failed: " << Mix_GetError() << "\n";
 		}
+		m_Muted = false;
+
 		Init();
 		StartAudioThread();
+		
 	}
 
 	// Init the ring buffer for the PlaySound requests
@@ -105,6 +108,24 @@ public:
 			// Notify that there is a sound need to be played
 			m_HasRequests.notify_one();
 		}
+	}
+
+	// Mute or Unmute sound
+	void ToggleSoundSystemSound()
+	{
+		int newVolume{ 0 };
+		if (m_Muted)
+		{
+			newVolume = 128;
+		}
+
+		int numChannels = Mix_AllocateChannels(-1); // Get the maximum number of channels
+		for (int channel = 0; channel < numChannels; ++channel)
+		{
+			Mix_Volume(channel, newVolume);
+		}
+
+		m_Muted = !m_Muted;
 	}
 
 	void ProcessRequests()
@@ -176,6 +197,8 @@ public:
 		}
 	}
 
+	bool IsMuted() const { return m_Muted; }
+
 private:
 
 	void StartAudioThread()
@@ -192,8 +215,8 @@ private:
 	static short m_Pending[MAX_PENDING];
 	static int m_Head;	// Head of the queue : Where requests are read from (Oldest pending request)
 	static int m_Tail;  // Tail of the queue : Slot in the array where the next enqueued request will be written
+	bool m_Muted;
 
-	
 	// Audio thread
 	std::mutex m_Mutex;
 	std::condition_variable m_HasRequests;
@@ -222,6 +245,11 @@ void engine::SDL_SoundSystem::PlaySound(const short id)
 	pImpl->PlaySound(id);
 }
 
+void engine::SDL_SoundSystem::ToggleSoundSystemSound()
+{
+	pImpl->ToggleSoundSystemSound();
+}
+
 void engine::SDL_SoundSystem::RegisterSoundID(const short id, const std::string& soundPath, const int volume)
 {
 	pImpl->RegisterSoundID(id, soundPath, volume);
@@ -231,6 +259,12 @@ void engine::SDL_SoundSystem::ProcessRequests()
 {
 	pImpl->ProcessRequests();
 }
+
+bool engine::SDL_SoundSystem::IsMuted() const
+{
+	return pImpl->IsMuted();
+}
+
 
 
 
