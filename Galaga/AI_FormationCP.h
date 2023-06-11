@@ -22,6 +22,7 @@ public:
 	void Reset(const std::string& JSONPath);
 
 	void SpawnEnemies();
+	void ChangeToWaitState();
 
 private:
 

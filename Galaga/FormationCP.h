@@ -26,7 +26,7 @@ public:
 	void OnNotify(engine::GameObject* gameObject, const engine::Event& event) override;
 
 	void Reset(const std::string& JSONPath, const std::string& formationOrderJSON);								// Reset the formation with a new one
-	void KillAllEnemies();
+	void DeactivateAllEnemies();
 
 	std::vector< engine::GameObject*>& GetEnemies(const std::string& type);
 	bool AreEnemiesLeft(const std::string& type="All") const;
@@ -46,7 +46,6 @@ private:
 	void CreateGalaga(const glm::vec3& startPos, const glm::vec3& formationPos);
 
 	void SetStartingPos(const std::string& commingFrom, glm::vec3& startPos);
-	void SearchForDeadEnemy();
 	
 	const std::string BEES_TYPE;
 	const std::string BUTTERFLIES_TYPE;

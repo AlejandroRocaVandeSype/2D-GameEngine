@@ -193,6 +193,18 @@ const std::string engine::SceneManager::GetNextSceneName()
 	return "No more scenes";
 }
 
+const bool engine::SceneManager::AreScenesLeft() const
+{
+	size_t nextScene = m_ActiveScene + 1;
+	if (nextScene < m_scenes.size())
+	{
+		// At least one more scene
+		return true;
+	}
+
+	return false;
+}
+
 
 size_t engine::SceneManager::GetTotalScenes() const
 {

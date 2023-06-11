@@ -21,6 +21,8 @@ public:
 	void OnExit() override;
 	GameState* GetChangeState() override;
 	void UpdateState(const float deltaTime) override;
+	bool ArePlayersAlive();
+	void SkipStage();
 
 private:
 
@@ -49,7 +51,6 @@ private:
 	void InitPlayer1();
 	void InitPlayer2();
 
-	bool ArePlayersAlive();
 	bool NextStage();
 	void UpdateChangingStage(const float deltaTime);
 

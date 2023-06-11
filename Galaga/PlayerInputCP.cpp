@@ -126,6 +126,7 @@ void PlayerInputCP::GameplayKeyboardInput()
 	std::unique_ptr<Command> moveRightCommand = std::make_unique<MoveCommand>(GetOwner(), glm::vec3{ 1, 0, 0 });
 	std::unique_ptr<Command> fireCommand = std::make_unique<FireCommand>(GetOwner(), glm::vec3{ 0, -1, 0 });
 	std::unique_ptr<Command> toggleMuteCommand = std::make_unique<ToggleMuteCommand>();
+	
 
 	// Bind all commands with their corresponding keys
 	input.BindCommand(std::move(moveLeftCommand), keyA, engine::InputType::Pressed);

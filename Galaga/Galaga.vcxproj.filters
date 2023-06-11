@@ -125,6 +125,9 @@
     <ClCompile Include="ToggleMuteCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="SkipLevelCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveCommand.h">
@@ -222,6 +225,9 @@
       <Filter>Components\Player</Filter>
     </ClInclude>
     <ClInclude Include="ToggleMuteCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipLevelCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>

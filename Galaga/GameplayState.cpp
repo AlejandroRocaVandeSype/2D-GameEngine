@@ -12,6 +12,8 @@
 #include "SoundIDs.h"
 #include "TextComponent.h"
 #include "ResourceManager.h"
+#include "InputManager.h"
+#include "SkipLevelCommand.h"
 #include <iostream>
 
 
@@ -69,7 +71,6 @@ void GameplayState::OnEnter()
 	if (m_GameMode == "1 PLAYER" || m_GameMode == "2 PLAYERS")
 	{
 		InitPlayer1();
-
 		if (m_GameMode == "2 PLAYERS")
 		{
 			// Add Player 2 too ( Player 2 will use the available controller)
@@ -99,13 +100,21 @@ void GameplayState::InitPlayer1()
 	auto& sceneManager = engine::SceneManager::GetInstance();
 	auto& scene = sceneManager.GetActiveScene();
 	auto& window = sceneManager.GetSceneWindow();
+	auto& input = engine::InputManager::GetInstance();
 
 	// Add the PlayerCP to Player gameObject and the input for the Gameplay
 	auto pPlayer1GO = scene.FindGameObjectByTag(STR_PLAYER_TAG);
 	if (pPlayer1GO != nullptr)
 	{
+
+		// Add also a command to be able to Skip levels with the keyboard
+		SDL_KeyCode key_F1{ SDLK_F1 };
+		std::unique_ptr<Command> skipLevelCommand = std::make_unique<SkipLevelCommand>(this);
+		input.BindCommand(std::move(skipLevelCommand), key_F1, engine::InputType::Up);
+
 		m_vPlayers.emplace_back(pPlayer1GO);
 		pPlayer1GO->AddComponent<PlayerCP>(pPlayer1GO, 4, 1, glm::vec2{ window.width, window.height });
+
 		auto pPlayerInputCP = pPlayer1GO->GetComponent<PlayerInputCP>();
 		if (pPlayerInputCP != nullptr && m_GameMode == "1 PLAYER")
 		{
@@ -147,30 +156,50 @@ void GameplayState::InitPlayer2()
 
 bool GameplayState::NextStage()
 {
-	auto& sceneManager = engine::SceneManager::GetInstance();
-	if (sceneManager.LoadNextScene())
+	if (m_pFormationCP != nullptr)
 	{
-		// New scene loaded succesfully -> Reset enemies data
-		for (size_t enemiesIdx { 0 }; enemiesIdx < m_vEnemiesData.size(); ++enemiesIdx)
+		auto& sceneManager = engine::SceneManager::GetInstance();
+		if (sceneManager.LoadNextScene())
 		{
-			auto enemiesData = m_vEnemiesData.at(enemiesIdx);
-			if (enemiesData.first == sceneManager.GetActiveSceneName())
+			// New scene loaded succesfully -> Reset enemies data
+			for (size_t enemiesIdx{ 0 }; enemiesIdx < m_vEnemiesData.size(); ++enemiesIdx)
 			{
-				// Get the corresponding data from this new stage
-				m_pFormationCP->Reset(enemiesData.second.GetEnemiesData(), enemiesData.second.GetSpawnOrderData());
-				return true;
+				auto enemiesData = m_vEnemiesData.at(enemiesIdx);
+				if (enemiesData.first == sceneManager.GetActiveSceneName())
+				{
+					// Get the corresponding data from this new stage
+					m_pFormationCP->Reset(enemiesData.second.GetEnemiesData(), enemiesData.second.GetSpawnOrderData());
+					return true;
+				}
 			}
+
 		}
-		
 	}
+		
 	// No more scenes or no data found 
 	return false;
 
 }
 
+void GameplayState::SkipStage()
+{
+	m_pFormationCP->DeactivateAllEnemies();
+	m_ElapsedTime = 0;
+	auto& sceneManager = engine::SceneManager::GetInstance();
+	auto nextSceneName = sceneManager.GetNextSceneName();
+	if (nextSceneName != "No more scenes")
+	{
+		m_CurrentStage = nextSceneName;
+		m_StageInfoText->GetComponent<TextComponent>()->SetText(nextSceneName);
+		m_IsChangingState = true;
+	}
+}
+
 void GameplayState::OnExit()
 {
 	m_StageInfoText->MarkAsDead();
+	auto& input = engine::InputManager::GetInstance();
+	input.UnbindAllCommands();
 }
 
 GameState* GameplayState::GetChangeState()
@@ -259,7 +288,7 @@ bool GameplayState::ArePlayersAlive()
 {
 	for (const auto& player : m_vPlayers)
 	{
-		if (player->IsActive())
+		if (player != nullptr && player->IsActive())
 		{
 			// At least one player is still alive
 			return true;

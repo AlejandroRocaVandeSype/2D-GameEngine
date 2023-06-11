@@ -374,3 +374,9 @@ void AI_FormationCP::SpawnEnemies()
 {
 	m_FormationState = AI_FormationCP::FormationState::spawning_enemies;
 }
+
+void AI_FormationCP::ChangeToWaitState()
+{
+	m_FormationState = FormationState::waiting;
+	m_MovingFTState = SpawnOrderState::top_first;
+}

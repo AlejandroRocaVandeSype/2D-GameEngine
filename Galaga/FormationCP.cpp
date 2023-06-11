@@ -241,61 +241,6 @@ void FormationCP::OnNotify(engine::GameObject* gameObject, const engine::Event& 
 	}
 }
 
-void FormationCP::SearchForDeadEnemy()
-{
-	bool foundEnemy = false;
-	
-	for (size_t beeGOIdx{ 0 }; beeGOIdx < m_vBees.size() && !foundEnemy;)
-	{
-		if (m_vBees[beeGOIdx]->IsMarkedAsDead())
-		{
-			// Found it
-			// Kill the enemy first here and then, completely destroy the gameObject shared_ptr from the scene
-			// after the Update is finished. So the enemy will be actually destroyed after the update is done, and not during
-			m_vBees.erase(std::remove(m_vBees.begin(), m_vBees.end(), m_vBees[beeGOIdx]), m_vBees.end());
-
-			break;
-		}
-		else
-		{
-			beeGOIdx++;
-		}
-	}
-
-	for (size_t butterflyGOIdx{ 0 }; butterflyGOIdx < m_vButterflies.size() && !foundEnemy;)
-	{
-		if (m_vButterflies[butterflyGOIdx]->IsMarkedAsDead())
-		{
-			// Found it
-			m_vButterflies.erase(std::remove(m_vButterflies.begin(), m_vButterflies.end(), m_vButterflies[butterflyGOIdx]), m_vButterflies.end());
-			
-			break;
-		}
-		else
-		{
-			butterflyGOIdx++;
-		}
-	}
-
-	for (size_t galagaGOIdx{ 0 }; galagaGOIdx < m_vGalagas.size() && !foundEnemy;)
-	{
-		if (m_vGalagas[galagaGOIdx]->IsMarkedAsDead())
-		{
-			// Found it
-			m_vBees.erase(std::remove(m_vBees.begin(), m_vBees.end(), m_vBees[galagaGOIdx]), m_vBees.end());
-
-			break;
-		}
-		else
-		{
-			galagaGOIdx++;
-		}
-	}
-
-
-}
-
-
 
 void FormationCP::Reset(const std::string& JSONPath, const std::string& formationOrderJSON)
 {
@@ -400,23 +345,28 @@ std::vector<engine::GameObject*>& FormationCP::GetEnemies(const std::string& typ
 	return m_vBees;
 }
 
-void FormationCP::KillAllEnemies()
+void FormationCP::DeactivateAllEnemies()
 {
 	for (const auto& bee : m_vBees)
 	{
-		bee->MarkAsDead();
+		bee->SetIsActive(false);
 	}
-	m_vBees.clear();
+
 	for (const auto& butterfly : m_vButterflies)
 	{
-		butterfly->MarkAsDead();
+		butterfly->SetIsActive(false);
 	}
-	m_vButterflies.clear();
+
 	for (const auto& galaga : m_vGalagas)
 	{
-		galaga->MarkAsDead();
+		galaga->SetIsActive(false);
 	}
-	m_vGalagas.clear();
+
+	auto aiFormation = GetOwner()->GetComponent<AI_FormationCP>();
+	if (aiFormation != nullptr)
+	{
+		aiFormation->ChangeToWaitState();
+	}
 
 }
 // Return true if there are no more enemies of the type specified
