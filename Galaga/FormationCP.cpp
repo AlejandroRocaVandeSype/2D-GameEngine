@@ -16,11 +16,11 @@
 FormationCP::FormationCP(engine::GameObject* pOwner, const std::string& positionsJSONPath)
 	:Component("FormationCP", pOwner)
 	, BEES_TYPE{ "bees" }, BUTTERFLIES_TYPE{ "butterflies" }, GALAGAS_TYPE { "galagas" }
-	, m_LeftLimitFormation{ -50.f }, m_pTransformCP{ nullptr }, m_MovingRight{ true }
-	, m_FormationSize { 160.f }, m_FormationSpeed { 20.f }
+	, m_LeftLimitFormation{ -70.f }, m_pTransformCP{ nullptr }, m_MovingRight{ true }
+	, m_FormationSize { 450.f }, m_FormationSpeed { 20.f }
 {
 	auto window = engine::SceneManager::GetInstance().GetSceneWindow();
-	m_RighttLimitFormation = window.width - 300.f;
+	m_RighttLimitFormation = window.width;
 	m_pTransformCP = GetOwner()->GetComponent<engine::TransformComponent>();
 
 	// READ JSON FILE and Init formation
@@ -315,6 +315,14 @@ void FormationCP::Reset(const std::string& JSONPath, const std::string& formatio
 	{
 		AI_formation->Reset(formationOrderJSON);
 	}
+
+	if (m_pTransformCP != nullptr)
+	{
+		m_pTransformCP->SetLocalPosition(glm::vec3{ 0.f, 0.f, 0.f });
+		m_MovingRight = true;
+		m_FormationSize = 540.f;
+	}
+	
 }
 
 void FormationCP::ResetEnemies(const std::string& type, const std::vector< std::pair<std::string, glm::vec3>>& enemyReadInfo)

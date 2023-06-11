@@ -60,7 +60,7 @@ private:
 	unsigned short m_GalagasDeadCount;
 	
 	// Formation movement
-	const float m_FormationSize;
+	float m_FormationSize;
 	const float m_FormationSpeed;
 	engine::TransformComponent* m_pTransformCP;
 	bool m_MovingRight;
