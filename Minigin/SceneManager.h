@@ -35,6 +35,7 @@ namespace engine
 		const engine::Window& GetSceneWindow() const;
 		size_t GetTotalScenes() const;
 		const std::string GetActiveSceneName() const;
+		const std::string GetNextSceneName();
 
 		void SetActiveScene(const std::string& sceneName);
 		void SetSceneWindow(const engine::Window& window);

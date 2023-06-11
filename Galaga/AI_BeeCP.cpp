@@ -16,7 +16,7 @@ AI_BeeCP::AI_BeeCP(engine::GameObject* pOwner)
 	, m_pTransformCP{ nullptr }, m_pRotatorCP { nullptr }
 	, m_DiagonalDiveMaxTime{ 0.f }, m_ElapsedDiagonalDive { 0.f }, m_AtRightSide { false }
 	, m_AttackState { AttackState::breakFormation }, m_Direction { 1.f, 1.f, 0.f }
-	, ROTATION_TIME{ 3.f }, m_RotationRadius{ 80.f }
+	, m_RotationTime{ 1.5f }, m_RotationRadius{ 30.f }
 
 {
 	if (pOwner != nullptr)
@@ -54,6 +54,10 @@ void AI_BeeCP::UpdateAttack(const float deltaTime)
 	{
 		case AI_BeeCP::AttackState::breakFormation:	
 			InitAttackData(currentPos, window);
+			break;
+
+		case AI_BeeCP::AttackState::loop:
+			UpdateBreakLoop(deltaTime);
 			break;
 
 		case AI_BeeCP::AttackState::diagonalDive:
@@ -98,12 +102,66 @@ void AI_BeeCP::InitAttackData(const glm::vec3& currentPos, const engine::Window&
 	}
 	// Random between float numbers
 	m_DiagonalDiveMaxTime = float(((std::rand()) / float(RAND_MAX / 1)) + 1.f);
-	m_AttackState = AttackState::diagonalDive;	
 
-	if (m_pEnemyCP != nullptr)
+	// Loop data
+	InitLoopData();
+
+	m_AttackState = AttackState::loop;	// Do a loop before diving
+}
+
+
+void AI_BeeCP::InitLoopData()
+{
+	if (m_pRotatorCP != nullptr)
 	{
-		// Calculate the missiles direction in order to fire 
-		m_pEnemyCP->CalculateMissileDirection();
+		m_RotationRadius = 30.f;
+		m_RotationTime = 1.5f;
+		bool positiveRot = false;
+		auto rotationCenter = m_pTransformCP->GetLocalPosition();
+		float rotationAngle{}, targetRotation{};
+
+		// Rotate on the opposite direction that the enemy will dive
+		if (m_Direction.x > 0)
+		{
+			rotationCenter.x -= m_RotationRadius;
+			rotationAngle = 0.f;
+			targetRotation = -glm::pi<float>();
+		}
+		else
+		{
+			rotationCenter.x += m_RotationRadius;
+			rotationAngle = glm::pi<float>();
+			targetRotation = glm::two_pi<float>();		// Half rotation
+			positiveRot = true;
+		}
+
+		m_pRotatorCP->SetDataRotation(m_RotationRadius, m_RotationTime, targetRotation,
+			rotationCenter, positiveRot, rotationAngle);
+	}
+}
+
+
+void AI_BeeCP::UpdateBreakLoop(const float deltaTime)
+{
+
+	if (m_pRotatorCP != nullptr)
+	{
+		m_pRotatorCP->Rotate(deltaTime);
+		if (m_pRotatorCP->IsRotationFinish())
+		{
+			m_AttackState = AttackState::diagonalDive;
+			if (m_pEnemyCP != nullptr)
+			{
+				m_pEnemyCP->CalculateMissileDirection();
+			}
+			m_RotationRadius = 80.f;		// Bigger rotation for the loop backwards state
+			m_RotationTime = 3.f;
+		}
+	}
+	else
+	{
+		// If no rotator just go directly to attack behaviour
+		AI_BeeCP::AttackState::diagonalDive;
 	}
 }
 
@@ -155,7 +213,7 @@ void AI_BeeCP::UpdateVerticalDive(const float deltaTime, const glm::vec3& curren
 
 			}
 
-			m_pRotatorCP->SetDataRotation(m_RotationRadius, ROTATION_TIME, targetRotation, 
+			m_pRotatorCP->SetDataRotation(m_RotationRadius, m_RotationTime, targetRotation,
 				rotationCenter, positiveRot, rotationAngle);
 		}
 	}
@@ -193,7 +251,7 @@ void AI_BeeCP::Reset()
 	m_ElapsedDiagonalDive = 0.f;
 	m_AtRightSide = false;
 	m_Direction = glm::vec3{ 1.f, 1.f, 0.f };
-	m_RotationRadius = 80.f;
+	m_RotationRadius = 40.f;
 
 }
 

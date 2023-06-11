@@ -44,7 +44,7 @@ AI_GalagaCP::AI_GalagaCP(engine::GameObject* pOwner)
 		m_pTractorBeam = new engine::GameObject(GetOwner(), STR_GALAGA, tractorBeamPos, glm::vec2{2.f, 2.f}, true);
 		m_pTractorBeam->AddComponent<engine::RenderComponent>(m_pTractorBeam, TRACTOR_BREAM_SPRITE);
 
-
+		// Animation data
 		float frameRate{ 1.f / 10.f };
 		int totalCols{ 3 };
 		int totalFrames{ 18 };

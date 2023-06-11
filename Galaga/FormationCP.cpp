@@ -16,8 +16,8 @@
 FormationCP::FormationCP(engine::GameObject* pOwner, const std::string& positionsJSONPath)
 	:Component("FormationCP", pOwner)
 	, BEES_TYPE{ "bees" }, BUTTERFLIES_TYPE{ "butterflies" }, GALAGAS_TYPE { "galagas" }
-	, m_LeftLimitFormation{ -70.f }, m_pTransformCP{ nullptr }, m_MovingRight{ true }
-	, m_FormationSize { 450.f }, m_FormationSpeed { 20.f }
+	, m_LeftLimitFormation{ 0.f }, m_pTransformCP{ nullptr }, m_MovingRight{ true }
+	, m_FormationSize { 500.f }, m_FormationSpeed { 20.f }, m_LeftOffset { 50.f }
 {
 	auto window = engine::SceneManager::GetInstance().GetSceneWindow();
 	m_RighttLimitFormation = window.width;
@@ -193,7 +193,7 @@ void FormationCP::Update(const float deltaTime)
 		}
 		else
 		{
-			if (position.x > m_LeftLimitFormation)
+			if (position.x + m_LeftOffset > m_LeftLimitFormation)
 			{
 				position.x -= deltaTime * m_FormationSpeed;
 				m_pTransformCP->SetLocalPosition(position);
@@ -299,6 +299,14 @@ void FormationCP::SearchForDeadEnemy()
 
 void FormationCP::Reset(const std::string& JSONPath, const std::string& formationOrderJSON)
 {
+	if (m_pTransformCP != nullptr)
+	{
+		m_pTransformCP->SetLocalPosition(glm::vec3{ 0.f, 0.f, 0.f });
+		m_MovingRight = true;
+		m_FormationSize = 550.f;
+		m_LeftOffset = 60.f;
+	}
+
 	// Read new json file with the formation
 	auto vEnemies = std::move(ReadFormationFromJSON(JSONPath));	
 	if (vEnemies.size() > 0 && vEnemies.size() < 4)
@@ -316,12 +324,7 @@ void FormationCP::Reset(const std::string& JSONPath, const std::string& formatio
 		AI_formation->Reset(formationOrderJSON);
 	}
 
-	if (m_pTransformCP != nullptr)
-	{
-		m_pTransformCP->SetLocalPosition(glm::vec3{ 0.f, 0.f, 0.f });
-		m_MovingRight = true;
-		m_FormationSize = 540.f;
-	}
+
 	
 }
 
@@ -448,5 +451,14 @@ bool FormationCP::AreEnemiesLeft(const std::string& type) const
 	}
 
 	return false;
+}
+
+void FormationCP::SpawnEnemies()
+{
+	auto aiFormation = GetOwner()->GetComponent<AI_FormationCP>();
+	if (aiFormation != nullptr)
+	{
+		aiFormation->SpawnEnemies();
+	}
 }
 

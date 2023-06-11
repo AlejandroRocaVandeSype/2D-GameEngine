@@ -29,16 +29,19 @@ private:
 	
 	enum class AttackState
 	{
-		breakFormation,			
-		diagonalDive,
+		breakFormation,				// Break the formation and set all data needed for the Attack state
+		loop,						// Do a loop before diving
+		diagonalDive,			
 		verticalDive,
-		roundSwoop
+		roundSwoop					// Loop backwards to go back to the formation pos
 	};
 
 	void InitAttackData(const glm::vec3& currentPos, const engine::Window& window);
+	void InitLoopData();
 	void UpdateAttack(const float deltaTime);
 	void UpdateDiagonalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window);
 	void UpdateVerticalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window);
+	void UpdateBreakLoop(const float deltaTime);
 
 	EnemyCP* m_pEnemyCP;
 	MoveComponent* m_pMoveCP;
@@ -52,8 +55,8 @@ private:
 	bool m_AtRightSide;							// Enemy at right side of the window? 
 	glm::vec3 m_Direction;						// Keeps track of the direction the enemy is facing
 	
-	// SWOOP ROUND 
-	const float ROTATION_TIME;
+	// For Loops
+	float m_RotationTime;
 	float m_RotationRadius;
 };
 

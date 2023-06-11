@@ -12,9 +12,9 @@ const std::string STR_UI_TAG = "UI";
 const std::string STR_PLAYER_MISSILE = "playerMissile";
 const std::string STR_GAMEOBJECTDIED = "GameObjectDied";
 // ALL GAME SCENES
-const std::string FIRST_STAGE{ "FIRST_STAGE" };
-const std::string SECOND_STAGE{ "SECOND_STAGE" };
-const std::string THIRD_STAGE{ "THIRD_STAGE" };
+const std::string FIRST_STAGE{ "STAGE 1" };
+const std::string SECOND_STAGE{ "STAGE 2" };
+const std::string THIRD_STAGE{ "STAGE 3" };
 
 const std::string GALAGA_SPRITE_V1{ "Sprites/Enemies/galagas.png" };
 const std::string GALAGA_SPRITE_V2{ "Sprites/Enemies/galagasV2.png" };

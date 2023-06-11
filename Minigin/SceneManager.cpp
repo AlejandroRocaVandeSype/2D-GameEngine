@@ -182,6 +182,17 @@ const std::string engine::SceneManager::GetActiveSceneName() const
 	return "No Active Scene";
 }
 
+const std::string engine::SceneManager::GetNextSceneName()
+{
+	size_t nextScene = m_ActiveScene + 1;
+	if (nextScene < m_scenes.size())
+	{
+		return m_scenes.at(nextScene)->Name();
+	}
+
+	return "No more scenes";
+}
+
 
 size_t engine::SceneManager::GetTotalScenes() const
 {

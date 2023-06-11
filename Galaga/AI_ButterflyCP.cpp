@@ -4,20 +4,23 @@
 #include "MissileManagerCP.h"
 #include "EnemyCP.h"
 #include "Scene.h"
+#include "RotatorComponent.h"
+#include <glm/gtc/constants.hpp>		// For pi definitions
 #include <random>
 
 AI_ButterflyCP::AI_ButterflyCP(engine::GameObject* pOwner)
 	: Component("AI_ButterflyCP", pOwner)
 	, m_pEnemyCP{ nullptr }, m_pMoveCP{ nullptr }, m_pButterflyTransfCP{ nullptr }
-	, m_AttackState { AttackState::breakFormation }
+	, m_pRotatorCP{ nullptr }, m_AttackState { AttackState::breakFormation }
 	, m_DiagonalDiveMaxTime{ 0.f }, m_ElapsedSec{ 0.f }, m_AtRightSide{ false }, m_Direction{ 1.f, 1.f, 0.f }
-	, m_MaxSteeringTime{ 0.f }
+	, m_MaxSteeringTime{ 0.f }, m_RotationTime{ 1.5f }, m_RotationRadius{ 30.f }
 {
 	if (pOwner != nullptr)
 	{
 		m_pButterflyTransfCP = pOwner->GetComponent<engine::TransformComponent>();
 		m_pMoveCP = pOwner->GetComponent<MoveComponent>();
 		m_pEnemyCP = pOwner->GetComponent<EnemyCP>();
+		m_pRotatorCP = pOwner->GetComponent<RotatorComponent>();
 	}	
 }
 
@@ -47,6 +50,9 @@ void AI_ButterflyCP::UpdateAttack(const float deltaTime)
 	case AI_ButterflyCP::AttackState::breakFormation:
 		InitAttackData(currentPos, window);
 		break;
+	case AI_ButterflyCP::AttackState::loop:
+		UpdateBreakLoop(deltaTime);
+		break;
 	case AI_ButterflyCP::AttackState::diagonalDive:
 		UpdateDiagonalDive(deltaTime, currentPos, window);
 		break;
@@ -74,16 +80,62 @@ void AI_ButterflyCP::InitAttackData(const glm::vec3& currentPos, const engine::W
 	}
 
 	m_DiagonalDiveMaxTime = float(((std::rand()) / float(RAND_MAX / 1.f) ) + 1.f);
-	m_AttackState = AttackState::diagonalDive;
 
+	InitLoopData();
 
-	if (m_pEnemyCP != nullptr)
+	m_AttackState = AttackState::loop;
+	
+}
+
+void AI_ButterflyCP::InitLoopData()
+{
+	if (m_pRotatorCP != nullptr)
 	{
-		// Calculate the missiles direction in order to fire 
-		m_pEnemyCP->CalculateMissileDirection();
+		bool positiveRot = false;
+		auto rotationCenter = m_pButterflyTransfCP->GetLocalPosition();
+		float rotationAngle{}, targetRotation{};
+
+		// Rotate on the opposite direction that the enemy will dive
+		if (m_Direction.x > 0)
+		{
+			rotationCenter.x -= m_RotationRadius;
+			rotationAngle = 0.f;
+			targetRotation = -glm::pi<float>();
+		}
+		else
+		{
+			rotationCenter.x += m_RotationRadius;
+			rotationAngle = glm::pi<float>();
+			targetRotation = glm::two_pi<float>();		// Half rotation
+			positiveRot = true;
+		}
+
+		m_pRotatorCP->SetDataRotation(m_RotationRadius, m_RotationTime, targetRotation,
+			rotationCenter, positiveRot, rotationAngle);
 	}
 }
 
+
+void AI_ButterflyCP::UpdateBreakLoop(const float deltaTime)
+{
+	if (m_pRotatorCP != nullptr)
+	{
+		m_pRotatorCP->Rotate(deltaTime);
+		if (m_pRotatorCP->IsRotationFinish())
+		{
+			m_AttackState = AttackState::diagonalDive;
+			if (m_pEnemyCP != nullptr)
+			{
+				m_pEnemyCP->CalculateMissileDirection();
+			}
+		}
+	}
+	else
+	{
+		// If no rotator just go directly to next behaviour
+		AI_ButterflyCP::AttackState::diagonalDive;
+	}
+}
 
 void AI_ButterflyCP::UpdateDiagonalDive(const float deltaTime, const glm::vec3& currentPos, const engine::Window& window)
 {

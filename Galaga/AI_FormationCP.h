@@ -21,6 +21,8 @@ public:
 
 	void Reset(const std::string& JSONPath);
 
+	void SpawnEnemies();
+
 private:
 
 	enum class FormationState
