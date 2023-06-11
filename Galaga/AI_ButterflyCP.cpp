@@ -6,7 +6,6 @@
 #include "Scene.h"
 #include "RotatorComponent.h"
 #include <glm/gtc/constants.hpp>		// For pi definitions
-#include <random>
 
 AI_ButterflyCP::AI_ButterflyCP(engine::GameObject* pOwner)
 	: Component("AI_ButterflyCP", pOwner)

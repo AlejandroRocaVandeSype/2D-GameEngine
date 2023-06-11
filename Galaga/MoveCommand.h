@@ -2,7 +2,7 @@
 #define MOVE_COMMAND
 
 #include "Command.h"
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
 
 /* MOVEMENT COMMAND : 
 	MOVE THE ACTOR IN THE DESIRED DIRECTION AND SPEED

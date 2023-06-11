@@ -4,7 +4,6 @@
 ToggleMuteCommand::ToggleMuteCommand()
 	: Command()
 {
-
 }
 ToggleMuteCommand::~ToggleMuteCommand()
 {

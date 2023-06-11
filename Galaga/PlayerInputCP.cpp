@@ -10,7 +10,6 @@
 
 PlayerInputCP::PlayerInputCP(engine::GameObject* pOwner)
 	: Component("PlayerInputCP", pOwner)
-	, m_PlayerDied{ false }
 	, m_ControllerIdx { -1 }
 {
 	
@@ -144,21 +143,6 @@ void PlayerInputCP::ReceiveMessage( const std::string& ,  const std::string& )
 
 }
 
-void  PlayerInputCP::SetPlayerDied()
-{
-	m_PlayerDied = true;
-}
 
 PlayerInputCP::~PlayerInputCP()
-{
-	// Make sure all commands are unbind if the player dies during gameplay (not when closing game)
-	if (m_PlayerDied)
-	{
-		auto& input = engine::InputManager::GetInstance();
-
-		input.UnbindAllCommands(m_ControllerIdx);
-
-		m_PlayerDied = false;
-	}
-	
-}
+{	}

@@ -1,7 +1,7 @@
 #include "ParallaxScrollingCP.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
-#include <iostream>
+
 ParallaxScrollingCP::ParallaxScrollingCP(engine::GameObject* pOwner)
 	:Component("parallaxScrollingCP", pOwner)
 	, m_TextureSize{ 0.f, 0.f}
@@ -19,7 +19,7 @@ ParallaxScrollingCP::ParallaxScrollingCP(engine::GameObject* pOwner)
 
 ParallaxScrollingCP::~ParallaxScrollingCP()
 {
-	std::cout << "ParallaxScrolling destructor" << std::endl;
+
 }
 
 void ParallaxScrollingCP::Update(const float deltaTime)

@@ -1,6 +1,5 @@
 #include "GameObject.h"
 #include "SceneManager.h"
-#include <iostream>
 
 using namespace engine;
 
@@ -9,13 +8,14 @@ GameObject::GameObject(GameObject* pParent, const std::string& tag, glm::vec3 st
 	, m_IsActive{ true }
 	, m_IsDead { false }
 	, m_HasToRender { false }
-	, m_pRenderCP{ nullptr }
-	, m_Tag { tag }
-	, m_KeepWorldPosition { keepWorldPosition }
+	, m_pRenderCP{ nullptr }, m_pTransformCP{ nullptr }
+	, m_PreviousWorldPosition{ }, m_KeepWorldPosition { keepWorldPosition }, m_IsParentDeactivated{ false }
+	, m_Tag{ tag }
 {
 	// All gameObjects have a transform component attach when created
 	m_pTransformCP = AddComponent<TransformComponent>(this, startPosition, scale);
 
+	// Setup parent
 	SetParent(pParent, m_KeepWorldPosition);
 	
 }
@@ -30,7 +30,6 @@ void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 	m_KeepWorldPosition = keepWorldPosition;	// Does the child want to keep its world position?
 
 	// FIRST UPDATE THE LOCAL POSITION OF THE GAMEOBJECT
-	// TODO : Update scale and rotation too
 	if (pNewParent == nullptr)
 	{
 		// This gameObject wont have parent --> LocalPosition = WorldPosition
@@ -74,9 +73,10 @@ void GameObject::SetParent(GameObject* pNewParent, bool keepWorldPosition)
 	}
 	else
 	{
+		// No new parent -> Scene will own the gameObject
 		if (childRemoved)
 		{
-			// Now the scene owns this gameObject
+			// Added to the current scene 
 			SceneManager::GetInstance().AddToActiveScene(this);
 		}
 	}
@@ -105,7 +105,7 @@ bool GameObject::FreeChild(GameObject* child)
 // -----------------------------------------------------------------------------
 //					*Add child to parent's container*
 // This (GameObject) is gonna be child new parent
-// child will be now owned by the this GameObject
+// Child will be now owned by the this GameObject
 // -----------------------------------------------------------------------------
 void GameObject::AddChild(GameObject* child)
 {
@@ -115,11 +115,10 @@ void GameObject::AddChild(GameObject* child)
 // -----------------------------------------------------------------------------
 //					*Update the GameObject*
 // Update all the components from the GameObject
-// Do this for all his children too if he has any
+// Do this for all his children too (if he has any)
 // -----------------------------------------------------------------------------
 void GameObject::Update(const float deltaTime)
 {
-	// TODO : Check if components are marked as dead and remove at the end
 	if (m_IsActive)  // Only if the object is active we update
 	{
 		for (auto& componentItr : m_vComponents)
@@ -185,10 +184,11 @@ void GameObject::Render() const
 	
 }
 
-// Send a message to all components
+// Send a message to all components 
+// Mainly used to avoid dangling pointers for those components that are using 
+// other components from the same gameObject
 void GameObject::SendMessage(const std::string& message, const std::string& value)
 {
-	// TODO: Check who sent the message to not send it him again
 	for (auto& componentItr : m_vComponents)
 	{
 		componentItr->ReceiveMessage(message, value);
@@ -242,7 +242,7 @@ void GameObject::RemoveParentFromChildren()
 {
 	while(!m_vChildren.empty())
 	{
-		// Set parent will reduce the size of the children container
+		// Setting parent to nullptr will remove the childrens
 		m_vChildren.at(0)->SetParent(nullptr);
 	}
 }
@@ -293,7 +293,7 @@ void GameObject::SetIsActive(const bool isActive)
 	m_IsActive = isActive;
 	if (m_IsActive && m_pTransformCP)
 	{
-		// Ask for the world position so it will update its position if moved
+		// Update position in case object moved while inactive
 		m_pTransformCP->GetWorldPosition();
 	}
 }
@@ -336,9 +336,4 @@ std::string GameObject::Tag() const
 
 GameObject::~GameObject()
 {
-	std::cout << "GameObject destructor" << std::endl;
-
-	m_pTransformCP = nullptr;
-	m_pRenderCP = nullptr;
-
 }

@@ -3,7 +3,6 @@
 #include "FormationCP.h"
 #include "FormationReaderCP.h"
 #include "EnemyCP.h"
-#include <iostream>
 
 AI_FormationCP::AI_FormationCP(engine::GameObject* pOwner, const std::string& JSONPath)
 	: Component("AI_FormationCP", pOwner)

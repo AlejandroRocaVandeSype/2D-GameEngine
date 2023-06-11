@@ -32,7 +32,6 @@ private:
 	const std::string ONE_PLAYER_OPT{ "1 PLAYER" };
 	const std::string TWO_PLAYERS_OPT{ "2 PLAYERS" };
 
-
 	bool m_ChangeState = false;
 
 };

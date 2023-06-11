@@ -1,7 +1,6 @@
 #include "GameObject.h"
 #include "AnimationCP.h"
 #include "RenderComponent.h"
-#include "Renderer.h"
 
 engine::AnimationCP::AnimationCP(engine::GameObject* pOwner, const int numberCols, const int totalFrames, const float frameRate)
 	:Component("AnimationCP", pOwner)
@@ -28,7 +27,7 @@ engine::AnimationCP::AnimationCP(engine::GameObject* pOwner, const int numberCol
 	
 }
 
-// Extra parameters for the Animation like custom increment, until which frame render, different startFrame
+// Extra parameters for the Animation like custom frame increment, until which frame render, different startFrame etc
 engine::AnimationCP::AnimationCP(engine::GameObject* pOwner, const int numberCols, const int totalFrames, const float frameRate,
 	int frameInc, int limitFrame, int startFrame, const AnimationMode& mode)
 	: AnimationCP(pOwner, numberCols, totalFrames, frameRate)
@@ -64,6 +63,7 @@ void engine::AnimationCP::Update(const float deltaTime)
 				break;
 			case engine::AnimationCP::AnimationMode::normalAndBack:
 			{
+				// Toggle between both types
 				if (m_NormalState)
 				{
 					NormalUpdate();
@@ -72,16 +72,17 @@ void engine::AnimationCP::Update(const float deltaTime)
 				{
 					BackwardsUpdate();
 				}
-			}
 				break;
+			}			
 		}
 
-		m_ElapsedFrameTime -= m_FrameRate; // Reset accumulatedTime so it counts again
+		m_ElapsedFrameTime -= m_FrameRate;
 		UpdateSourceRect();
 	}
 
 }
 
+// Incrementing of the frames
 void engine::AnimationCP::NormalUpdate()
 {
 	m_CurrentFrame += m_FrameInc;
@@ -99,6 +100,7 @@ void engine::AnimationCP::NormalUpdate()
 	}
 }
 
+// Decrement 
 void engine::AnimationCP::BackwardsUpdate()
 {
 	m_CurrentFrame -= m_FrameInc;
@@ -116,6 +118,7 @@ void engine::AnimationCP::BackwardsUpdate()
 	}
 }
 
+// For the normalAndBack mode so it franes are continuosly inc and dec
 void engine::AnimationCP::SwapStarAndLimit()
 {
 	m_NormalState = !m_NormalState;
@@ -124,9 +127,9 @@ void engine::AnimationCP::SwapStarAndLimit()
 	m_LimitFrame = saveStart;
 }
 
+// Updates the source rectangle according to the current frame being displayed
 void engine::AnimationCP::UpdateSourceRect()
 {
-
 	m_CurrentRow = m_CurrentFrame / static_cast<int>(m_TotalCols);
 	m_CurrentCol = m_CurrentFrame % static_cast<int>(m_TotalCols);
 

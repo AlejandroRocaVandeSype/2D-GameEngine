@@ -1,9 +1,10 @@
 #ifndef GALAGA_ROTATORCOMPONENT
 #define GALAGA_ROTATORCOMPONENT
 #include "Component.h"
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
 
-namespace engine {
+namespace engine 
+{
 	class TransformComponent;
 }
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <Component.h>
 #include "Observer.h"
-#include "glm/vec2.hpp"
 #include <string>
 
 class TextComponent;

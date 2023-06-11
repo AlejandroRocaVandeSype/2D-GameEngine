@@ -2,7 +2,8 @@
 #define GALAGA_MISSILE_MANAGER
 
 #include "Component.h"
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 #include <vector>
 #include "GameObject.h"
 

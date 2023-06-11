@@ -20,7 +20,6 @@ class TextComponent final : public engine::Component
 		std::string GetText() const;
 
 	private:
-
 		std::string m_text;
 		std::shared_ptr<engine::Font> m_font;
 		engine::RenderComponent* m_pRenderCP;

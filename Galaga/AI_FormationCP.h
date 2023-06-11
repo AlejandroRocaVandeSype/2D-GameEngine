@@ -57,7 +57,7 @@ private:
 	void SetEnemyTypeCount(const std::string& type);
 
 	std::vector<std::unique_ptr<FormationReaderCP::EnemySpawnInfo>> m_vSpawningInfo; // All spawn info for all enemies 
-	std::vector < std::pair<std::string, short>> m_vCurrentSpawnInfo;				// Info from the current batch spawning
+	std::vector <std::pair<std::string, short>> m_vCurrentSpawnInfo;				// Info from the current batch spawning
 	bool m_IsSpawnInfoReaded;
 	std::string m_LastEnemyType;							// For the left batch of enemies.
 	short m_BeesActiveCount;

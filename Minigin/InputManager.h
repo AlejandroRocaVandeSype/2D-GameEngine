@@ -4,12 +4,10 @@
 #include "Singleton.h"
 #include <vector>
 #include <map>
-#include <memory>		// std::unique_ptrs
-#include "Command.h"	//  inc Header -> unique_ptr needs to know the size of the class in order to manage memory for it.
+#include <memory>				// std::unique_ptrs
+#include "Command.h"			//  inc Header -> unique_ptr needs to know the size of the class in order to manage memory for it.
 #include "Controller.h"
 #include "SDL.h"
-#include <iostream>
-
 
 namespace engine
 {
@@ -36,7 +34,6 @@ namespace engine
 
 
 		int GetFreeController();
-		bool IsPlayer1Connected() const;
 		
 	private :
 
@@ -44,21 +41,22 @@ namespace engine
 		bool ProcessControllersInput(float deltaTime);
 
 		// *** KEYBOARD ***
-		using KeyTypeKeyPair = std::pair<SDL_Keycode, InputType>;					// SDL_Keycode - InputType
-		// All registered Commands for the Keyboard	
-		using KeyBoardCommandsMap = std::map<KeyTypeKeyPair, std::unique_ptr<Command>>;
-		KeyBoardCommandsMap m_KeyBoardCommands;
+
+			using KeyTypeKeyPair = std::pair<SDL_Keycode, InputType>;					// SDL_Keycode - InputType
+			// All registered Commands for the Keyboard	
+			using KeyBoardCommandsMap = std::map<KeyTypeKeyPair, std::unique_ptr<Command>>;
+			KeyBoardCommandsMap m_KeyBoardCommands;
 
 		// *** CONTROLLERS ***
-		// All available controllers to be used 
-		std::vector<std::unique_ptr<Controller>> m_Controllers{};  
-		const int MAX_CONTROLLERS{ 2 };		
-		// Button binded to a controller
-		using ControllerButton = std::pair< Controller::XboxControllerButton, InputType>;	// Contains the button and the type ( pressed, Down etc)
-		using ControllerKey = std::pair<unsigned, ControllerButton>;						// ControllerIndex - ControllerButton
-		// A command will be binded to the indicated controller with the indicated button
-		using ControllerCommandsMap = std::map<ControllerKey, std::unique_ptr<Command>>;	
-		ControllerCommandsMap m_ControllerCommands;
+			// All available controllers to be used 
+			std::vector<std::unique_ptr<Controller>> m_Controllers{};  
+			const int MAX_CONTROLLERS{ 2 };		
+			// Button binded to a controller
+			using ControllerButton = std::pair< Controller::XboxControllerButton, InputType>;	// Contains the button and the type ( pressed, Down etc)
+			using ControllerKey = std::pair<unsigned, ControllerButton>;						// ControllerIndex - ControllerButton
+			// A command will be binded to the indicated controller with the indicated button
+			using ControllerCommandsMap = std::map<ControllerKey, std::unique_ptr<Command>>;	
+			ControllerCommandsMap m_ControllerCommands;
 
 		
 	};

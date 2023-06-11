@@ -11,7 +11,6 @@
 #include "TransformComponent.h"
 #include "Scene.h"
 #include <memory>
-#include <iostream>
 
 FormationCP::FormationCP(engine::GameObject* pOwner, const std::string& positionsJSONPath)
 	:Component("FormationCP", pOwner)

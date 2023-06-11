@@ -4,7 +4,6 @@
 #include <vector>
 
 // *** Class that contains all the observers observing the corresponding object *** 
-
 namespace engine
 {
 	class GameObject;

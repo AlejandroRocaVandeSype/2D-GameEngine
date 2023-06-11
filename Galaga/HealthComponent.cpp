@@ -1,9 +1,7 @@
 #include "HealthComponent.h"
 #include "GameObject.h"
 #include "Event.h"
-#include "LivesUIComponent.h"
 #include "Observer.h"
-#include <iostream>
 
 HealthComponent::HealthComponent(engine::GameObject* pOwner, unsigned int lives)
 	: Component("HealthCP", pOwner)
@@ -14,7 +12,6 @@ HealthComponent::HealthComponent(engine::GameObject* pOwner, unsigned int lives)
 
 HealthComponent::~HealthComponent()
 {
-	std::cout << "Health Component destructor" << std::endl;
 }
 
 // Add an observer to "Observe" the HealthComponent
@@ -65,15 +62,10 @@ void HealthComponent::DecrementHealth(unsigned int amount)
 void HealthComponent::ResetHealth(unsigned int newHealth)
 {
 	m_Lives = newHealth;
-	if (m_Lives > 0)
-	{
-		//engine::Event HealthResetEvent{ "HealthReset" };
-		//m_HealthSubject->NotifyObservers(GetOwner(), HealthResetEvent);
-	}
 }
 
 
-void HealthComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void HealthComponent::ReceiveMessage(const std::string&, const std::string& )
 {
 
 }

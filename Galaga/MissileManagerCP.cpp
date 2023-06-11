@@ -8,7 +8,6 @@
 #include "CollisionComponent.h"
 #include "Servicealocator.h"
 #include "SoundIDs.h"
-#include <iostream>
 
 MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, const glm::vec2& missileSpeed,
 	const std::string& missileOwner, const std::string& texturePath)
@@ -58,7 +57,7 @@ MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, 
 
 MissileManagerCP::~MissileManagerCP()
 {
-	std::cout << "MissileManagerCP destructor" << std::endl;
+	// Needed because sharing ownership with missiles
 	m_vMissiles.clear();
 }
 

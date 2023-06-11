@@ -5,9 +5,8 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "MissileCP.h"
-#include <iostream>
-#include <iomanip> // for std::setprecision
-#include <sstream>
+#include <iomanip>			// for std::setprecision
+#include <sstream>		
 
 PlayerScoreCP::PlayerScoreCP(engine::GameObject* pOwner, unsigned int playerIdx)
 	: Component("PlayerScoreCP", pOwner)
@@ -51,7 +50,6 @@ PlayerScoreCP::PlayerScoreCP(engine::GameObject* pOwner, unsigned int playerIdx)
 
 PlayerScoreCP::~PlayerScoreCP()
 {
-	std::cout << "PlayerScore destructor" << std::endl;
 }
 
 void PlayerScoreCP::Update(const float)
@@ -115,7 +113,7 @@ std::string PlayerScoreCP::GetRatio() const
 
 	float ratio = (static_cast<float>(m_PlayerHits) / static_cast<float>(m_PlayerShots)) * 100.f;
 	std::stringstream stream;
-	stream << std::fixed << std::setprecision(2) << ratio;
+	stream << std::fixed << std::setprecision(2) << ratio;		// Only 2 zeros after the .
 	return stream.str();
 
 }

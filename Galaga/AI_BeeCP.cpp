@@ -7,7 +7,6 @@
 #include "MissileManagerCP.h"
 #include "Scene.h"
 #include <glm/gtc/constants.hpp>
-#include <iostream>
 
 AI_BeeCP::AI_BeeCP(engine::GameObject* pOwner)
 	:Component("AI_BeeCP", pOwner)

@@ -1,5 +1,6 @@
 #include "MoveComponent.h"
 #include "GameObject.h"
+#include <glm/glm.hpp>
 
 MoveComponent::MoveComponent(engine::GameObject* pOwner, const glm::vec2& speed, const Boundaries& boundaries)
 	: Component("MoveCP", pOwner)
@@ -92,7 +93,7 @@ void MoveComponent::ChangeSpeed(const glm::vec2& newSpeed)
 	m_Speed = newSpeed;
 }
 
-void MoveComponent::ReceiveMessage([[maybe_unused]] const std::string& message, [[maybe_unused]] const std::string& value)
+void MoveComponent::ReceiveMessage(const std::string& , const std::string& )
 {
 	
 }

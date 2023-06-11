@@ -1,9 +1,7 @@
 #include "MoveCommand.h"
 #include "GameObject.h"
 #include "MoveComponent.h"
-#include <iostream>
-
-
+#include "glm/glm.hpp"
 
 MoveCommand::MoveCommand(engine::GameObject* actor, glm::vec3 direction)
 	: Command()
@@ -27,5 +25,4 @@ void MoveCommand::Execute(float deltaTime)
 
 MoveCommand::~MoveCommand()
 {
-	std::cout << "MoveCommand destructor" << std::endl;
 }

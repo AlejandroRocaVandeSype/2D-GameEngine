@@ -9,7 +9,6 @@
 #include "PlayerScoreCP.h"
 #include "Servicealocator.h"
 #include "SoundIDs.h"
-#include <iostream>
 
 
 PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const unsigned int playerIdx, const glm::vec2& windowLimits)
@@ -18,7 +17,6 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const unsign
 {
 	if (pOwner != nullptr)
 	{
-
 		std::string sprFileName{ "Sprites/Player.png" };
 		auto renderCP = pOwner->AddComponent<engine::RenderComponent>(pOwner, sprFileName);
 		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
@@ -36,7 +34,6 @@ PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const unsign
 
 		// COLLISIONS ENABLED
 		pOwner->AddComponent<engine::CollisionComponent>(pOwner, renderCP->GetTextureSize());
-		//collisionCP->AddObserver(this);
 
 		// UI
 			// LIVES
@@ -63,13 +60,13 @@ unsigned int PlayerCP::GetPlayerIndex()
 
 PlayerCP::~PlayerCP()
 {
-
 }
 
 void PlayerCP::Update(const float)
 {
 	
 }
+
 void PlayerCP::ReceiveMessage(const std::string& , const std::string& )
 {
 
@@ -77,10 +74,6 @@ void PlayerCP::ReceiveMessage(const std::string& , const std::string& )
 
 void PlayerCP::OnNotify(engine::GameObject*, const engine::Event& event)
 {
-	if (event.IsSameEvent("HealthDecremented"))
-	{
-		
-	}
 
 	if (event.IsSameEvent("GameObjectDied"))
 	{

@@ -22,14 +22,10 @@ public:
 	void GameplayKeyboardInput();
 
 
-	void SetPlayerDied();
-
 private:
 
 	void AddMenuControllerInput(MenuSelectionCP* pMenuSelectionCP);			// Allow the Player 1 to control the menu
 
-	bool m_PlayerDied;			// This is to ensure we unbind commands associated to the gameObject when it dies and not 
-								// when program closes
 	int m_ControllerIdx;		// Controller being used
 
 };

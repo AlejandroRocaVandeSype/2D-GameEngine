@@ -1,6 +1,5 @@
 #include "RotatorComponent.h"
 #include "GameObject.h"
-#include <iostream>
 #include <glm/gtc/constants.hpp>
 
 /* Makes the object move in a circle around its parent if it has one. Otherwise, it does it around its own center */
@@ -13,8 +12,8 @@ RotatorComponent::RotatorComponent(engine::GameObject* pOwner)
 	, m_Angle { 0.f }
 	, m_RotationCenter { glm::vec3{ 0, 0, 0} }
 	, m_pTransformCP { nullptr }
-	, m_IsRotationFinish { false }
-{
+	, m_IsRotationFinish { false }, m_IsPositiveRot{ true }, m_RotationTarget{ 0.f }
+{	
 	
 	if (pOwner != nullptr)
 	{
@@ -25,7 +24,6 @@ RotatorComponent::RotatorComponent(engine::GameObject* pOwner)
 
 RotatorComponent::~RotatorComponent()
 {
-	std::cout << "RotatorCP destructor" << std::endl;
 }
 
 void RotatorComponent::Update(const float)
@@ -71,8 +69,8 @@ void RotatorComponent::Rotate(const float deltaTime)
 	{
 		// Update the rotation position
 		auto currentLocalPos = m_pTransformCP->GetLocalPosition();
-		currentLocalPos.x = m_RotationCenter.x + m_Radius * cos(m_Angle);
-		currentLocalPos.y = m_RotationCenter.y + m_Radius * sin(m_Angle);
+		currentLocalPos.x = m_RotationCenter.x + m_Radius * float(cos(m_Angle));
+		currentLocalPos.y = m_RotationCenter.y + m_Radius * float(sin(m_Angle));
 		m_pTransformCP->SetLocalPosition(currentLocalPos);
 
 	}

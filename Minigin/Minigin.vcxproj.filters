@@ -98,9 +98,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>Engine Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Engine Files\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Engine Files\Input</Filter>
     </ClInclude>
@@ -133,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="AnimationCP.h">
       <Filter>Engine Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Engine Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

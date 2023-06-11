@@ -2,7 +2,6 @@
 #define HEALTH_COMPONENT
 
 #include "Component.h"
-#include <glm/glm.hpp>
 #include "Subject.h"
 #include <memory>
 

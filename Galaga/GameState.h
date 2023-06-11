@@ -10,7 +10,6 @@ public:
 		virtual void OnExit() = 0;
 		virtual GameState* GetChangeState() = 0;
 		virtual void UpdateState(const float deltaTime) = 0;
-
 };
 
 #endif

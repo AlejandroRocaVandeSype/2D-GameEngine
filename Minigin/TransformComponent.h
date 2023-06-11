@@ -2,7 +2,9 @@
 #define GAME_ENGINE_TRANSFORMCOMPONENT
 
 #include "Component.h"
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
+
 namespace engine
 {
 	class CollisionComponent;
@@ -24,7 +26,6 @@ namespace engine
 		const glm::vec2 GetScale() const;
 
 		void SetLocalPosition(const glm::vec3& position);
-		void SetCenterOffset(const glm::vec3& centerOffset);
 		void SetPositionDirty();
 		void SetScale(const glm::vec2& scale);
 
@@ -34,12 +35,10 @@ namespace engine
 		glm::vec3 m_WorldPosition;		// Global position relative with the world space
 		glm::vec3 m_LocalPosition;		// Position relative to the parent (local space) If no parent localPos = worldPos
 		glm::vec2 m_Scale;
-		glm::vec3 m_CenterOffset;		// For making the object rotate around its own center when no parent
-		//float m_Rotation;				// In radians
 
 		bool m_IsPositionDirty;
-		engine::CollisionComponent* m_pCollisionCP;
-		bool m_MoveWithParent{ true };
+		engine::CollisionComponent* m_pCollisionCP;			// To update the boundingBox position so it moves with the Gameobject
+		bool m_MoveWithParent;
 	};
 }
 #endif

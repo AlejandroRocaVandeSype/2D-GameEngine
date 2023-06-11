@@ -15,7 +15,7 @@
 #include "AI_GalagaCP.h"
 #include "MissileCP.h"
 #include "AnimationCP.h"
-#include <iostream>
+#include <glm/glm.hpp>
 
 EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const std::string& spriteFilePath, 
 	const glm::vec3 formationPos, unsigned int health)
@@ -28,12 +28,15 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 	if (pOwner != nullptr)
 	{
 		auto renderCP = pOwner->AddComponent<engine::RenderComponent>(pOwner, spriteFilePath);
+
+		// Sprite animation
 		float frameRate{ 1.f / 5.f };
 		int totalCols{ 16 };
 		int totalFrames{ 32 };
 		int frameInc{ 16 };
 		int limitFrame{ frameInc };
 		pOwner->AddComponent<engine::AnimationCP>(pOwner, totalCols, totalFrames, frameRate, frameInc, limitFrame);
+
 		auto healthCP = pOwner->AddComponent<HealthComponent>(pOwner, health);
 		MoveComponent::Boundaries enemyBoundaries{};  // No boundaries restriction
 		m_pMoveCP = pOwner->AddComponent<MoveComponent>(pOwner, glm::vec2{ 220.f, 220.f }, enemyBoundaries);
@@ -49,9 +52,7 @@ EnemyCP::EnemyCP(engine::GameObject* pOwner, const std::string& enemyType, const
 
 		m_pTransformCP = pOwner->GetComponent<engine::TransformComponent>();
 
-		SetEnemyTypePoints();
-
-		
+		SetEnemyTypePoints();	
 	}
 }
 
@@ -291,8 +292,6 @@ void EnemyCP::Reset(const glm::vec3& startPos, const glm::vec3& formationPos)
 				galagaAI->Reset();
 			}
 		}
-
-		//GetOwner()->SetIsActive(true);
 	}
 }
 

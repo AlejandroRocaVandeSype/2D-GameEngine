@@ -24,7 +24,7 @@ namespace engine
 
 		void Update(const float deltaTime);
 		void Render() const;
-		void SendMessage(const std::string& message, const std::string& value);
+		void SendMessage(const std::string& message, const std::string& value);			// Send Message to components
 
 		// ----------------------------------------------------
 		// COMPONENTS ARCHITECTURE
@@ -60,7 +60,7 @@ namespace engine
 	private:
 
 		// SceneGraph 
-		bool FreeChild(GameObject* child);						// Remove child from the container but not destroy it from the scene
+		bool FreeChild(GameObject* child);						// Remove child from the container but do NOT destroy it from the scene
 		void AddChild(GameObject* child);
 		void DeleteChild(GameObject* child);					// Remove the child from the container and destroy it from the scene
 
@@ -70,14 +70,14 @@ namespace engine
 		// COMPONENTS
 		std::vector<std::unique_ptr<engine::Component>> m_vComponents;  
 		RenderComponent* m_pRenderCP;
-		TransformComponent* m_pTransformCP{};
+		TransformComponent* m_pTransformCP;
 		bool m_KeepWorldPosition;
-		glm::vec3 m_PreviousWorldPosition{};
+		glm::vec3 m_PreviousWorldPosition;						// For the render in case the transformCP has been removed
 
 		bool m_IsActive;
 		bool m_IsDead;											// If the gameObject needs to be removed after updating all gameObjects
 		bool m_HasToRender;										// Does this gameObject have a render component?
-		bool m_IsParentDeactivated{ false };
+		bool m_IsParentDeactivated;
 
 		std::string m_Tag;
 
@@ -109,7 +109,7 @@ namespace engine
 		
 		if (HasComponentAlready<T>())
 		{
-			// Duplicate component
+			// Duplicate component -> Dont add it
 			return nullptr;
 		}
 		
@@ -156,7 +156,7 @@ namespace engine
 				
 				SendMessage("RemoveCP", component->GetName());
 			
-				m_vComponents.erase(componentItr);  // With smart pointers this is enough to delete the object			
+				m_vComponents.erase(componentItr);							
 				break;
 			}
 			

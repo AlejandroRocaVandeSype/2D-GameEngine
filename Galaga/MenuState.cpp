@@ -12,7 +12,6 @@
 
 MenuState::~MenuState() 
 {
-	std::cout << "Menu State destructor" << std::endl;
 }
 
 void MenuState::OnEnter()
@@ -107,14 +106,6 @@ void MenuState::InitUI()
 	menuOptions.push_back(std::make_pair(TWO_PLAYERS_OPT, optionPos));
 	two_players_opt->SetIsActive(false);
 
-	//	// CONTROLS
-	//optionPos.x = optionPos.x - 20.f;
-	//optionPos.y = optionPos.y + 40.f;
-	//auto controls_opt{ std::make_shared<engine::GameObject>(nullptr, "UI", optionPos) };
-	//controls_opt->AddComponent<engine::RenderComponent>(controls_opt.get());
-	//controls_opt->AddComponent<TextComponent>(controls_opt.get(), CONTROLS_OPT, galaga_Font);
-	//menuOptions.push_back(std::make_pair(CONTROLS_OPT, optionPos));
-	
 
 	// OPTION SELECTION ARROW
 	optionPos.x = optionPos.x - 10.f;
@@ -132,13 +123,11 @@ void MenuState::InitUI()
 	// ALL MENU UI
 	scene.Add(one_player_opt);
 	scene.Add(two_players_opt);
-	//scene.Add(versus_opt);
-	//scene.Add(controls_opt);
 	scene.Add(arrow_opt);
 	scene.Add(controlsImage);
+
 	m_vMenuGO.push_back(two_players_opt);
 	m_vMenuGO.push_back(one_player_opt);
-	//m_vMenuGO.push_back(controls_opt);
 	m_vMenuGO.push_back(arrow_opt);
 	
 	

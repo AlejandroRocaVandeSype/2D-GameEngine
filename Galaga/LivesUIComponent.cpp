@@ -37,7 +37,6 @@ LivesUIComponent::LivesUIComponent(engine::GameObject* pOwner, const std::string
 
 LivesUIComponent::~LivesUIComponent()
 {
-	m_vUILives.clear();
 }
 
 void LivesUIComponent::Update( const float )

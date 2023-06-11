@@ -2,8 +2,8 @@
 #define MOVE_COMPONENT
 
 #include "Component.h"
-#include <vector>
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 
 class MoveComponent final : public engine::Component
 {
@@ -48,6 +48,7 @@ public:
 	bool InsideBoundaries() const;
 
 private :
+
 	glm::vec2 m_Speed;
 	Boundaries m_Boundaries;
 	glm::vec2 m_GObjectSize;

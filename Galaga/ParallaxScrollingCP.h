@@ -2,7 +2,9 @@
 #define GALAGA_PARALLAX_SCROLLING_CP
 
 #include "Component.h"
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
+
 namespace engine
 {
 	class GameObject;

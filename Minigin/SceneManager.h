@@ -29,7 +29,6 @@ namespace engine
 		bool LoadNextScene();
 
 		engine::GameObject* FindGameObjectByTag(const std::string& tag);
-
 		
 		Scene& GetActiveScene();
 		const engine::Window& GetSceneWindow() const;
@@ -40,8 +39,7 @@ namespace engine
 
 		void SetActiveScene(const std::string& sceneName);
 		void SetSceneWindow(const engine::Window& window);
-		
-		
+				
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager();

@@ -170,7 +170,6 @@
     <ClCompile Include="GameCP.cpp" />
     <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="GameplayState.cpp" />
-    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="MenuSelectionCommand.cpp" />
     <ClCompile Include="MenuSelectionCP.cpp" />
@@ -200,7 +199,6 @@
     <ClInclude Include="FormationReaderCP.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCP.h" />
-    <ClInclude Include="GameIncludes.h" />
     <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameplayState.h" />
     <ClInclude Include="GameState.h" />

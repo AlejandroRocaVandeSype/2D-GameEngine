@@ -1,7 +1,6 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "CollisionComponent.h"
-#include "Servicealocator.h"
 #include <iostream>
 
 using namespace engine;
@@ -84,15 +83,13 @@ void Scene::Update(const float deltaTime)
 		}
 
 	}
-
-	//auto& soundSystem = Servicealocator::Get_Sound_System();
-	//soundSystem.ProcessRequests();
 	
 	// Loop again to remove dead gameObjects if any
 	RemoveDeadObjects();
 	
 }
 
+// TODO: Spatial partitioning for collisions
 void Scene::CheckCollisions(size_t objectIdx1, engine::CollisionComponent* pCollisionCP)
 {
 	for (size_t objectIdx2{ 0 }; objectIdx2 < m_objects.size(); ++objectIdx2)
@@ -114,7 +111,7 @@ void Scene::CheckCollisions(size_t objectIdx1, engine::CollisionComponent* pColl
 	}
 }
 
-// Remove all "dead" objects after update
+// Remove all objects that are marked as Dead after the update finishes
 void Scene::RemoveDeadObjects()
 {
 	for (size_t objectIdx{ 0 }; objectIdx < m_objects.size();)
@@ -148,29 +145,6 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-void Scene::MarkAsDeadGameObject(const engine::GameObject* pGameObjectToMark)
-{
-	for (auto& gameObject : m_objects)
-	{
-		if (gameObject.get() == pGameObjectToMark)
-		{
-			gameObject->MarkAsDead();
-			break;
-		}
-	}
-}
-
-void Scene::MarkAsDeadGameObject(const std::shared_ptr<GameObject>& pGameObjectToMark)
-{
-	for (auto& gameObject : m_objects)
-	{
-		if (gameObject == pGameObjectToMark)
-		{
-			gameObject->MarkAsDead();
-			break;
-		}
-	}
-}
 
 std::vector<std::shared_ptr<engine::GameObject>>& Scene::GetAll()
 {

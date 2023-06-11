@@ -4,7 +4,6 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 #include "AnimationCP.h"
-#include <iostream>
 
 
 engine::RenderComponent::RenderComponent(GameObject* pOwner)
@@ -19,7 +18,7 @@ engine::RenderComponent::RenderComponent(GameObject* pOwner)
 
 engine::RenderComponent::RenderComponent(GameObject* pOwner, const std::string& filename)
 	: Component("RenderCP", pOwner)
-	, m_Scale{ glm::vec2{ 1.f, 1.f } }
+	, m_texture{nullptr}, m_Scale{ glm::vec2{ 1.f, 1.f } }
 	, m_TextureSize{ glm::vec2{} }
 	, m_IsTextureDirty{ true }, m_pAnimationCP{ nullptr }
 {
@@ -82,7 +81,6 @@ void engine::RenderComponent::ReceiveMessage(const std::string& message, const s
 
 engine::RenderComponent::~RenderComponent()
 {
-	std::cout << "RenderComponent destructor" << std::endl;
 }
 
 void engine::RenderComponent::Render(const glm::vec3& position) const

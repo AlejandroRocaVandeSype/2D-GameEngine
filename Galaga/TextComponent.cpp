@@ -4,7 +4,6 @@
 #include "Renderer.h"
 #include <stdexcept>
 #include "GameObject.h"
-#include <iostream>
 
 TextComponent::TextComponent(engine::GameObject* pOwner, const std::string& text, std::shared_ptr<engine::Font> font, const SDL_Color& color)
 	: Component("TextCP", pOwner)
@@ -23,7 +22,6 @@ TextComponent::TextComponent(engine::GameObject* pOwner, const std::string& text
 
 TextComponent::~TextComponent()
 {
-	std::cout << "TextComponent destructor" << std::endl;
 }
 
 void TextComponent::Update(const float )

@@ -44,15 +44,6 @@
     <ClCompile Include="MoveCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="ParallaxScrollingCP.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileCP.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileManagerCP.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="FireCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -92,9 +83,6 @@
     <ClCompile Include="AI_Galagacp.cpp">
       <Filter>Components\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>GameStates</Filter>
-    </ClCompile>
     <ClCompile Include="MenuState.cpp">
       <Filter>GameStates</Filter>
     </ClCompile>
@@ -128,6 +116,15 @@
     <ClCompile Include="SkipLevelCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="MissileCP.cpp">
+      <Filter>Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileManagerCP.cpp">
+      <Filter>Components\General</Filter>
+    </ClCompile>
+    <ClCompile Include="ParallaxScrollingCP.cpp">
+      <Filter>Components\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveCommand.h">
@@ -135,18 +132,6 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>General files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParallaxScrollingCP.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileCP.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GameIncludes.h">
-      <Filter>General files</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileManagerCP.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="FireCommand.h">
       <Filter>Commands</Filter>
@@ -229,6 +214,15 @@
     </ClInclude>
     <ClInclude Include="SkipLevelCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileCP.h">
+      <Filter>Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileManagerCP.h">
+      <Filter>Components\General</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallaxScrollingCP.h">
+      <Filter>Components\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

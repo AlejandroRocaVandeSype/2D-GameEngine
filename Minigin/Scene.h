@@ -16,8 +16,6 @@ namespace engine
 		void AddAll(std::vector < std::shared_ptr<GameObject>>& m_objects);
 		void RemoveDeadObjects();
 		void RemoveAll();
-		void MarkAsDeadGameObject(const engine::GameObject* pGameObjectToMark);
-		void MarkAsDeadGameObject(const std::shared_ptr<GameObject>& pGameObjectToMark);
 
 		void Update(const float deltaTime);
 		void Render() const;

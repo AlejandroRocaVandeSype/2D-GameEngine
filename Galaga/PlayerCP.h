@@ -1,11 +1,11 @@
 #ifndef GALAGA_PLAYERCP
 #define GALAGA_PLAYERCP
 
-#include <Component.h>
+#include "Component.h"
 #include "Observer.h"
-#include "glm/glm.hpp"
+#include <glm/vec2.hpp>
 
-class PlayerCP : public engine::Component, public engine::Observer
+class PlayerCP final : public engine::Component, public engine::Observer
 {
 public:
 	PlayerCP(engine::GameObject* pOwner, unsigned int health, unsigned int playerIdx, const glm::vec2& windowLimits);

@@ -106,7 +106,6 @@ Controller::Controller(unsigned controllerIdx)
 
 Controller::~Controller()
 {
-	std::cout << "Controller destructor \n";
 }
 
 void Controller::ProcessRequests()

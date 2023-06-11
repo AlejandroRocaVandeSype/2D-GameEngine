@@ -8,7 +8,6 @@
 #include "PlayerScoreCP.h"
 #include "Scene.h"
 #include "Galaga_Strings.h"
-#include <iostream>
 
 GameOverState::~GameOverState()
 {

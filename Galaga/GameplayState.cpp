@@ -14,7 +14,6 @@
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "SkipLevelCommand.h"
-#include <iostream>
 
 
 GameplayState::GameplayState(const std::string& gameMode)
@@ -45,7 +44,6 @@ void GameplayState::LoadDataPaths()
 
 GameplayState::~GameplayState()
 {
-	std::cout << "Gameplay State destructor" << std::endl;
 }
 
 void GameplayState::OnEnter()
@@ -184,7 +182,12 @@ bool GameplayState::NextStage()
 void GameplayState::SkipStage()
 {
 	m_pFormationCP->DeactivateAllEnemies();
-	m_ElapsedTime = 0;
+	
+	if (!m_IsChangingState)
+	{
+		// Avoid keep reset the time everytime the player skip stage
+		m_ElapsedTime = 0;
+	}
 	auto& sceneManager = engine::SceneManager::GetInstance();
 	auto nextSceneName = sceneManager.GetNextSceneName();
 	if (nextSceneName != "No more scenes")

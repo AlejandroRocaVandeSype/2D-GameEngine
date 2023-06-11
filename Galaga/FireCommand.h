@@ -2,7 +2,7 @@
 #define GALAGA_FIRECOMMAND
 
 #include <Command.h>
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
 
 class FireCommand final : public Command
 {

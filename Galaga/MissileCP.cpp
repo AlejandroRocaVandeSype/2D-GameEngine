@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "MoveComponent.h"
 #include "HealthComponent.h"
-#include <iostream>
 
 MissileCP::MissileCP(engine::GameObject* pOwner, bool IsPlayerMissile)
 	:Component("MissileBehaviourCP", pOwner)
@@ -24,7 +23,6 @@ MissileCP::MissileCP(engine::GameObject* pOwner, bool IsPlayerMissile)
 
 MissileCP::~MissileCP()
 {
-	std::cout << "MissileCP destructor" << std::endl;
 }
 
 void MissileCP::Update( const float )
@@ -66,11 +64,8 @@ void MissileCP::OnNotify(engine::GameObject* gameObject, const engine::Event& ev
 		if (m_MissileSubject != nullptr)
 		{
 			m_MissileSubject->NotifyObservers(GetOwner(), m_MissileFiredEvent);
-		}
-		
-		
+		}	
 	}
-	
 }
 
 // Add an observer to "Observe"

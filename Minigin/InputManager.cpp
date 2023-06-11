@@ -25,7 +25,7 @@ bool engine::InputManager::ProcessInput(float deltaTime)
 
 // -----------------------------------------------------------------------------
 //							*PROCESS KEYBOARD INPUT*
-// SDL_PollEven -> To check if a key is beind pressed (down once) or released (up once)
+// SDL_PollEvent -> To check if a key is beind pressed (down once) or released (up once)
 // SDL_GetKeyboardState -> is used to check if a key is being pressed continuously 
 // between frames.
 // -----------------------------------------------------------------------------
@@ -72,10 +72,10 @@ bool engine::InputManager::ProcessKeyboardInput(float deltaTime)
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	for (const auto& keyBoardCommand : m_KeyBoardCommands)
 	{
+		// Search for commands that have this type of input
 		auto inputType = keyBoardCommand.first.second;
 		if (inputType == engine::InputType::Pressed)
 		{
-			// keyInput == Pressed -> Check if the key is being pressed
 			if (state[SDL_GetScancodeFromKey(keyBoardCommand.first.first)])
 			{
 				keyBoardCommand.second->Execute(deltaTime);
@@ -197,6 +197,7 @@ void engine::InputManager::UnbindCommand(unsigned int controllerIdx, const Contr
 	
 }
 
+// Unbind all commands from keyboard and ALL controllers
 void engine::InputManager::UnbindAllCommands()
 {
 	for (auto commandItr{ m_KeyBoardCommands.begin() }; commandItr != m_KeyBoardCommands.end();)
@@ -210,6 +211,7 @@ void engine::InputManager::UnbindAllCommands()
 	}
 }
 
+// Unbind all commands from the Keyboard and all the ones from the specified controller
 void engine::InputManager::UnbindAllCommands(unsigned int controllerIdx)
 {
 	for (auto commandItr{ m_KeyBoardCommands.begin() }; commandItr != m_KeyBoardCommands.end();)
@@ -246,10 +248,4 @@ int engine::InputManager::GetFreeController()
 	// No more available controllers to use
 	return -1;
 
-}
-
-bool engine::InputManager::IsPlayer1Connected() const
-{
-	// If there are commands bind to the keyboard means player 1 is connected
-	return !m_KeyBoardCommands.empty();
 }

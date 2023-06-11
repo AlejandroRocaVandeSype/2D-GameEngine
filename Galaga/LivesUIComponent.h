@@ -3,7 +3,7 @@
 
 #include "Component.h"
 #include "Observer.h"
-#include <glm/glm.hpp>
+#include <glm/vec2.hpp>
 #include <vector>
 
 class LivesUIComponent final : public engine::Component, public engine::Observer

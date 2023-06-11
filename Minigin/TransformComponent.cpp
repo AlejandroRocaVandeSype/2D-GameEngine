@@ -1,17 +1,14 @@
 #include "TransformComponent.h"
 #include "GameObject.h"
 #include "CollisionComponent.h"
-#include "glm/gtc/matrix_transform.hpp"
-#include <iostream>
 
 engine::TransformComponent::TransformComponent(engine::GameObject* pOwner, glm::vec3 position, glm::vec2 scale)
 	: Component("TransformCP", pOwner)
 	, m_WorldPosition { glm::vec3{ 0,0,0 } }
 	, m_LocalPosition{ glm::vec3{ 0,0,0 } }
-	, m_Scale { scale }						// TODO : Local and World Scale and local and world rotation
-	, m_CenterOffset{ glm::vec3{ 0,0,0 } }
+	, m_Scale { scale }						
 	, m_IsPositionDirty { true }
-	, m_pCollisionCP { nullptr }
+	, m_pCollisionCP { nullptr }, m_MoveWithParent { true }
 {
 	// World position will automatically be updated when required
 	SetLocalPosition(position);
@@ -53,7 +50,7 @@ void engine::TransformComponent::UpdateWorldPosition()
 			if (pOwner->getParent() == nullptr)
 			{
 				// No parent -> WorldPos = LocalPos
-				m_WorldPosition = m_LocalPosition + m_CenterOffset;
+				m_WorldPosition = m_LocalPosition;
 			}
 			else
 			{
@@ -76,10 +73,8 @@ void engine::TransformComponent::UpdateWorldPosition()
 	m_IsPositionDirty = false;
 }
 
-void engine::TransformComponent::Update([[maybe_unused]] const float deltaTime)
+void engine::TransformComponent::Update(const float)
 {
-	// Update position using physics (Velocity etc)
-
 }
 
 
@@ -96,11 +91,6 @@ void engine::TransformComponent::SetPositionDirty()
 
 }
 
-void engine::TransformComponent::SetCenterOffset(const glm::vec3& centerOffset)
-{
-	m_CenterOffset = centerOffset;
-	m_IsPositionDirty = true;
-}
 
 void engine::TransformComponent::AddCollisionCP(engine::CollisionComponent* pComponent)
 {
@@ -126,5 +116,4 @@ void engine::TransformComponent::ReceiveMessage( const std::string& message, con
 
 engine::TransformComponent::~TransformComponent()
 {
-	std::cout << "TransformComponent destructor" << std::endl;
 }

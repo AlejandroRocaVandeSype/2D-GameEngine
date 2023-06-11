@@ -1,5 +1,6 @@
 #ifndef GAME_ENGINE_OBSERVER
 #define GAME_ENGINE_OBSERVER
+
 #include <vector>
 #include "Subject.h"
 #include "Event.h"
@@ -15,7 +16,7 @@ namespace engine
 		virtual ~Observer() { UnRegisterAllSubjects(); };  // Observers will unregister itself from the subjects that are observing
 		virtual void OnNotify(engine::GameObject* gameObject, const engine::Event& event) = 0;
 
-		void RegisterSubject(engine::Subject* subject) { m_Subjects.push_back(subject); };
+		void RegisterSubject(engine::Subject* subject) { m_Subjects.emplace_back(subject); };
 		void UnRegisterAllSubjects()
 		{
 			for (auto subjectItr = m_Subjects.begin(); subjectItr != m_Subjects.end();)
@@ -36,7 +37,7 @@ namespace engine
 		};
 
 	private:
-		std::vector<engine::Subject*> m_Subjects;	// All subjects observing
+		std::vector<engine::Subject*> m_Subjects;	// Keep track of all subjects observing
 
 	};
 }

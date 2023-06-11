@@ -2,9 +2,9 @@
 #define GAME_ENGINE_RENDERCOMPONENT
 
 #include <memory>
-#include <glm/glm.hpp>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 #include <string>
-#include <vector>
 #include "Component.h"
 
 namespace engine
@@ -32,10 +32,10 @@ namespace engine
 
 	private:
 
-		std::shared_ptr<engine::Texture2D> m_texture{};
+		std::shared_ptr<engine::Texture2D> m_texture;
 		glm::vec2 m_Scale;
 		glm::vec2 m_TextureSize;
-		bool m_IsTextureDirty;							// To indicate if the texture changed or not
+		bool m_IsTextureDirty;								// To indicate if the texture changed or not
 	
 		engine::AnimationCP* m_pAnimationCP;				// For animated sprites only		
 

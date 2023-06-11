@@ -1,10 +1,12 @@
 #ifndef GAME_ENGINE_COLLISIONCOMPONENT
 #define GAME_ENGINE_COLLISIONCOMPONENT
+
 #include "Component.h"
 #include <memory>
 #include "Subject.h"
 #include "structs.h"		// For Rectf
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 
 namespace engine
 {

@@ -20,8 +20,8 @@ public:
 	AI_BeeCP(engine::GameObject* pOwner);
 	virtual ~AI_BeeCP() override;
 
-	virtual void Update(const float deltaTime) override;
-	virtual void ReceiveMessage(const std::string& message, const std::string& value) override;
+	void Update(const float deltaTime) override;
+	void ReceiveMessage(const std::string& message, const std::string& value) override;
 
 	void Reset();
 

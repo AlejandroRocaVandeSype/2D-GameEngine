@@ -16,12 +16,6 @@ void engine::SceneManager::Update(const float deltaTime)
 	{
 		m_scenes.at(m_ActiveScene)->Update(deltaTime);
 	}
-	/*
-	for(auto& scene : m_scenes)
-	{
-		scene->Update(deltaTime);
-	}
-	*/
 }
 
 void engine::SceneManager::Render()
@@ -30,18 +24,12 @@ void engine::SceneManager::Render()
 	{
 		m_scenes.at(m_ActiveScene)->Render();
 	}
-	/*
-	for (const auto& scene : m_scenes)
-	{
-		scene->Render();
-	}
-	*/
 }
 
 engine::Scene& engine::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_scenes.push_back(scene);
+	m_scenes.emplace_back(scene);
 
 	if (m_ActiveScene == -1)
 	{
@@ -58,7 +46,7 @@ bool engine::SceneManager::LoadNextScene()
 	if (size_t(++nextActiveScene) < m_scenes.size())
 	{
 		// There are still scenes left. Load next one
-		// Move gameObjects from old scene to new one
+		// Move(Not copy) gameObjects from old scene to new one 
 		MoveGameObjectsToScene(m_scenes.at(nextActiveScene)->Name());
 		return true;
 	}
@@ -68,6 +56,7 @@ bool engine::SceneManager::LoadNextScene()
 	
 }
 
+// MOVE gameObjects from the current scene to the next one
 void engine::SceneManager::MoveGameObjectsToScene(const std::string& sceneName)
 {
 	for (size_t sceneIdx{ 0 }; sceneIdx < m_scenes.size(); ++sceneIdx)
@@ -83,8 +72,6 @@ void engine::SceneManager::MoveGameObjectsToScene(const std::string& sceneName)
 		}
 	}
 			
-
-	
 }
 
 void engine::SceneManager::AddToActiveScene(GameObject* gameObject)

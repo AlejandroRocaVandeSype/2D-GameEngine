@@ -4,12 +4,10 @@
 
 engine::Subject::~Subject()
 {
-	
 	for (const auto& observer : m_Observers)
 	{
 		observer->UnRegisterSubject(this);
 	}
-
 }
 
 void engine::Subject::AddObserver(Observer* observer)

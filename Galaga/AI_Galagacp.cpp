@@ -10,7 +10,7 @@
 #include "Servicealocator.h"
 #include "SoundIDs.h"
 #include <glm/gtc/constants.hpp>
-#include <iostream>
+#include <glm/glm.hpp>
 
 AI_GalagaCP::AI_GalagaCP(engine::GameObject* pOwner)
 	:Component("AI_GalagaCP", pOwner)
@@ -213,8 +213,6 @@ void AI_GalagaCP::UpdateTractorBeam(const float deltaTime)
 		m_TractorBeamState = TractorBeamState::moveIntoPosition;
 		m_AttackState = AttackState::finishAttack;
 
-		// Next time it will do a different behaviour
-		//m_DoTractorBeam = !m_DoTractorBeam;
 		m_pTractorBeam->SetIsActive(false);
 		return;
 	}

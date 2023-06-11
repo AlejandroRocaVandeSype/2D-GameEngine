@@ -11,11 +11,9 @@
 #include "Game.h"
 #include "structs.h"
 #include <memory>
-#include <iostream>
 
 int main(int, char* [])
 {
-	std::cout << "Entro" << std::endl;
 	// Seed the random number generator with the current time
 	std::srand(static_cast<unsigned>(std::time(nullptr)));
 
@@ -25,6 +23,5 @@ int main(int, char* [])
 	std::unique_ptr<Game> game = std::make_unique<Game>();
 	engine.Run();
 
-	std::cout << "Salgo" << std::endl;
 	return 0;
 }

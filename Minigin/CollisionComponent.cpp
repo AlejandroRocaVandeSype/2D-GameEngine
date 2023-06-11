@@ -1,6 +1,5 @@
 #include "CollisionComponent.h"
 #include "GameObject.h"
-#include <iostream>
 #include "Event.h"
 
 engine::CollisionComponent::CollisionComponent(engine::GameObject* pOwner, const glm::vec2& gameObjectSize)
@@ -13,7 +12,7 @@ engine::CollisionComponent::CollisionComponent(engine::GameObject* pOwner, const
 	{
 		auto gameObjectPos = pTransformCP->GetWorldPosition();
 		SetBoundingBox(gameObjectPos);
-		// This way the transformCP will update boundingBox position when the GO move
+		// In order to move the boundingBox with the gameObject
 		pTransformCP->AddCollisionCP(this);   
 	}
 
@@ -69,7 +68,7 @@ void engine::CollisionComponent::SetBoundingBox(const glm::vec3& gameObjectPos)
 	m_BoundingBox.height = m_BoundingBox.bottom + m_Size.y;
 }
 
-void engine::CollisionComponent::Update( const float)
+void engine::CollisionComponent::Update(const float)
 {
 
 }
