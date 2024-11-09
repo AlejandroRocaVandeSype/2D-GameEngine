@@ -1,5 +1,5 @@
 #include "GameCP.h"
-#include "MenuState.h"
+#include "../GameStates/MenuState.h"
 
 GameCP::GameCP(engine::GameObject* pOwner)
 	:Component("GameCP", pOwner)

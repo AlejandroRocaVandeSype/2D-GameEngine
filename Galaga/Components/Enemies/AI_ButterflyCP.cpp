@@ -1,10 +1,10 @@
 #include "AI_ButterflyCP.h"
 #include "GameObject.h"
-#include "MoveComponent.h"
-#include "MissileManagerCP.h"
+#include "../General/MoveComponent.h"
+#include "../General/MissileManagerCP.h"
 #include "EnemyCP.h"
 #include "Scene.h"
-#include "RotatorComponent.h"
+#include "../General/RotatorComponent.h"
 #include <glm/gtc/constants.hpp>		// For pi definitions
 
 AI_ButterflyCP::AI_ButterflyCP(engine::GameObject* pOwner)

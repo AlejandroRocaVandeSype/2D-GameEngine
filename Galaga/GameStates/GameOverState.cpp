@@ -3,11 +3,11 @@
 #include "SceneManager.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
-#include "TextComponent.h"
+#include "../Components/UI/TextComponent.h"
 #include "RenderComponent.h"
-#include "PlayerScoreCP.h"
+#include "../Components/Player/PlayerScoreCP.h"
 #include "Scene.h"
-#include "Galaga_Strings.h"
+#include "../Galaga_Strings.h"
 
 GameOverState::~GameOverState()
 {

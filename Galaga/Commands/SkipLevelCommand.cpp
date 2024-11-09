@@ -1,6 +1,6 @@
 #include "SkipLevelCommand.h"
 #include "SceneManager.h"
-#include "GameplayState.h"
+#include "../GameStates/GameplayState.h"
 
 SkipLevelCommand::SkipLevelCommand(GameplayState* gameplayState)
 	: m_pGameplayState { gameplayState }

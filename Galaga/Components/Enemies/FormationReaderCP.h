@@ -4,7 +4,7 @@
 #include <Component.h>
 #include <string>
 #include <glm/vec3.hpp>
-#include "rapidjson/document.h"
+#include "../../rapidjson/document.h"
 #include <vector>
 
 // Class that contains two json documents with information about the Formation of enemies from the current stage

@@ -1,6 +1,6 @@
 #include "MoveCommand.h"
 #include "GameObject.h"
-#include "MoveComponent.h"
+#include "../Components/General/MoveComponent.h"
 #include "glm/glm.hpp"
 
 MoveCommand::MoveCommand(engine::GameObject* actor, glm::vec3 direction)

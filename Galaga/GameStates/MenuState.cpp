@@ -3,12 +3,12 @@
 #include "GameObject.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "ParallaxScrollingCP.h"
+#include "../Components/UI/ParallaxScrollingCP.h"
 #include "InputManager.h"
-#include "TextComponent.h"
+#include "../Components/UI/TextComponent.h"
 #include "ResourceManager.h"
-#include "MenuSelectionCP.h"
-#include "PlayerInputCP.h"
+#include "../Components/UI/MenuSelectionCP.h"
+#include "../Components/Player/PlayerInputCP.h"
 
 MenuState::~MenuState() 
 {

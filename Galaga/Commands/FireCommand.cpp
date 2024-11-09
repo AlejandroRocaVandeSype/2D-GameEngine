@@ -1,6 +1,6 @@
 #include "FireCommand.h"
 #include "GameObject.h"
-#include "MissileManagerCP.h"
+#include "../Components/General/MissileManagerCP.h"
 #include <glm/glm.hpp>
 
 FireCommand::FireCommand(engine::GameObject* actor, glm::vec3 direction)

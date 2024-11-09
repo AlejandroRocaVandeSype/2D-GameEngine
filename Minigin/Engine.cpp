@@ -11,6 +11,7 @@
 #include "SDL_SoundSystem.h"
 #include "Logging_Sound_System.h"
 #include <chrono>
+#include <thread>
 #include "structs.h"			// Window info
 
 SDL_Window* g_window{};

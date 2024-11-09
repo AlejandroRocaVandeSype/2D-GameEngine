@@ -8,7 +8,7 @@
 #endif
 
 #include "Engine.h"
-#include "Game.h"
+#include "GeneralFiles/Game.h"
 #include "structs.h"
 #include <memory>
 

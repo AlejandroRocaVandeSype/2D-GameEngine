@@ -5,227 +5,78 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Commands">
-      <UniqueIdentifier>{a1adb7d8-81a0-41d5-814b-6b82a379e377}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{5176175a-4496-4757-b1bd-0fd7bda61c46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Enemies">
-      <UniqueIdentifier>{2b2bee8d-a3ee-44fb-bc7d-973066bd878d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Player">
-      <UniqueIdentifier>{c9955edc-f989-4171-9f8a-e1aff25fac44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\General">
-      <UniqueIdentifier>{38669690-7024-4c02-878e-16e30b2bfaff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Sound">
-      <UniqueIdentifier>{e6791f6c-5c51-4384-a561-4d911be8fe9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="General files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Components\UI">
-      <UniqueIdentifier>{6780e223-ac33-4355-943d-f1489d1fde62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameStates">
-      <UniqueIdentifier>{cd03763b-c208-4503-9f67-fae3e37f4793}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Galaga.cpp">
-      <Filter>General files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>General files</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="FireCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCP.cpp">
-      <Filter>Components\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCP.cpp">
-      <Filter>Components\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerInputCP.cpp">
-      <Filter>Components\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesUIComponent.cpp">
-      <Filter>Components\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="FormationCP.cpp">
-      <Filter>Components\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="AI_BeeCP.cpp">
-      <Filter>Components\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="FormationReaderCP.cpp">
-      <Filter>Components\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveComponent.cpp">
-      <Filter>Components\General</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Components\General</Filter>
-    </ClCompile>
-    <ClCompile Include="AI_FormationCP.cpp">
-      <Filter>Components\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="AI_ButterflyCP.cpp">
-      <Filter>Components\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="AI_Galagacp.cpp">
-      <Filter>Components\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuState.cpp">
-      <Filter>GameStates</Filter>
-    </ClCompile>
-    <ClCompile Include="GameplayState.cpp">
-      <Filter>GameStates</Filter>
-    </ClCompile>
-    <ClCompile Include="GameCP.cpp">
-      <Filter>General files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Components\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuSelectionCP.cpp">
-      <Filter>Components\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuSelectionCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOverState.cpp">
-      <Filter>GameStates</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components\General</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerScoreCP.cpp">
-      <Filter>Components\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="ToggleMuteCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="SkipLevelCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileCP.cpp">
-      <Filter>Components\General</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileManagerCP.cpp">
-      <Filter>Components\General</Filter>
-    </ClCompile>
-    <ClCompile Include="ParallaxScrollingCP.cpp">
-      <Filter>Components\UI</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>General files</Filter>
-    </ClInclude>
-    <ClInclude Include="FireCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCP.h">
-      <Filter>Components\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCP.h">
-      <Filter>Components\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerInputCP.h">
-      <Filter>Components\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesUIComponent.h">
-      <Filter>Components\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="FormationCP.h">
-      <Filter>Components\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="AI_BeeCP.h">
-      <Filter>Components\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="FormationReaderCP.h">
-      <Filter>Components\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundIDs.h">
-      <Filter>Components\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="AI_FormationCP.h">
-      <Filter>Components\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveComponent.h">
-      <Filter>Components\General</Filter>
-    </ClInclude>
-    <ClInclude Include="RotatorComponent.h">
-      <Filter>Components\General</Filter>
-    </ClInclude>
-    <ClInclude Include="AI_ButterflyCP.h">
-      <Filter>Components\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="AI_GalagaCP.h">
-      <Filter>Components\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuState.h">
-      <Filter>GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="GameplayState.h">
-      <Filter>GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="GameCP.h">
-      <Filter>General files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Components\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuSelectionCP.h">
-      <Filter>Components\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuSelectionCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Galaga_Strings.h">
-      <Filter>General files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverState.h">
-      <Filter>GameStates</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components\General</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerScoreCP.h">
-      <Filter>Components\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="ToggleMuteCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="SkipLevelCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileCP.h">
-      <Filter>Components\General</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileManagerCP.h">
-      <Filter>Components\General</Filter>
-    </ClInclude>
-    <ClInclude Include="ParallaxScrollingCP.h">
-      <Filter>Components\UI</Filter>
-    </ClInclude>
+    <ClInclude Include="Commands\FireCommand.h" />
+    <ClInclude Include="Commands\MenuSelectionCommand.h" />
+    <ClInclude Include="Commands\MoveCommand.h" />
+    <ClInclude Include="Commands\SkipLevelCommand.h" />
+    <ClInclude Include="Commands\ToggleMuteCommand.h" />
+    <ClInclude Include="Components\Enemies\AI_BeeCP.h" />
+    <ClInclude Include="Components\Enemies\AI_ButterflyCP.h" />
+    <ClInclude Include="Components\Enemies\AI_FormationCP.h" />
+    <ClInclude Include="Components\Enemies\AI_GalagaCP.h" />
+    <ClInclude Include="Components\Enemies\EnemyCP.h" />
+    <ClInclude Include="Components\Enemies\FormationCP.h" />
+    <ClInclude Include="Components\Enemies\FormationReaderCP.h" />
+    <ClInclude Include="Components\General\HealthComponent.h" />
+    <ClInclude Include="Components\General\MissileCP.h" />
+    <ClInclude Include="Components\General\MissileManagerCP.h" />
+    <ClInclude Include="Components\General\MoveComponent.h" />
+    <ClInclude Include="Components\General\RotatorComponent.h" />
+    <ClInclude Include="Components\Player\LivesUIComponent.h" />
+    <ClInclude Include="Components\Player\PlayerCP.h" />
+    <ClInclude Include="Components\Player\PlayerInputCP.h" />
+    <ClInclude Include="Components\Player\PlayerScoreCP.h" />
+    <ClInclude Include="Components\Sound\SoundIDs.h" />
+    <ClInclude Include="Components\UI\MenuSelectionCP.h" />
+    <ClInclude Include="Components\UI\ParallaxScrollingCP.h" />
+    <ClInclude Include="Components\UI\TextComponent.h" />
+    <ClInclude Include="GameStates\GameOverState.h" />
+    <ClInclude Include="GameStates\GameplayState.h" />
+    <ClInclude Include="GameStates\GameState.h" />
+    <ClInclude Include="GameStates\MenuState.h" />
+    <ClInclude Include="GeneralFiles\Game.h" />
+    <ClInclude Include="GeneralFiles\GameCP.h" />
+    <ClInclude Include="TrashTheCache.h" />
+    <ClInclude Include="Galaga_Strings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="Galaga.aps" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Components\Enemies\AI_BeeCP.cpp" />
+    <ClCompile Include="Components\Enemies\AI_ButterflyCP.cpp" />
+    <ClCompile Include="Components\Enemies\AI_FormationCP.cpp" />
+    <ClCompile Include="Components\Enemies\AI_Galagacp.cpp" />
+    <ClCompile Include="Components\Enemies\EnemyCP.cpp" />
+    <ClCompile Include="Components\Enemies\FormationCP.cpp" />
+    <ClCompile Include="Components\Enemies\FormationReaderCP.cpp" />
+    <ClCompile Include="TrashTheCache.cpp" />
+    <ClCompile Include="Galaga.cpp" />
+    <ClCompile Include="Components\General\HealthComponent.cpp" />
+    <ClCompile Include="Components\General\MissileCP.cpp" />
+    <ClCompile Include="Components\General\MissileManagerCP.cpp" />
+    <ClCompile Include="Components\General\MoveComponent.cpp" />
+    <ClCompile Include="Components\General\RotatorComponent.cpp" />
+    <ClCompile Include="Components\Player\LivesUIComponent.cpp" />
+    <ClCompile Include="Components\Player\PlayerCP.cpp" />
+    <ClCompile Include="Components\Player\PlayerInputCP.cpp" />
+    <ClCompile Include="Components\Player\PlayerScoreCP.cpp" />
+    <ClCompile Include="Commands\FireCommand.cpp" />
+    <ClCompile Include="Commands\MenuSelectionCommand.cpp" />
+    <ClCompile Include="Commands\MoveCommand.cpp" />
+    <ClCompile Include="Commands\SkipLevelCommand.cpp" />
+    <ClCompile Include="Commands\ToggleMuteCommand.cpp" />
+    <ClCompile Include="Components\UI\MenuSelectionCP.cpp" />
+    <ClCompile Include="Components\UI\ParallaxScrollingCP.cpp" />
+    <ClCompile Include="Components\UI\TextComponent.cpp" />
+    <ClCompile Include="GameStates\GameOverState.cpp" />
+    <ClCompile Include="GameStates\GameplayState.cpp" />
+    <ClCompile Include="GameStates\MenuState.cpp" />
+    <ClCompile Include="GeneralFiles\Game.cpp" />
+    <ClCompile Include="GeneralFiles\GameCP.cpp" />
   </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 #include "PlayerScoreCP.h"
 #include "GameObject.h"
 #include "Component.h"
-#include "TextComponent.h"
+#include "../UI/TextComponent.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "MissileCP.h"
+#include "../General/MissileCP.h"
 #include <iomanip>			// for std::setprecision
 #include <sstream>		
 

@@ -1,14 +1,14 @@
 #include "AI_GalagaCP.h"
-#include "MoveComponent.h"
+#include "../General/MoveComponent.h"
 #include "FormationCP.h"
-#include "RotatorComponent.h"
-#include "MissileManagerCP.h"
+#include "../General/RotatorComponent.h"
+#include "../General/MissileManagerCP.h"
 #include "EnemyCP.h"
 #include "Scene.h"
-#include "Galaga_Strings.h"
+#include "../../Galaga_Strings.h"
 #include "AnimationCP.h"
 #include "Servicealocator.h"
-#include "SoundIDs.h"
+#include "../Sound/SoundIDs.h"
 #include <glm/gtc/constants.hpp>
 #include <glm/glm.hpp>
 

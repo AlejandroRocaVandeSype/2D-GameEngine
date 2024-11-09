@@ -1,14 +1,14 @@
 #include "PlayerCP.h"
 #include "GameObject.h"
 #include "CollisionComponent.h"
-#include "HealthComponent.h"
+#include "../General/HealthComponent.h"
 #include "PlayerInputCP.h"
-#include "MoveComponent.h"
-#include "MissileManagerCP.h"
+#include "../General/MoveComponent.h"
+#include "../General/MissileManagerCP.h"
 #include "LivesUIComponent.h"
 #include "PlayerScoreCP.h"
 #include "Servicealocator.h"
-#include "SoundIDs.h"
+#include "../Sound/SoundIDs.h"
 
 
 PlayerCP::PlayerCP(engine::GameObject* pOwner, unsigned int health, const unsigned int playerIdx, const glm::vec2& windowLimits)

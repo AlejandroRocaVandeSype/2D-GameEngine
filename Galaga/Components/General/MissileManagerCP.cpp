@@ -7,7 +7,7 @@
 #include "MoveComponent.h"
 #include "CollisionComponent.h"
 #include "Servicealocator.h"
-#include "SoundIDs.h"
+#include "../Sound/SoundIDs.h"
 
 MissileManagerCP::MissileManagerCP(engine::GameObject* pOwner, int maxMissiles, const glm::vec2& missileSpeed,
 	const std::string& missileOwner, const std::string& texturePath)

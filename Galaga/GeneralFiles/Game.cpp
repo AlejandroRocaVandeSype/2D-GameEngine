@@ -5,8 +5,8 @@
 #include "glm/vec3.hpp"
 #include "glm/vec2.hpp"
 #include "Servicealocator.h"
-#include "SoundIDs.h"
-#include "Galaga_Strings.h"
+#include "../Components/Sound/SoundIDs.h"
+#include "../Galaga_Strings.h"
 
 Game::Game()
 {

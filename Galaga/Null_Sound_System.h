@@ -10,7 +10,7 @@ namespace engine
 	class Null_Sound_System final : engine::SoundSystem
 	{
 	public:
-		void PlaySound(const sound_id, const float volume) override {};
+		void PlaySound(const short sound_id) override {};
 	};
 
 }

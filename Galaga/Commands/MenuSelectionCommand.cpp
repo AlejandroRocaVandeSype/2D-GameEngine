@@ -1,5 +1,5 @@
 #include "MenuSelectionCommand.h"
-#include "MenuSelectionCP.h"
+#include "../Components/UI/MenuSelectionCP.h"
 
 MenuSelectionCommand::MenuSelectionCommand( MenuSelectionCP* pMenuSelectionCP, int menuAction)
 	:Command()

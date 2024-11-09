@@ -1,10 +1,10 @@
 #include "AI_BeeCP.h"
 #include "GameObject.h"
 #include "EnemyCP.h"
-#include "MoveComponent.h"
+#include "../General/MoveComponent.h"
 #include "FormationCP.h"
-#include "RotatorComponent.h"
-#include "MissileManagerCP.h"
+#include "../General/RotatorComponent.h"
+#include "../General/MissileManagerCP.h"
 #include "Scene.h"
 #include <glm/gtc/constants.hpp>
 

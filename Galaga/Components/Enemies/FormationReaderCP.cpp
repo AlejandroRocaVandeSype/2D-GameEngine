@@ -1,7 +1,7 @@
 #include "FormationReaderCP.h"
 #include "GameObject.h"
-#include "rapidjson/rapidjson.h"		// To read json files
-#include "rapidjson/istreamwrapper.h"
+#include "../../rapidjson/rapidjson.h"		// To read json files
+#include "../../rapidjson/istreamwrapper.h"
 #include <fstream>						// for both input and output files
 
 
